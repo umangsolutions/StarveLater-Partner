@@ -10212,3 +10212,9 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+
+#span{
+  margin-left: 0.5vw;
+  color: red;
+  font-size: 0.8em;
+}
