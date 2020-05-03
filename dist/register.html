@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Page Title - SB Admin</title>
+        <title>Restaurant Registration</title>
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
     </head>
@@ -18,18 +18,27 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-7">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Restaurant Registration Form</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                        <form method="POST" >
+
+                                            <!-- Name of Owner -->
                                             <div class="form-row">
                                                 <div class="col-md-6">
-                                                    <div class="form-group"><label class="small mb-1" for="inputFirstName">First Name</label><input class="form-control py-4" id="inputFirstName" type="text" placeholder="Enter first name" /></div>
+                                                    <div class="form-group"><label class="small mb-1" for="inputFirstName">First Name</label><input class="form-control py-4" id="inputFirstName" type="text" placeholder="Enter First name" /></div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <div class="form-group"><label class="small mb-1" for="inputLastName">Last Name</label><input class="form-control py-4" id="inputLastName" type="text" placeholder="Enter last name" /></div>
+                                                    <div class="form-group"><label class="small mb-1" for="inputLastName">Last Name</label><input class="form-control py-4" id="inputLastName" type="text" placeholder="Enter Last name" /></div>
                                                 </div>
                                             </div>
+
+                                            <!-- Restaurant Name -->
+                                            <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Name of Restaurant</label><input class="form-control py-4" id="inputRestaurantName" type="text" aria-describedby="emailHelp" placeholder="Enter Name of Restaurant" /></div>
+
+                                            <!-- Email Address -->
                                             <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Email</label><input class="form-control py-4" id="inputEmailAddress" type="email" aria-describedby="emailHelp" placeholder="Enter email address" /></div>
+
+                                            <!-- Password Section -->
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <div class="form-group"><label class="small mb-1" for="inputPassword">Password</label><input class="form-control py-4" id="inputPassword" type="password" placeholder="Enter password" /></div>
@@ -38,12 +47,54 @@
                                                     <div class="form-group"><label class="small mb-1" for="inputConfirmPassword">Confirm Password</label><input class="form-control py-4" id="inputConfirmPassword" type="password" placeholder="Confirm password" /></div>
                                                 </div>
                                             </div>
-                                            <div class="form-group mt-4 mb-0"><a class="btn btn-primary btn-block" href="login.html">Create Account</a></div>
+
+
+                                            <!-- Location Section -->
+                                            <div class="form-row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="small mb-1" for="inputState">Choose State</label><br>
+                                                        <select class="form-control" id="inputState">
+                                                             <option>Andhra Pradesh</option>
+                                                              <option>Telangana</option>
+                                                               <option>Chattisgarh</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="small mb-1" for="inputCity">Choose City</label><br>
+                                                        <select class="form-control" id="inputCity">
+                                                             <option>Kakinada</option>
+                                                              <option>Rajam</option>
+                                                               <option>Warangal</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- GSTIN Number  -->
+                                            <div class="form-group"><label class="small mb-1" for="inputGSTIN">GSTIN Number</label><input class="form-control py-4" id="inputGSTIN" type="text" aria-describedby="emailHelp" placeholder="Enter GSTIN Number (optional)" /></div>
+
+                                            <!-- Upload File -->
+                                            <div class="form-group">
+                                                
+                                                
+                                                
+                                                        <label class="small mb-1" for="inputCity">Upload File</label>
+                                                        <input type="File" class="form-control" accept=".pdf" name="inputPDF">
+                                                 
+                                            
+                                            </div>
+
+
+
+                                    
+                                             <!-- Submit Button -->
+                                            <div class="form-group mt-4 mb-0"><a class="btn btn-primary btn-block" href="login.html">Submit</a></div>
                                         </form>
                                     </div>
-                                    <div class="card-footer text-center">
-                                        <div class="small"><a href="register.html">Have an account? Go to login</a></div>
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -54,7 +105,8 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div class="text-muted">Copyright &copy; STARVE<span><b>LATER</b></span> 2020</div>
+                            <div class="text-muted">Made with love by <b>Umang Solutions</b></div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
