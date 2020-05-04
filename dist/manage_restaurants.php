@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - STARVELATER</title>
+        <title>Manage Restaurants | StarveLater</title>
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <style type="text/css">
@@ -17,7 +17,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+
+            <!-- Top Navigation bar -->
+            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="index.html">STARVE<B>LATER</B></a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
             ><!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -28,7 +30,7 @@
                     </div>
                 </div>
             </form>
-            <!-- Navbar-->
+            <!-- Logout Dropdown-->
             <ul class="navbar-nav ml-auto ml-md-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -40,13 +42,13 @@
                 </li>
             </ul>
         </nav>
+
+         <!-- Side Navigation Bar -->
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-
-                            <!-- Dashboard -->
                             <div class="sb-sidenav-menu-heading">Core</div>
                             <a class="nav-link" href="admin.php"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -96,7 +98,7 @@
                             </div>
 
 
-
+                           <!--  Statistics -->
                             <div class="sb-sidenav-menu-heading">STATISTICS</div>
                             <a class="nav-link" href="charts.html"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
@@ -110,71 +112,28 @@
                         
                         </div>
                     </div>
+
+                    <!-- Login Status -->
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
                         Administrator
                     </div>
+
                 </nav>
             </div>
+
+            <!-- Title -->
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Dashboard</h1>
+                        <h1 class="mt-4">Manage Restaurants</h1>
+
+                       <!--  Marquee -->
                         <ol class="breadcrumb mb-4" width="100%">
-                            <li class="breadcrumb-item active" width="100%"><marquee>Welcome to <span>STARVE<b>LATER</b></span> Administrator Dashboard.</marquee></li>
+                            <li class="breadcrumb-item active" width="100%"><marquee>Welcome to Restaurants Dashboard.</marquee></li>
                         </ol>
-                        <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">List of Users</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">List of Restaurants</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Locations under Operation</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">No. of Orders Recieved</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header"><i class="fas fa-chart-area mr-1"></i>Orders Recieved</div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Restaurants Data</div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                        </div>
+
+                        <!-- Restaurant Table -->
                         <div class="card mb-4">
                             <div class="card-header"><i class="fas fa-table mr-1"></i>Orders Received</div>
                             <div class="card-body">
@@ -182,74 +141,78 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Name of Customer</th>
-                                                <th>Restaurant Ordered</th>
-                                                <th>Name of Item</th>
-                                                <th>Take Away / Dine-in</th>
-                                                <th>Time Booked</th>
-                                                <th>Status of Order</th>
-                                                <th>Amount (INR)</th>
+                                                <th>Restaurant ID</th>
+                                                <th>Restaurant Name</th>
+                                                <th>Owner Name</th>
+                                                <th>Email ID</th>
+                                                <th>Phone Number</th>
+                                                <th>State</th>
+                                                <th>City</th>
+                                                <th>GSTIN Number</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
 
-                                                <th>Name of Customer</th>
-                                                <th>Restaurant Ordered</th>
-                                                <th>Name of Item</th>
-                                                <th>Mode of Delivery</th>
-                                                <th>Time Booked</th>
-                                                <th>Status of Order</th>
-                                                <th>Amount (INR)</th>
+                                                <th>Restaurant ID</th>
+                                                <th>Restaurant Name</th>
+                                                <th>Owner Name</th>
+                                                <th>Email ID</th>
+                                                <th>Phone Number</th>
+                                                <th>State</th>
+                                                <th>City</th>
+                                                <th>GSTIN Number</th>
                                                 </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr>
-                                                <td>Saikiran Kopparthi</td>
+                                        
+                                                <?php
+
+                                                     $dbname = "starvelater";
+                                                     $con = mysqli_connect("localhost","root","",$dbname);
+    
+                                                     //Check for DB Connection
+                                                     if(!$con){
+                                                        die("Connection Failed :" + mysqli_connect_error());
+                                                     }else { 
+                                                         //Load Restaurant  Data  
+                                            $sql = "SELECT id,restaurantname,fname,email,phone,state,city,gstin FROM restaurant";
+                                                    
+                                            $retval = mysqli_query($GLOBALS['con'],$sql);
+                                                       
+                                                       if(! $retval ) {
+                                                          die('Could not get data: ' . mysqli_error());
+                                                       }
+                                                       
+                                                       while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
+                                                          echo "<tr>";
+                                                          echo "<td>".$row['id']."</td>";
+                                                          echo "<td>".$row['restaurantname']."</td>";
+                                                          echo "<td>".$row['fname']."</td> ";
+                                                          echo "<td>".$row['email']."</td> ";
+                                                          echo "<td>".$row['phone']."</td> ";
+                                                          echo "<td>".$row['state']."</td> ";
+                                                          echo "<td>".$row['city']."</td> ";
+                                                          echo "<td>".$row['gstin']."</td> ";
+                                                          echo "</tr>";
+                                                       }
+
+                                                       mysqli_close($GLOBALS["con"]);
+                                                     }
+
+                                                ?>
+
+
+                                                <!-- <td>1</td>
                                                 <td>Haveli Dakshin, Kakinada</td>
-                                                <td>Veg Biryani</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/05/03 22:15:02</td>
-                                                <td>Completed</td>
-                                                <td>₹500.00</td>
+                                                <td>Sai Kiran</td>
+                                                <td>knvrssaikiran@gmail.com</td>
+                                                <td>Andhra Pradesh</td>
+                                                <td>Kakinada</td>
+                                                <td>ABC123456789</td> -->
                                             </tr>
                                                  
-                                            <tr>
-                                                <td>Koushik Modekurti</td>
-                                                <td>Ravi Bakery, Rajam</td>
-                                                <td>Pizza</td>
-                                                <td>Take Away</td>
-                                                <td>2020/06/15 12:28:15</td>
-                                                <td>In progress</td>
-                                                <td>₹250.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Santosh Burada</td>
-                                                <td>Paradise, Hyderabad</td>
-                                                <td>Panner 65</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/05/25 17:23:12</td>
-                                                <td>In progress</td>
-                                                <td>₹300.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Prathyusha Kuppili</td>
-                                                <td>SVN Grand, Kakinada</td>
-                                                <td>Veg Biryani</td>
-                                                <td>Take Away</td>
-                                                <td>2020/05/22 11:10:02</td>
-                                                <td>Completed</td>
-                                                <td>₹520.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Manikanta Gontu</td>
-                                                <td>SR Foodex, Rajam</td>
-                                                <td>Baby Corn Munchuria</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/12/13 18:25:58</td>
-                                                <td>In Progress</td>
-                                                <td>₹275.00</td>
-                                            </tr>                                  </tbody>
+                                            </tbody>
                                     </table>
                                 </div>
                             </div>

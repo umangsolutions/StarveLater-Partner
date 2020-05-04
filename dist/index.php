@@ -73,35 +73,50 @@
        //Restaurant and Admin Login
        function SignIn(){
 
-        $sql = "SELECT passwd FROM restaurant where email = '".$_POST["email"]."'";
+
+
+        $sql = "SELECT passwd FROM restaurant where email = '".$_POST["email"]."' and passwd='".$_POST["password"]."'";
         $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
 
-
-        $admin_email = "admin@gmail.com";
-        $admin_pwd = "admin123";
-
-
-         if ((strcmp('$admin_email', '$email')) && (strcmp('$admin_pwd', '$password'))) {
-               header("Location: ./admin.php");
-          } elseif(!$row = mysqli_fetch_array($result)){
+          
+      
+  
+         if(!$row = mysqli_fetch_array($result)){
             echo "<script>
-                  alert('User does not exist !');
+                  alert('Invalid Email or Password !');
             </script>";
         }else{
-           $password = $_POST["password"];
-           if(strcmp('$password','$result')) {
+           if($row > 0) {
+            session_start();
+            $_SESSION['email'] = $_POST["email"];
+            header("Location: ./restaurant_home.php");
+
+           }
+    
+           
+           /*if('$password' == $row['passwd']) {
                header("Location: ./password.html");
            }else{
+               echo "Hello" . $row['passwd'];
            	   echo "<script>
                      alert('Invalid Email or Password');
            	   </script>";
-           }
+           }*/
 
         }
+
+
     }
 
 
       if($boolean){
+
+
+          $admin_email = "admin@gmail.com";
+          $admin_pwd = "admin123";
+       
+         
+
         $dbname = "starvelater";
         $con = mysqli_connect("localhost","root","",$dbname);
     
@@ -110,22 +125,23 @@
             die("Connection Failed :" + mysqli_connect_error());
          }else{
             if(isset($_POST["login"])){
-             SignIn();
-             mysqli_close($GLOBALS["con"]);
-             $boolean = false;
+              
+               if (($admin_email == $email) && ($admin_pwd == $password)) {
+                    header("Location: ./admin.php");
+              } else {
+                SignIn();
+                mysqli_close($GLOBALS["con"]);
+                $boolean = false;
+              }
             }
          }
+    
       }
-
-
 
     }
 
 
     ?>
-
-
-
 
 
         <div id="layoutAuthentication">

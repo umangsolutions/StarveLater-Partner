@@ -16,8 +16,8 @@
 <?php
 
 // define variables and set to empty values
-$fnameErr = $lnameErr =  $restaurantNameErr = $emailErr = $passwordErr = $conpasswordErr = $stateErr = $cityErr = $gstInErr = "";
-$fname = $lname = $restaurantName = $email = $password = $conpassword = $state = $city = $gstIn = "";
+$fnameErr = $lnameErr =  $restaurantNameErr = $emailErr = $passwordErr = $conpasswordErr = $phoneErr = $stateErr = $cityErr = $gstInErr = "";
+$fname = $lname = $restaurantName = $email = $password = $conpassword = $phone = $state = $city = $gstIn = "";
 $boolean=false;
 
 //Remove spaces, slashes and prevent XSS
@@ -127,6 +127,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else{
         $boolean = true;
     }
+
+
+
+    //Phone number Validation
+        if(empty($_POST["phone"])){
+        $phoneErr = "Phone number Required";
+        $boolean = false;
+    } elseif($_POST["phone"] < 10 && $_POST["phone"] > 10){
+        $phoneErr = "Invalid Phone Number";
+        $boolean = false;
+    } else{
+        $boolean = true;
+    }
   
   //GST IN Validation
     if (empty($_POST["gstIn"])) {
@@ -169,14 +182,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //Create New Restaurant
 function NewUser(){
 
-    $sql = "INSERT INTO restaurant(fname,lname,restaurantname,email,passwd,state,city,gstin) Values
-    ('".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["state"]."','".$_POST["city"]."','".$_POST["gstIn"]."')";
+    $sql = "INSERT INTO restaurant(fname,lname,restaurantname,email,passwd,phone,state,city,gstin) Values
+    ('".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["phone"]."','".$_POST["state"]."','".$_POST["city"]."','".$_POST["gstIn"]."')";
     $query = mysqli_query($GLOBALS['con'], $sql);
     if($query){
         echo "<script>
                     alert('Registered Successfully');
         </script>";
         header('Location: ./admin.php');
+    } else {
+        echo "<script> alert('Registration Error !!!');</script>";
     }
 }
 
@@ -265,6 +280,12 @@ if($boolean){
                                             </div>
 
 
+                                              <!-- Phone Number  -->
+                                            <div class="form-group"><label class="small mb-1" for="inputPhone">Phone Number</label><input class="form-control py-4" id="inputPhone" type="text"  placeholder="Enter Phone Number" name="phone" />
+                                            <span id="span"><?php echo $phoneErr; ?></span>
+                                            </div>
+
+
                                             <!-- Location Section -->
                                             <div class="form-row">
                                                 <div class="col-md-6">
@@ -292,7 +313,7 @@ if($boolean){
                                             </div>
 
                                             <!-- GSTIN Number  -->
-                                            <div class="form-group"><label class="small mb-1" for="inputGSTIN">GSTIN Number</label><input class="form-control py-4" id="inputGSTIN" type="text" aria-describedby="emailHelp" placeholder="Enter GSTIN Number (optional)" name="gstIn" />
+                                            <div class="form-group"><label class="small mb-1" for="inputGSTIN">GSTIN Number</label><input class="form-control py-4" id="inputGSTIN" type="text" aria-describedby="emailHelp" placeholder="Enter GSTIN Number" name="gstIn" />
                                             <span id="span"><?php echo $gstInErr; ?></span>
                                             </div>
 

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - STARVELATER</title>
+        <title>Restaurant Dashboard | STARVELATER</title>
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <style type="text/css">
@@ -17,6 +17,35 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
+
+        <?php
+                           
+                          session_start();
+                          //echo $_SESSION['email'];
+
+                            $dbname = "starvelater";
+                            $con = mysqli_connect("localhost","root","",$dbname);
+    
+                            //Check for DB Connection
+                            if(!$con){
+                                    die("Connection Failed :" + mysqli_connect_error());
+                            }else { 
+                                                         //Load Restaurant  Data  
+                            $sql = "SELECT fname,lname,restaurantname FROM restaurant where email = '".$_SESSION['email']."'";
+                                                    
+                                    $retval = mysqli_query($GLOBALS['con'],$sql);
+
+                                    $followingdata = $retval->fetch_array(MYSQLI_ASSOC);
+                                                       
+                                   // echo $followingdata['restaurantname'];
+
+                                    mysqli_close($GLOBALS["con"]);
+                            }
+
+        ?>
+
+
+
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="index.html">STARVE<B>LATER</B></a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
             ><!-- Navbar Search-->
@@ -45,88 +74,73 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-
-                            <!-- Dashboard -->
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="admin.php"
+                            <a class="nav-link" href="restaurant_home.php"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard</a
                             >
                             <div class="sb-sidenav-menu-heading">Interface</div>
 
-                            <!-- Restaurants in Nav Bar--> 
+                            <!-- Profile in Nav Bar--> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-utensils"></i></div>
-                                Restaurants
+                                ><div class="sb-nav-link-icon"><i class="fas fa-user-circle"></i></div>
+                                Profile
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="register.php">Register Restaurant</a><a class="nav-link" href="manage_restaurants.php">Manage Restaurants</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="register.php">Manage Profile</a></nav>
                             </div>
 
-                            <!-- Locations in Nav Bar --> 
+                            <!-- Status in Nav Bar --> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLocationData" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
-                                Locations
+                                ><div class="sb-nav-link-icon"><i class="fas fa-toggle-on"></i></div>
+                                Current Status
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLocationData" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Add New Location</a><a class="nav-link" href="layout-sidenav-light.html">Manage Locations</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Offline/Online</a></nav>
                             </div>
                             
-                            <!-- Users in Nav Bar--> 
+                            <!-- Menu in Nav Bar--> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsersData" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                                Users 
+                                ><div class="sb-nav-link-icon"><i class="fab fa-elementor"></i></div>
+                                Menu 
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseUsersData" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Register User</a><a class="nav-link" href="layout-sidenav-light.html">Manage Users</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Add Items</a><a class="nav-link" href="layout-sidenav-light.html">Manage Items</a></nav>
                             </div>
 
 
-                            <!-- Notifications in Nav Bar--> 
+                            <!-- Tables in Nav Bar--> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNotification" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-bell"></i></div>
-                                Notification
+                                ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseNotification" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Send Notification</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Manage Table Numbers</a></nav>
                             </div>
-
-
-
-                            <div class="sb-sidenav-menu-heading">STATISTICS</div>
-                            <a class="nav-link" href="charts.html"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Orders Data</a
-                            ><a class="nav-link" href="tables.html"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Restaurants Data</a>
-                                <a class="nav-link" href="tables.html"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-pie"></i></div>
-                                Users Data</a>
                         
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Administrator
+                         <span><?php echo $followingdata['restaurantname']; ?></span>
                     </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Dashboard</h1>
+                        <h1 class="mt-4">Restaurant Dashboard</h1>
                         <ol class="breadcrumb mb-4" width="100%">
-                            <li class="breadcrumb-item active" width="100%"><marquee>Welcome to <span>STARVE<b>LATER</b></span> Administrator Dashboard.</marquee></li>
+                           <li class="breadcrumb-item active" width="100%"><marquee>Welcome <span><?php echo $followingdata['fname']." ".$followingdata['lname']; ?></span> to Restaurant Dashboard.Please update your Profile under Profile Section</marquee></li>
                         </ol>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">List of Users</div>
+                                    <div class="card-body">Total Orders Recieved</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -135,7 +149,7 @@
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">List of Restaurants</div>
+                                    <div class="card-body">Restaurant Overview</div> 
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -144,7 +158,7 @@
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Locations under Operation</div>
+                                    <div class="card-body">Bulk Orders</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -153,7 +167,7 @@
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">No. of Orders Recieved</div>
+                                    <div class="card-body">Completed Orders</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -164,13 +178,13 @@
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="card mb-4">
-                                    <div class="card-header"><i class="fas fa-chart-area mr-1"></i>Orders Recieved</div>
+                                    <div class="card-header"><i class="fas fa-chart-area mr-1"></i>Order Statistics</div>
                                     <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="card mb-4">
-                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Restaurants Data</div>
+                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>User Statistics</div>
                                     <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
