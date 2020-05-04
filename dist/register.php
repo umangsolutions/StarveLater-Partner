@@ -80,6 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // check if e-mail address is well-formed
     if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
       $emailErr = "Invalid email format";
+      $boolean = false;
     }else{
         $email = test_input($_POST["email"]);
         $boolean = true;
@@ -98,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $passwordErr = "Password should be less than 15 characters";
         $boolean = false;
     } elseif($ln < 5 && $ln >=1) {
-        $passwordErr = "Password should be greater than 3 characters";
+        $passwordErr = "Password should be greater than 4 characters";
         $boolean=false;
     } /*elseif(!preg_match("#[0-9]+#",$password)) {
         $passwordErr = "Password must Contain At Least 1 Number!";
@@ -168,20 +169,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //Create New Restaurant
 function NewUser(){
 
-    $sql = "INSERT INTO reg(fname,lname,restaurantname,email,passwd,state,city,gstin) Values
+    $sql = "INSERT INTO restaurant(fname,lname,restaurantname,email,passwd,state,city,gstin) Values
     ('".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["state"]."','".$_POST["city"]."','".$_POST["gstIn"]."')";
     $query = mysqli_query($GLOBALS['con'], $sql);
     if($query){
         echo "<script>
                     alert('Registered Successfully');
         </script>";
+        header('Location: ./admin.php');
     }
 }
 
 //Check whether restaurant name and Email Id exists in DB
 function SignUp(){
 
-        $sql = "SELECT * FROM reg where restaurantname = '".$_POST["restaurantName"]."' AND email = '".$_POST["email"]."'";
+        $sql = "SELECT * FROM restaurant where restaurantname = '".$_POST["restaurantName"]."' AND email = '".$_POST["email"]."'";
         $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
 
         if(!$row = mysqli_fetch_array($result)){
@@ -194,7 +196,7 @@ function SignUp(){
     }
 
 if($boolean){
-    $dbname = "restaurant_registration";
+    $dbname = "starvelater";
     $con = mysqli_connect("localhost","root","",$dbname);
     
     //Check for DB Connection
