@@ -168,6 +168,8 @@
                                         
                                                 <?php
 
+
+                                                     define('MYSQL_ASSOC',MYSQLI_ASSOC);
                                                      $dbname = "starvelater";
                                                      $con = mysqli_connect("localhost","root","",$dbname);
     
@@ -187,7 +189,7 @@
                                                        while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
                                                           echo "<tr>";
                                                           echo "<td>".$row['id']."</td>";
-                                                          echo "<td>".$row['restaurantname']."</td>";
+                                                          echo "<td>"."<a href="./load_restaurant.php">".$row['restaurantname']."</a>"."</td>";
                                                           echo "<td>".$row['fname']."</td> ";
                                                           echo "<td>".$row['email']."</td> ";
                                                           echo "<td>".$row['phone']."</td> ";

@@ -395,10 +395,10 @@
                        <!-- Update & Delete Button -->
                         <div class="form-row">
                                 <div class="col-md-6">
-                                            <div class="form-group mt-4 mb-0"><input class="btn btn-primary btn-block" type="submit" name="Update" id="btnupdate" value="Update"/></div>
+                                            <div class="form-group mt-4 mb-0"><input class="btn btn-primary " type="submit" name="Update" id="btnupdate" value="Update"/></div>
                                 </div>
                                 <div class="col-md-6">
-                                            <div class="form-group mt-4 mb-0"><input class="btn bg-danger btn-block" type="submit" name="Delete" id="btndelete" value="Delete"/></div>
+                                            <div class="form-group mt-4 mb-0"><input class="btn btn-danger " type="submit" name="Delete" id="btndelete" value="Delete"/></div>
                                 </div>
                         </div>
                  <P>&nbsp;</P>
