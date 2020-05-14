@@ -6,7 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - STARVELATER</title>
+        <title>Dashboard | STARVELATER</title>
+        <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <style type="text/css">
@@ -137,7 +138,7 @@
                                 <div class="card bg-warning text-white mb-4">
                                     <div class="card-body">List of Restaurants</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <a class="small text-white stretched-link" href="manage_restaurants.php">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -175,85 +176,99 @@
                                 </div>
                             </div>
                         </div>
+
+                       
+                        <!-- Restaurant Table -->
                         <div class="card mb-4">
-                            <div class="card-header"><i class="fas fa-table mr-1"></i>Orders Received</div>
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Registered Restaurants</div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Name of Customer</th>
-                                                <th>Restaurant Ordered</th>
-                                                <th>Name of Item</th>
-                                                <th>Take Away / Dine-in</th>
-                                                <th>Time Booked</th>
-                                                <th>Status of Order</th>
-                                                <th>Amount (INR)</th>
+                                                <th>Restaurant ID</th>
+                                                <th>Restaurant Name</th>
+                                                <th>Owner Name</th>
+                                                <th>Email ID</th>
+                                                <th>Phone Number</th>
+                                                <th>State</th>
+                                                <th>City</th>
+                                                <th>GSTIN Number</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
 
-                                                <th>Name of Customer</th>
-                                                <th>Restaurant Ordered</th>
-                                                <th>Name of Item</th>
-                                                <th>Mode of Delivery</th>
-                                                <th>Time Booked</th>
-                                                <th>Status of Order</th>
-                                                <th>Amount (INR)</th>
+                                                <th>Restaurant ID</th>
+                                                <th>Restaurant Name</th>
+                                                <th>Owner Name</th>
+                                                <th>Email ID</th>
+                                                <th>Phone Number</th>
+                                                <th>State</th>
+                                                <th>City</th>
+                                                <th>GSTIN Number</th>
                                                 </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr>
-                                                <td>Saikiran Kopparthi</td>
+                                        
+                                                <?php
+
+                                                     $destin_location = "load_restaurant.php?restaurantname=";
+                                                     //define('MYSQL_ASSOC',MYSQLI_ASSOC);
+                                                     $dbname = "starvelater";
+                                                     $con = mysqli_connect("localhost","root","",$dbname);
+    
+                                                     //Check for DB Connection
+                                                     if(!$con){
+                                                        die("Connection Failed :" + mysqli_connect_error());
+                                                     }else { 
+                                                         //Load Restaurant  Data  
+                                            $sql = "SELECT Restaurant_ID,Restaurant_Name,fname,Email_ID,Phone,State,City,GSTIN FROM restaurants";
+                                                    
+                                            $retval = mysqli_query($GLOBALS['con'],$sql);
+                                                       
+                                                       if(! $retval ) {
+                                                          die('Could not get data: ' . mysqli_error());
+                                                       }
+                                                       
+                                                       while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
+                                                          echo "<tr>";
+                                                          echo "<td>".$row['Restaurant_ID']."</td>";
+                                                          echo "<td><a href='".$destin_location.$row['Restaurant_Name']."'>".$row['Restaurant_Name']."</a></td>";
+                                                          echo "<td>".$row['fname']."</td> ";
+                                                          echo "<td>".$row['Email_ID']."</td> ";
+                                                          echo "<td>".$row['Phone']."</td> ";
+                                                          echo "<td>".$row['State']."</td> ";
+                                                          echo "<td>".$row['City']."</td> ";
+                                                          echo "<td>".$row['GSTIN']."</td> ";
+                                                          echo "</tr>";
+                                                       }
+
+                                                       mysqli_close($GLOBALS["con"]);
+                                                     }
+
+                                                ?>
+
+
+                                                <!-- <td>1</td>
                                                 <td>Haveli Dakshin, Kakinada</td>
-                                                <td>Veg Biryani</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/05/03 22:15:02</td>
-                                                <td>Completed</td>
-                                                <td>₹500.00</td>
+                                                <td>Sai Kiran</td>
+                                                <td>knvrssaikiran@gmail.com</td>
+                                                <td>Andhra Pradesh</td>
+                                                <td>Kakinada</td>
+                                                <td>ABC123456789</td> -->
                                             </tr>
                                                  
-                                            <tr>
-                                                <td>Koushik Modekurti</td>
-                                                <td>Ravi Bakery, Rajam</td>
-                                                <td>Pizza</td>
-                                                <td>Take Away</td>
-                                                <td>2020/06/15 12:28:15</td>
-                                                <td>In progress</td>
-                                                <td>₹250.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Santosh Burada</td>
-                                                <td>Paradise, Hyderabad</td>
-                                                <td>Panner 65</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/05/25 17:23:12</td>
-                                                <td>In progress</td>
-                                                <td>₹300.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Prathyusha Kuppili</td>
-                                                <td>SVN Grand, Kakinada</td>
-                                                <td>Veg Biryani</td>
-                                                <td>Take Away</td>
-                                                <td>2020/05/22 11:10:02</td>
-                                                <td>Completed</td>
-                                                <td>₹520.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Manikanta Gontu</td>
-                                                <td>SR Foodex, Rajam</td>
-                                                <td>Baby Corn Munchuria</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/12/13 18:25:58</td>
-                                                <td>In Progress</td>
-                                                <td>₹275.00</td>
-                                            </tr>                                  </tbody>
+                                            </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
+                        <!-- Table Close -->
+
+
+
+
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">

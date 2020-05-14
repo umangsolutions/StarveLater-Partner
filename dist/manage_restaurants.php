@@ -7,6 +7,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Manage Restaurants | StarveLater</title>
+        <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <style type="text/css">
@@ -135,7 +136,7 @@
 
                         <!-- Restaurant Table -->
                         <div class="card mb-4">
-                            <div class="card-header"><i class="fas fa-table mr-1"></i>Orders Received</div>
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Registered Restaurants</div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -168,8 +169,8 @@
                                         
                                                 <?php
 
-
-                                                     define('MYSQL_ASSOC',MYSQLI_ASSOC);
+                                                     $destin_location = "load_restaurant.php?restaurantname=";
+                                                     //define('MYSQL_ASSOC',MYSQLI_ASSOC);
                                                      $dbname = "starvelater";
                                                      $con = mysqli_connect("localhost","root","",$dbname);
     
@@ -178,7 +179,7 @@
                                                         die("Connection Failed :" + mysqli_connect_error());
                                                      }else { 
                                                          //Load Restaurant  Data  
-                                            $sql = "SELECT id,restaurantname,fname,email,phone,state,city,gstin FROM restaurant";
+                                            $sql = "SELECT Restaurant_ID,Restaurant_Name,fname,Email_ID,Phone,State,City,GSTIN FROM restaurants";
                                                     
                                             $retval = mysqli_query($GLOBALS['con'],$sql);
                                                        
@@ -188,14 +189,14 @@
                                                        
                                                        while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
                                                           echo "<tr>";
-                                                          echo "<td>".$row['id']."</td>";
-                                                          echo "<td>"."<a href="./load_restaurant.php">".$row['restaurantname']."</a>"."</td>";
+                                                          echo "<td>".$row['Restaurant_ID']."</td>";
+                                                          echo "<td><a href='".$destin_location.$row['Restaurant_Name']."'>".$row['Restaurant_Name']."</a></td>";
                                                           echo "<td>".$row['fname']."</td> ";
-                                                          echo "<td>".$row['email']."</td> ";
-                                                          echo "<td>".$row['phone']."</td> ";
-                                                          echo "<td>".$row['state']."</td> ";
-                                                          echo "<td>".$row['city']."</td> ";
-                                                          echo "<td>".$row['gstin']."</td> ";
+                                                          echo "<td>".$row['Email_ID']."</td> ";
+                                                          echo "<td>".$row['Phone']."</td> ";
+                                                          echo "<td>".$row['State']."</td> ";
+                                                          echo "<td>".$row['City']."</td> ";
+                                                          echo "<td>".$row['GSTIN']."</td> ";
                                                           echo "</tr>";
                                                        }
 
@@ -219,6 +220,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Table Close -->
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">

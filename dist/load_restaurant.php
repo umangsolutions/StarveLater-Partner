@@ -6,7 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Haveli | StarveLater</title>
+        <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
+        <title><?php echo $_GET['restaurantname']; ?> | StarveLater</title>
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <style type="text/css">
@@ -18,9 +19,85 @@
     </head>
     <body class="sb-nav-fixed">
 
+
+
+        <?php
+              $FoodLicenceErr = $LabourLicenceErr = "";
+
+              $FoodLicence = $LabourLicence = "";
+              $boolean = false;
+
+
+                //Remove spaces, slashes and prevent XSS
+                function test_input($data) {
+                  $data = trim($data);
+                  $data = stripslashes($data);
+                  $data = htmlspecialchars($data);
+                  return $data;
+                }
+
+              if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                     
+                      //Food Licencse Validation
+                    if (empty($_POST["FoodLicence"])) {
+                    $FoodLicenceErr = "Food License Number is required";
+                    $boolean = false;
+                  } else {
+                      $FoodLicence = test_input($_POST["FoodLicence"]);
+                      $boolean = true;
+                    }
+
+
+                     //Labour Licencse Validation
+                    if (empty($_POST["LabourLicence"])) {
+                    $LabourLicenceErr = "Labour License Number is required";
+                    $boolean = false;
+                  } else {
+                      $LabourLicence = test_input($_POST["LabourLicence"]);
+                      $boolean = true;
+                    }
+
+
+
+function updateData(){
+
+        $sql = "UPDATE restaurants SET FoodLicence = '".$_POST["FoodLicence"]."', LabourLicence = '".$_POST["LabourLicence"]."' where Restaurant_Name= '".$_GET['restaurantname']."' ";
+
+
+        $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
+
+        if($result) {
+            echo "<script> alert('Data Updated Successfully !'); </script>";
+        } else {
+            echo "<script> alert('Something Went Wrong !'); </script>";
+        }
+}
+                  
+
+                  if($boolean){
+                    $dbname = "starvelater";
+                    $con = mysqli_connect("localhost","root","",$dbname);
+    
+                    //Check for DB Connection
+                    if(!$con){
+                        die("Connection Failed :" + mysqli_connect_error());
+                    }else{
+
+                        if(isset($_POST["submit"])){
+                        updateData();
+                        mysqli_close($GLOBALS["con"]);
+                        $boolean = false;
+                       }
+
+                    }
+                }
+
+              }
+        ?>
+
             <!-- Top Navigation bar -->
             <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html">STARVE<B>LATER</B></a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
+            <a class="navbar-brand" href="index.php">STARVE<B>LATER</B></a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
             ><!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
@@ -126,30 +203,37 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Haveli</h1>
+                        <h1 class="mt-4"><?php echo $_GET['restaurantname']; ?></h1>
 
                        <!--  Marquee -->
                         <ol class="breadcrumb mb-4" width="100%">
-                            <li class="breadcrumb-item active" width="100%"><marquee>Welcome to Haveli's Dashboard.</marquee></li>
+                            <li class="breadcrumb-item active" width="100%"><marquee>Welcome to <span><?php echo $_GET['restaurantname']; ?></span> Dashboard.</marquee></li>
                         </ol>
 
                         <!-- Food Licence & Labour Licence -->
+
+                        <form method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                         <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="form-group"><label class="small mb-1" for="inputFoodLicence">Food Licence No.</label><input class="form-control py-4" id="inputFoodLicence" type="text" placeholder="Enter Food Licence No." name="FoodLicence" />
-                                    <!-- <span id="span"><?php echo $fnameErr; ?></span> -->
-                                    </div>
+                                    <span id="span"><?php echo $FoodLicenceErr; ?></span>
+                                </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group"><label class="small mb-1" for="inputLabourLicence">Labour Licence</label><input class="form-control py-4" id="inputLabourLicence" type="text" placeholder="Enter Labour Licence No." name="LabourLicence" />
-                                    <!-- <span id="span"><?php echo $lnameErr; ?></span> -->
+                                    <span id="span"><?php echo $LabourLicenceErr; ?></span>
                                     </div>
                                 </div>
                         </div>
 
+                        <!-- Submit Button -->
+                                            <div class="form-group mt-4 mb-0"><input class="btn btn-primary btn-block" type="submit" name="submit" id="btnsub" value="Submit"/></div>
+
+                    </form>
+
                         <!-- Items Table -->
                         <div class="card mb-4">
-                            <div class="card-header"><i class="fas fa-table mr-1"></i>Items</div>
+                            <div class="card-header"><i class="fas fa-concierge-bell mr-1"></i>Items</div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
@@ -176,42 +260,6 @@
                                         </tfoot>
                                         <tbody>
                                         
-                                                <!-- <?php
-
-                                                     $dbname = "starvelater";
-                                                     $con = mysqli_connect("localhost","root","",$dbname);
-    
-                                                     //Check for DB Connection
-                                                     if(!$con){
-                                                        die("Connection Failed :" + mysqli_connect_error());
-                                                     }else { 
-                                                         //Load Restaurant  Data  
-                                            $sql = "SELECT id,restaurantname,fname,email,phone,state,city,gstin FROM restaurant";
-                                                    
-                                            $retval = mysqli_query($GLOBALS['con'],$sql);
-                                                       
-                                                       if(! $retval ) {
-                                                          die('Could not get data: ' . mysqli_error());
-                                                       }
-                                                       
-                                                       while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
-                                                          echo "<tr>";
-                                                          echo "<td>".$row['id']."</td>";
-                                                          echo "<td>".$row['restaurantname']."</td> ";
-                                                          echo "<td>".$row['fname']."</td> ";
-                                                          echo "<td>".$row['email']."</td> ";
-                                                          echo "<td>".$row['phone']."</td> ";
-                                                          echo "<td>".$row['state']."</td> ";
-                                                          echo "<td>".$row['city']."</td> ";
-                                                          echo "<td>".$row['gstin']."</td> ";
-                                                          echo "</tr>";
-                                                       }
-
-                                                       mysqli_close($GLOBALS["con"]);
-                                                     }
-
-                                                ?>
- -->
                                              <tr>
                                                 <td>1</td>
                                                 <td>Veg Biryani</td>
@@ -272,15 +320,15 @@
 
                        <!--  Restaurant Orders Table -->
                        <div class="card mb-4">
-                            <div class="card-header"><i class="fas fa-table mr-1"></i>Orders Served</div>
+                            <div class="card-header"><i class="fas fa-clipboard mr-1"></i>Orders Served</div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>Customer Name</th>
-                                                <th>Item Name</th>
-                                                <th>TakeAway/Dine-in</th>
+                                                <th>Bill ID</th>
+                                                <th>Order Type</th>
                                                 <th>Booked Time</th>
                                                 <th>Status of Order</th>
                                                 <th>Net Bill</th>
@@ -290,7 +338,7 @@
                                             <tr>
 
                                                 <th>Customer Name</th>
-                                                <th>Item Name</th>
+                                                <th>Bill ID</th>
                                                 <th>TakeAway/Dine-in</th>
                                                 <th>Booked Time</th>
                                                 <th>Status of Order</th>
@@ -299,49 +347,14 @@
                                         </tfoot>
                                         <tbody>
                                         
-                                               <!--  <?php
+                                              
 
-                                                     $dbname = "starvelater";
-                                                     $con = mysqli_connect("localhost","root","",$dbname);
-    
-                                                     //Check for DB Connection
-                                                     if(!$con){
-                                                        die("Connection Failed :" + mysqli_connect_error());
-                                                     }else { 
-                                                         //Load Restaurant  Data  
-                                            $sql = "SELECT id,restaurantname,fname,email,phone,state,city,gstin FROM restaurant";
-                                                    
-                                            $retval = mysqli_query($GLOBALS['con'],$sql);
-                                                       
-                                                       if(! $retval ) {
-                                                          die('Could not get data: ' . mysqli_error());
-                                                       }
-                                                       
-                                                       while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
-                                                          echo "<tr>";
-                                                          echo "<td>".$row['id']."</td>";
-                                                          echo "<td>".$row['restaurantname']."</td> ";
-                                                          echo "<td>".$row['fname']."</td> ";
-                                                          echo "<td>".$row['email']."</td> ";
-                                                          echo "<td>".$row['phone']."</td> ";
-                                                          echo "<td>".$row['state']."</td> ";
-                                                          echo "<td>".$row['city']."</td> ";
-                                                          echo "<td>".$row['gstin']."</td> ";
-                                                          echo "</tr>";
-                                                       }
-
-                                                       mysqli_close($GLOBALS["con"]);
-                                                     }
-
-                                                ?>
-
-
-                                                --> 
+                                            
 
                                                  <tr>
                                                 <td>Saikiran Kopparthi</td>
                                             
-                                                <td>Veg Biryani</td>
+                                                <td>SL1</td>
                                                 <td>Dine-in</td>
                                                 <td>2020/05/03 22:15:02</td>
                                                 <td>Completed</td>
@@ -351,7 +364,7 @@
                                             <tr>
                                                 <td>Koushik Modekurti</td>
                                                 
-                                                <td>Pizza</td>
+                                                <td>SL2</td>
                                                 <td>Take Away</td>
                                                 <td>2020/06/15 12:28:15</td>
                                                 <td>In progress</td>
@@ -360,7 +373,7 @@
                                             <tr>
                                                 <td>Santosh Burada</td>
                                             
-                                                <td>Panner 65</td>
+                                                <td>SL3</td>
                                                 <td>Dine-in</td>
                                                 <td>2020/05/25 17:23:12</td>
                                                 <td>In progress</td>
@@ -369,7 +382,7 @@
                                             <tr>
                                                 <td>Prathyusha Kuppili</td>
                                             
-                                                <td>Veg Biryani</td>
+                                                <td>SL4</td>
                                                 <td>Take Away</td>
                                                 <td>2020/05/22 11:10:02</td>
                                                 <td>Completed</td>
@@ -378,7 +391,7 @@
                                             <tr>
                                                 <td>Manikanta Gontu</td>
                                             
-                                                <td>Baby Corn Munchuria</td>
+                                                <td>SL5</td>
                                                 <td>Dine-in</td>
                                                 <td>2020/12/13 18:25:58</td>
                                                 <td>In Progress</td>
@@ -395,10 +408,10 @@
                        <!-- Update & Delete Button -->
                         <div class="form-row">
                                 <div class="col-md-6">
-                                            <div class="form-group mt-4 mb-0"><input class="btn btn-primary " type="submit" name="Update" id="btnupdate" value="Update"/></div>
+                                            <div class="form-group mt-4 mb-0"><input class="btn btn-primary " type="button" name="Update" id="btnupdate" value="Update" /></div>
                                 </div>
                                 <div class="col-md-6">
-                                            <div class="form-group mt-4 mb-0"><input class="btn btn-danger " type="submit" name="Delete" id="btndelete" value="Delete"/></div>
+                                            <div class="form-group mt-4 mb-0"><input class="btn btn-danger " type="button" name="Delete" id="btndelete" value="Delete"/></div>
                                 </div>
                         </div>
                  <P>&nbsp;</P>

@@ -7,6 +7,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Restaurant Dashboard | STARVELATER</title>
+        <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <style type="text/css">
@@ -31,7 +32,7 @@
                                     die("Connection Failed :" + mysqli_connect_error());
                             }else { 
                                                          //Load Restaurant  Data  
-                            $sql = "SELECT fname,lname,restaurantname FROM restaurant where email = '".$_SESSION['email']."'";
+                            $sql = "SELECT fname,lname,Restaurant_Name FROM restaurants where Email_ID = '".$_SESSION['email']."'";
                                                     
                                     $retval = mysqli_query($GLOBALS['con'],$sql);
 
@@ -126,7 +127,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                         <span><?php echo $followingdata['restaurantname']; ?></span>
+                         <span><?php echo $followingdata['Restaurant_Name']; ?></span>
                     </div>
                 </nav>
             </div>

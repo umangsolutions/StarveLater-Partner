@@ -6,8 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Restaurant Login</title>
-        <link href="css/styles.css" rel="stylesheet" />
+        <title>Restaurant Login | STARVELATER</title>
+        <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
+      
+      <link href="css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
         <script type="text/javascript">
             function show() {
@@ -75,7 +77,7 @@
 
 
 
-        $sql = "SELECT passwd FROM restaurant where email = '".$_POST["email"]."' and passwd='".$_POST["password"]."'";
+        $sql = "SELECT Password FROM restaurants where Email_ID = '".$_POST["email"]."' and Password='".$_POST["password"]."'";
         $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
 
           

@@ -6,9 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Restaurant Registration</title>
+        <title>Restaurant Registration | STARVELATER</title>
+        <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+          integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+          crossorigin="anonymous"></script>
     </head>
     <body class="bg-primary">
 
@@ -16,8 +20,14 @@
 <?php
 
 // define variables and set to empty values
-$fnameErr = $lnameErr =  $restaurantNameErr = $emailErr = $passwordErr = $conpasswordErr = $phoneErr = $stateErr = $cityErr = $gstInErr = "";
-$fname = $lname = $restaurantName = $email = $password = $conpassword = $phone = $state = $city = $gstIn = "";
+
+
+//for files
+
+
+
+$fnameErr = $lnameErr =  $restaurantNameErr = $emailErr = $passwordErr = $conpasswordErr = $phoneErr = $stateErr = $cityErr = $gstInErr = $addressErr = "" ;
+$fname = $lname = $restaurantName = $email = $password = $conpassword = $phone = $state = $city = $gstIn = $address = "";
 $boolean=false;
 
 //Remove spaces, slashes and prevent XSS
@@ -141,6 +151,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $boolean = true;
     }
   
+
+
+    //Address Validation
+    if (empty($_POST["address"])) {
+    $addressErr = "Address is required";
+    $boolean = false;
+  } else {
+      $address = test_input($_POST["address"]);
+      $boolean = true;
+    }
+
+
+
+
+
+
   //GST IN Validation
     if (empty($_POST["gstIn"])) {
     $gstInErr = "GSTIN is required";
@@ -149,6 +175,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $gstIn = test_input($_POST["gstIn"]);
       $boolean = true;
     }
+
+
+
+ 
+
+    //File Validation
+
+
+/*
+    // Check if file already exists
+    if (file_exists($target_file)) {
+      echo "Sorry, file already exists.";
+      $uploadOk = 0;
+    }
+
+    // Check file size
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+      echo "Sorry, your file is too large.";
+      $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+      echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+      $uploadOk = 0;
+    }*/
 
   //State Validation
     /*if(isset($_POST['state']) && $_POST['state'] == '0') { 
@@ -182,23 +235,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //Create New Restaurant
 function NewUser(){
 
-    $sql = "INSERT INTO restaurant(fname,lname,restaurantname,email,passwd,phone,state,city,gstin) Values
-    ('".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["phone"]."','".$_POST["state"]."','".$_POST["city"]."','".$_POST["gstIn"]."')";
-    $query = mysqli_query($GLOBALS['con'], $sql);
-    if($query){
+    //Master Database 
+
+    $target_dir = "C:\wamp\www\StarveLater\dist\uploads/";
+$target_file = $target_dir.basename($_FILES['fileToUpload']['name']);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+
+/*    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+              if($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+              } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+              }*/
+
+            // Check if $uploadOk is set to 0 by an error
+            
+
+            if ($uploadOk == 0) {
+              echo "Sorry, your file was not uploaded.";
+            // if everything is ok, try to upload file
+            } else {
+              if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+              } else {
+                echo "Sorry, there was an error uploading your file.";
+              }
+            }
+
+            //(Restaurant_ID,Restaurant_Name,Email_ID,Password,Phone,No_of_Tables,fname,lname,Address,City,State,GSTIN,FoodLicense,LabourLicense,OrdersReceived)
+
+
+       $restaurantID = uniqid();
+
+
+    $sql = "INSERT INTO restaurants Values ('$restaurantID','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["phone"]."','0','".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["address"]."','".$_POST["city"]."','".$_POST["state"]."','".$_POST["gstIn"]."','0','0','0')";
+
+
+        $query = mysqli_query($GLOBALS['con'], $sql);
+
+
+        if($query) {
         echo "<script>
                     alert('Registered Successfully');
         </script>";
         header('Location: ./admin.php');
-    } else {
-        echo "<script> alert('Registration Error !!!');</script>";
-    }
+        } 
+        else {
+            echo "<script>alert('Error in Registration xTB0001'); </script>";
+        }
 }
 
 //Check whether restaurant name and Email Id exists in DB
 function SignUp(){
 
-        $sql = "SELECT * FROM restaurant where restaurantname = '".$_POST["restaurantName"]."' AND email = '".$_POST["email"]."'";
+        $sql = "SELECT * FROM restaurants where Restaurant_Name = '".$_POST["restaurantName"]."' AND Email_ID = '".$_POST["email"]."'";
         $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
 
         if(!$row = mysqli_fetch_array($result)){
@@ -286,6 +380,12 @@ if($boolean){
                                             </div>
 
 
+                                            <!-- Address  -->
+                                            <div class="form-group"><label class="small mb-1" for="inputRestaurantAddress">Address</label><input class="form-control py-4" id="inputRestaurantAddress" type="text" aria-describedby="emailHelp" placeholder="Enter Restaurant address" name="address" />
+                                            <span id="span"><?php echo $addressErr; ?></span>
+                                            </div>
+
+
                                             <!-- Location Section -->
                                             <div class="form-row">
                                                 <div class="col-md-6">
@@ -319,8 +419,8 @@ if($boolean){
 
                                             <!-- Upload File -->
                                             <div class="form-group">
-                                                        <label class="small mb-1" for="inputCity">Upload File</label>
-                                                        <input type="File" class="form-control" accept=".pdf" name="inputPDF">
+                                                        <label class="small mb-1" for="fileToUpload">Upload File</label>
+                                                        <input type="File" class="form-control" accept="image/*" name="fileToUpload" id="fileToUpload">
                                             </div>
 
                                              <!-- Submit Button -->
