@@ -129,7 +129,7 @@
             if(isset($_POST["login"])){
               
                if (($admin_email == $email) && ($admin_pwd == $password)) {
-                    header("Location: ./admin.php");
+                    header("Location: ./admin.php?status=view");
               } else {
                 SignIn();
                 mysqli_close($GLOBALS["con"]);

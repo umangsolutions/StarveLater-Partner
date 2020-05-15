@@ -16,16 +16,48 @@
         	}
         </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
     <body class="sb-nav-fixed">
 
-
+   
 
         <?php
-              $FoodLicenceErr = $LabourLicenceErr = "";
+
+        $FoodLicenceErr = $LabourLicenceErr = "";
 
               $FoodLicence = $LabourLicence = "";
               $boolean = false;
+
+
+              $dbname = "starvelater";
+              $con = mysqli_connect("localhost","root","",$dbname);
+        
+
+
+              //Retrieving Values from Database if they are already present
+              $foodLi = $labourLi = "";
+
+              $resname = $_GET["restaurantname"];
+
+
+              $res = "SELECT FoodLicense, LabourLicense from restaurants where Restaurant_Name = '$resname'";
+
+               $result = mysqli_query($GLOBALS['con'],$res) or die("Error: " . mysqli_error($con));
+
+
+                if(! $result ) {
+                  die('Could not get data: ' . mysqli_error());
+                } 
+
+                while ($row = mysqli_fetch_array($result,MYSQL_ASSOC)) {
+
+                   $foodLi = $row['FoodLicense'];
+                   $labourLi = $row['LabourLicense'];
+
+                }
+
+
 
 
                 //Remove spaces, slashes and prevent XSS
@@ -36,61 +68,103 @@
                   return $data;
                 }
 
-              if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+
+
+
+
+
+        
+              
+
+             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      
                       //Food Licencse Validation
-                    if (empty($_POST["FoodLicence"])) {
+                    if (empty($_POST["FoodLicenceNumber"])) {
                     $FoodLicenceErr = "Food License Number is required";
                     $boolean = false;
                   } else {
-                      $FoodLicence = test_input($_POST["FoodLicence"]);
+                      $FoodLicenceNumber = test_input($_POST["FoodLicenceNumber"]);
                       $boolean = true;
                     }
 
 
                      //Labour Licencse Validation
-                    if (empty($_POST["LabourLicence"])) {
+                    if (empty($_POST["LabourLicenceNumber"])) {
                     $LabourLicenceErr = "Labour License Number is required";
                     $boolean = false;
                   } else {
-                      $LabourLicence = test_input($_POST["LabourLicence"]);
+                      $LabourLicenceNumber = test_input($_POST["LabourLicenceNumber"]);
                       $boolean = true;
                     }
 
 
 
-function updateData(){
+                    function updateData(){
 
-        $sql = "UPDATE restaurants SET FoodLicence = '".$_POST["FoodLicence"]."', LabourLicence = '".$_POST["LabourLicence"]."' where Restaurant_Name= '".$_GET['restaurantname']."' ";
+                            $resname = $_GET["restaurantname"];
+
+                            $sql = "UPDATE restaurants SET FoodLicense = '".$_POST["FoodLicenceNumber"]."', LabourLicense = '".$_POST["LabourLicenceNumber"]."' where Restaurant_Name='".$_GET["restaurantname"]."' ";
 
 
-        $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
+                            $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
 
-        if($result) {
-            echo "<script> alert('Data Updated Successfully !'); </script>";
-        } else {
-            echo "<script> alert('Something Went Wrong !'); </script>";
-        }
-}
-                  
-
-                  if($boolean){
-                    $dbname = "starvelater";
-                    $con = mysqli_connect("localhost","root","",$dbname);
-    
-                    //Check for DB Connection
-                    if(!$con){
-                        die("Connection Failed :" + mysqli_connect_error());
-                    }else{
-
-                        if(isset($_POST["submit"])){
-                        updateData();
-                        mysqli_close($GLOBALS["con"]);
-                        $boolean = false;
-                       }
-
+                            if($result) {
+                                echo "<script> swal('Successfull', 'License Numbers Updated Successfully', 'success'); </script>";
+                            } else {
+                                echo "<script> alert('Something Went Wrong !'); </script>";
+                            }
                     }
-                }
+
+                   
+
+
+                    
+
+                        
+                        //Check for DB Connection
+                        if(!$con){
+                            die("Connection Failed :" + mysqli_connect_error());
+                        }else{
+
+
+                           if(isset($_POST["Delete"])){
+                            //echo "<script>alert('Restaunt');</script>";
+                            echo "<script> 
+                                var resname = '$resname';
+                              swal({
+                              title: 'Are you sure?',
+                              text: 'You will not be able to recover the Restaurant Details again!',
+                              icon: 'warning',
+                              buttons: true,
+                              dangerMode: true,
+                            })
+                            .then((willDelete) => {
+                              if (willDelete) { 
+                                window.location = 'manage_restaurants.php?restaurantname='+resname+'&status=delete';
+                              } else {
+                                //swal('Restaurant is safe!');
+                              }
+                            });</script>";
+
+                            //deleteData();
+                            mysqli_close($GLOBALS["con"]);
+                            $boolean = false;
+                           }
+                            
+
+                            if(isset($_POST["Update"])){
+                                if($boolean) {
+                                   updateData();
+                                }
+                            mysqli_close($GLOBALS["con"]);
+                            $boolean = false;
+                           }
+
+
+                        }
+                    
 
               }
         ?>
@@ -127,7 +201,7 @@ function updateData(){
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="admin.php"
+                            <a class="nav-link" href="admin.php?status=view"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard</a
                             >
@@ -140,7 +214,7 @@ function updateData(){
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="register.php">Register Restaurant</a><a class="nav-link" href="manage_restaurants.php">Manage Restaurants</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="register_restaurant.php">Register Restaurant</a><a class="nav-link" href="manage_restaurants.php?restaurantname=all&status=view">Manage Restaurants</a></nav>
                             </div>
 
                             <!-- Locations in Nav Bar --> 
@@ -210,28 +284,28 @@ function updateData(){
                             <li class="breadcrumb-item active" width="100%"><marquee>Welcome to <span><?php echo $_GET['restaurantname']; ?></span> Dashboard.</marquee></li>
                         </ol>
 
-                        <!-- Food Licence & Labour Licence -->
+                        
 
-                        <form method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                        <div class="form-row">
-                                <div class="col-md-6">
-                                    <div class="form-group"><label class="small mb-1" for="inputFoodLicence">Food Licence No.</label><input class="form-control py-4" id="inputFoodLicence" type="text" placeholder="Enter Food Licence No." name="FoodLicence" />
-                                    <span id="span"><?php echo $FoodLicenceErr; ?></span>
-                                </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group"><label class="small mb-1" for="inputLabourLicence">Labour Licence</label><input class="form-control py-4" id="inputLabourLicence" type="text" placeholder="Enter Labour Licence No." name="LabourLicence" />
-                                    <span id="span"><?php echo $LabourLicenceErr; ?></span>
-                                    </div>
-                                </div>
-                        </div>
-
-                        <!-- Submit Button -->
-                                            <div class="form-group mt-4 mb-0"><input class="btn btn-primary btn-block" type="submit" name="submit" id="btnsub" value="Submit"/></div>
-
-                    </form>
+                        
 
                         <!-- Items Table -->
+
+<!-- Query for Table
+                         CREATE TABLE items(
+                            item_id VARCHAR( 50 ) PRIMARY KEY ,
+                            Restaurant_ID VARCHAR( 50 ) NOT NULL ,
+                            FOREIGN KEY ( Restaurant_ID ) REFERENCES restaurants( Restaurant_ID ) ,
+                            Name VARCHAR( 50 ) NOT NULL ,
+                            TYPE VARCHAR( 50 ) NOT NULL ,
+                            category VARCHAR( 50 ) NOT NULL ,
+                            price VARCHAR( 50 ) NOT NULL ,
+                            availability VARCHAR( 50 ) NOT NULL
+                            ); -->
+
+
+                           <!-- Orders Table -->
+                            <!-- create table orders (order_Id varchar(50) primary key , item_ids varchar(50), foreign key (item_ids) references items(item_id), Restaurant_ID varchar(50), foreign key (Restaurant_ID) references restaurants(Restaurant_ID), Customer_ID varchar(50), foreign key (Customer_ID) references customers(Customer_ID), Order_Type varchar(50) not null, Booked_Time varchar(50) not null, Order_Status varchar(50) not null, Net_Bill varchar(50) not null); -->
+
                         <div class="card mb-4">
                             <div class="card-header"><i class="fas fa-concierge-bell mr-1"></i>Items</div>
                             <div class="card-body">
@@ -404,16 +478,45 @@ function updateData(){
                             </div>
                         </div>
 
+                        <hr>
 
+                        <h2 class="mt-4">Update Licence Details</h2>
+
+
+                    <!-- Referring Same URL after Submitting the Page -->
+                    <?php 
+                        $destin_url = "http://localhost/StarveLater/dist/load_restaurant.php?restaurantname=".$_GET['restaurantname']."";
+                        ?>
+                         
+                        <!-- Food Licence & Labour Licence -->
+                        <form method="POST" enctype="multipart/form-data" action="<?php echo $destin_url; ?>" style="margin-top: 50px;">
+                        <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group"><label class="small mb-1" for="inputFoodLicence">Food Licence No.</label><input class="form-control py-4" id="inputFoodLicence" type="text" value="<?php echo $foodLi; ?>"placeholder="Enter Food Licence No." name="FoodLicenceNumber" />
+                                    <span id="span"><?php echo $FoodLicenceErr; ?></span>
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group"><label class="small mb-1" for="inputLabourLicence">Labour Licence</label><input class="form-control py-4" id="inputLabourLicence" type="text" value="<?php echo $labourLi;?>" placeholder="Enter Labour Licence No." name="LabourLicenceNumber" />
+                                    <span id="span"><?php echo $LabourLicenceErr; ?></span>
+                                    </div>
+                                </div>
+                        </div>
+                     
                        <!-- Update & Delete Button -->
                         <div class="form-row">
                                 <div class="col-md-6">
-                                            <div class="form-group mt-4 mb-0"><input class="btn btn-primary " type="button" name="Update" id="btnupdate" value="Update" /></div>
+                                            <div class="form-group mt-4 mb-0"><input class="btn btn-primary" type="submit" name="Update" id="btnupdate" value="Update" /></div>
                                 </div>
                                 <div class="col-md-6">
-                                            <div class="form-group mt-4 mb-0"><input class="btn btn-danger " type="button" name="Delete" id="btndelete" value="Delete"/></div>
+                                            <div class="form-group mt-4 mb-0"><input class="btn btn-danger" type="submit" name="Delete" id="btndelete" value="Delete"/></div>
                                 </div>
                         </div>
+
+                    </form>
+
+                       
+                       
                  <P>&nbsp;</P>
 
 
