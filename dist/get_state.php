@@ -18,15 +18,17 @@
         die("Connection Failed :" + mysqli_connect_error());
     }else{
 
-        $query ="SELECT City_ID,Name FROM city WHERE State_ID = '" . $_POST["State_ID"] . "'";
-		$results = $dbhandle->query($query);
+        $query ="SELECT City_ID,Name FROM city WHERE State_ID='".$_POST["State_ID"] ."'";
+
+         $retval = mysqli_query($GLOBALS['con'],$query);
+
     }
 
 	
 ?>
 	<option value="">Select City</option>
 <?php
-	while($rs=$results->fetch_assoc()) {
+	while($rs=$retval->fetch_assoc()) {
 ?>
 	<option value="<?php echo $rs["City_ID"]; ?>"><?php echo $rs["Name"]; ?></option>
 <?php

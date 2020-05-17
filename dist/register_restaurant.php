@@ -14,6 +14,14 @@
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"
           integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
           crossorigin="anonymous"></script>
+
+        <style type="text/css">
+          .white-text {
+            text-decoration: none;
+            color: white;
+          }
+        </style>
+        
           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
           <script>
 
@@ -31,7 +39,7 @@
            
 </script>
     </head>
-    <body class="bg-primary">
+    <body style="background: linear-gradient(90deg, rgba(218,47,115,1) 0%, rgba(108,39,117,1) 35%, rgba(23,159,214,1) 100%);">
 
 <!-- PHP Validation -->
 <?php
@@ -223,6 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   //State Validation
     if($_POST["state"] == 'Select State') { 
         $stateErr = "Please select a State"; 
+        $boolean = false;
     }else {
         $state = test_input($_POST["state"]);
         $boolean = true;
@@ -230,7 +239,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   //City Validation
     if($_POST["city"] == 'Select City') { 
-        $cityErr = "Please select a City"; 
+        $cityErr = "Please select a City";
+        $boolean = false; 
     }else {
         $city = test_input($_POST["city"]);
         $boolean = true;
@@ -274,12 +284,15 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
             if ($uploadOk == 0) {
               echo "Sorry, your file was not uploaded.";
+              $boolean = false;
             // if everything is ok, try to upload file
             } else {
               if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                 echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+                $boolean = true;
               } else {
                 echo "Sorry, there was an error uploading your file.";
+                $boolean = true;
               }
             }
 
@@ -289,6 +302,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
        $restaurantID = uniqid();
        $logoFileName = basename( $_FILES["fileToUpload"]["name"]);
 
+       if(!empty($logoFileName)) {
 
     $sql = "INSERT INTO restaurants Values ('$restaurantID','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["phone"]."','0','".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["address"]."','".$_POST["city"]."','".$_POST["state"]."','".$_POST["gstIn"]."','0','0','0','$logoFileName')";
 
@@ -305,6 +319,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         else {
             echo "<script>alert('Error in Registration xTB0001'); </script>";
         }
+    }
 }
 
 //Check whether restaurant name and Email Id exists in DB
@@ -390,8 +405,7 @@ if($boolean){
                                                 </div>
                                                 </div>
                                             </div>
-
-
+                                            
                                               <!-- Phone Number  -->
                                             <div class="form-group"><label class="small mb-1" for="inputPhone">Phone Number</label><input class="form-control py-4" id="inputPhone" type="text"  placeholder="Enter Phone Number" name="phone" />
                                             <span id="span"><?php echo $phoneErr; ?></span>
@@ -475,15 +489,15 @@ if($boolean){
                 </main>
             </div>
             <div id="layoutAuthentication_footer">
-                <footer class="py-4 bg-light mt-auto">
+                <footer class="py-4 footer-dark mt-auto" style="background-color: #000;">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; STARVE<span><b>LATER</b></span> 2020</div>
-                            <div class="text-muted">Made with love by <b>Umang Solutions</b></div>
+                            <div class="footer-text-color" style="color: #fff;">Copyright &copy; STARVE<span><b>LATER</b></span> 2020</div>
+                            <div class="footer-text-color" style="color: #fff;">Made with ❤️ by <b><a href="https://umangsolutions.org" target="_blank">Umang Solutions</a></b></div>
                             <div>
-                                <a href="#">Privacy Policy</a>
+                                <a href="#" class="white-text">Privacy Policy</a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a href="#" class="white-text">Terms &amp; Conditions</a>
                             </div>
                         </div>
                     </div>
