@@ -17,6 +17,8 @@
       
       <link href="css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     </head>
     <body style="background: linear-gradient(90deg, rgba(218,47,115,1) 0%, rgba(108,39,117,1) 35%, rgba(23,159,214,1) 100%);">
     <?php
@@ -83,7 +85,7 @@
         $count = mysqli_num_rows($retval);
 
           if($count==0) {
-            echo "<script> alert('Invalid Username');</script>";
+            echo "<script> swal('Invalid Username','','warning');</script>";
           } else {
 
             $row = mysqli_fetch_array($retval,MYSQLI_ASSOC);
@@ -96,7 +98,7 @@
 
           } else {
               echo "<script>
-                  alert('Invalid Password');
+                  swal('Invalid Password','','warning');
             </script>";
           }
 

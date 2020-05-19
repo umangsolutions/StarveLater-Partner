@@ -15,6 +15,12 @@
         		width: 100%;
         	}
         </style>
+        <style type="text/css">
+          .white-text {
+            text-decoration: none;
+            color: white;
+          }
+        </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
          <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
@@ -159,7 +165,7 @@ function addCity(){
         ?>
 
             <!-- Top Navigation bar -->
-            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark" style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
             <a class="navbar-brand" href="index.php">STARVE<B>LATER</B></a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
             ><!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -184,10 +190,10 @@ function addCity(){
         </nav>
 
          <!-- Side Navigation Bar -->
-        <div id="layoutSidenav">
+        <div id="layoutSidenav" style="background: linear-gradient(90deg, rgba(218,47,115,1) 0%, rgba(108,39,117,1) 35%, rgba(23,159,214,1) 100%);">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
+                    <div class="sb-sidenav-menu" style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
                             <a class="nav-link" href="admin.php?status=view"
@@ -254,7 +260,7 @@ function addCity(){
                     </div>
 
                     <!-- Login Status -->
-                    <div class="sb-sidenav-footer">
+                    <div class="sb-sidenav-footer" style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
                         <div class="small">Logged in as:</div>
                         Administrator
                     </div>
@@ -266,23 +272,23 @@ function addCity(){
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Add Location</h1>
+                        <h1 class="mt-4" style="color: white;">Add Location</h1>
 
                        <!--  Marquee -->
-                        <ol class="breadcrumb mb-4" width="100%">
-                            <li class="breadcrumb-item active" width="100%"><marquee>Dear Administrator, You can add new Locations here.</marquee></li>
+                        <ol class="breadcrumb mb-4" width="100%" style="background-color: black;">
+                            <li class="breadcrumb-item active" width="100%" style="color: white;"><marquee>Dear Administrator, You can add new Locations here.</marquee></li>
                         </ol>
 
                         
 
-                        <h3 class="mt-4" style="margin-bottom: 15px;">Add State</h3>
+                        <h3 class="mt-4" style="margin-bottom: 15px;color: #fff;">Add State</h3>
                         
                         <!-- State Form  -->
                         <form method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 
                                            <!-- State Name Input Field -->
-                                            <div class="form-group"><label class="small mb-1" for="inputOnlyState">Name of State</label><input class="form-control " id="inputOnlyState" name="onlystate" type="text" placeholder="Enter Name of the State" />
-                                                <span id="span"><?php echo $onlyStateErr; ?></span> 
+                                            <div class="form-group"><label class="small mb-1" for="inputOnlyState" style="color: #fff;">Name of State</label><input class="form-control " id="inputOnlyState" name="onlystate" type="text" placeholder="Enter Name of the State" />
+                                                <span id="span" style="color: black;"><?php echo $onlyStateErr; ?></span> 
                                             </div>
 
                                              
@@ -291,7 +297,7 @@ function addCity(){
                     </form>
 
                     
-                    <h3 class="mt-4" style="margin-bottom: 15px;" >Add City</h3>
+                    <h3 class="mt-4" style="margin-bottom: 15px;color: white;" >Add City</h3>
 
                     <!-- Add City Form -->
                     <form method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -300,7 +306,7 @@ function addCity(){
                                            <div class="form-row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="small mb-1" for="inputState">Choose State</label><br>
+                                                        <label class="small mb-1" for="inputState" style="color: #fff;">Choose State</label><br>
                                                         <select class="form-control" id="inputState" name="state" >
                                                             <option>Select State</option>
                                                          <?php
@@ -331,16 +337,16 @@ function addCity(){
 
                                                         </select>
                                                     </div>
-                                                    <span id="span"><?php echo $stateErr; ?></span>
+                                                    <span id="span" style="color: black;"><?php echo $stateErr; ?></span>
                                                 </div>
 
                                                  <!-- City Input Field -->
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="small mb-1" for="inputCityName">Name of City</label><input class="form-control" id="inputCityName" type="text" aria-describedby="emailHelp" placeholder="Enter Name of City" name="CityName" id="CityName"/>
+                                                        <label class="small mb-1" for="inputCityName" style="color: #fff;">Name of City</label><input class="form-control" id="inputCityName" type="text" aria-describedby="emailHelp" placeholder="Enter Name of City" name="CityName" id="CityName"/>
                                            
                                                     </div>
-                                                    <span id="span"><?php echo $cityErr; ?></span>
+                                                    <span id="span" style="color: black;"><?php echo $cityErr; ?></span>
                                                 </div>
                                             </div>
 

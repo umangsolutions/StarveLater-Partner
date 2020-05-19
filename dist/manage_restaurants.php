@@ -15,6 +15,12 @@
         		width: 100%;
         	}
         </style>
+        <style type="text/css">
+          .white-text {
+            text-decoration: none;
+            color: white;
+          }
+        </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
@@ -49,7 +55,7 @@
          ?> 
 
             <!-- Top Navigation bar -->
-            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark"  style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
             <a class="navbar-brand" href="index.html">STARVE<B>LATER</B></a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
             ><!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -74,10 +80,10 @@
         </nav>
 
          <!-- Side Navigation Bar -->
-        <div id="layoutSidenav">
+        <div id="layoutSidenav" style="background: linear-gradient(90deg, rgba(218,47,115,1) 0%, rgba(108,39,117,1) 35%, rgba(23,159,214,1) 100%);">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
+                    <div class="sb-sidenav-menu" style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
                             <a class="nav-link" href="admin.php?status=view"
@@ -144,7 +150,7 @@
                     </div>
 
                     <!-- Login Status -->
-                    <div class="sb-sidenav-footer">
+                    <div class="sb-sidenav-footer" style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
                         <div class="small">Logged in as:</div>
                         Administrator
                     </div>
@@ -156,18 +162,18 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Manage Restaurants</h1>
+                        <h1 class="mt-4" style="color: #fff;">Manage Restaurants</h1>
 
                        <!--  Marquee -->
-                        <ol class="breadcrumb mb-4" width="100%">
-                            <li class="breadcrumb-item active" width="100%"><marquee>Welcome to Restaurants Dashboard.</marquee></li>
+                        <ol class="breadcrumb mb-4" width="100%" style="background-color: #000;">
+                            <li class="breadcrumb-item active" width="100%" style="color: #fff;"><marquee>Welcome to Restaurants Dashboard.</marquee></li>
                         </ol>
 
                         <!-- Restaurant Table -->
                         <div class="card mb-4">
                             <div class="card-header"><i class="fas fa-table mr-1"></i>Registered Restaurants</div>
                             <div class="card-body">
-                                <div class="table-responsive">
+                                <div class="table-responsiv e">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -254,15 +260,14 @@
                         <!-- Table Close -->
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
+                <footer class="py-4 footer-dark mt-auto" style="background-color: #000;">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; STARVE<b>LATER</b></div>
-                            <div class="text-muted">Made with love by <b>Umang Solutions</b></div>
-                                <div>
-                                <a href="#">Privacy Policy</a>
+                            <div class="footer-text-color" style="color: #fff;">Copyright &copy; STARVE<span><b>LATER</b></span> 2020</div>
+                            <div class="footer-text-color" style="color: #fff;">Made with ❤️ by <b><a href="https://umangsolutions.org">Umang Solutions</a></b></div>                                <div>
+                                <a href="#" class="white-text">Privacy Policy</a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a href="#" class="white-text">Terms &amp; Conditions</a>
                             </div>
                         </div>
                     </div>

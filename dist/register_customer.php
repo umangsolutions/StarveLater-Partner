@@ -13,8 +13,15 @@
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"
           integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
           crossorigin="anonymous"></script>
+
+          <style type="text/css">
+          .white-text {
+            text-decoration: none;
+            color: white;
+          }
+        </style>
     </head>
-    <body class="bg-primary">
+    <body style="background: linear-gradient(90deg, rgba(218,47,115,1) 0%, rgba(108,39,117,1) 35%, rgba(23,159,214,1) 100%);">
 
 <!-- PHP Validation -->
 <?php
@@ -307,15 +314,15 @@ if($boolean){
                 </main>
             </div>
             <div id="layoutAuthentication_footer">
-                <footer class="py-4 bg-light mt-auto">
+                 <footer class="py-4 footer-dark mt-auto" style="background-color: #000;">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; STARVE<span><b>LATER</b></span> 2020</div>
-                            <div class="text-muted">Made with love by <b>Umang Solutions</b></div>
+                            <div class="footer-text-color" style="color: #fff;">Copyright &copy; STARVE<span><b>LATER</b></span> 2020</div>
+                            <div class="footer-text-color" style="color: #fff;">Made with ❤️ by <b><a href="https://umangsolutions.org" target="_blank">Umang Solutions</a></b></div>
                             <div>
-                                <a href="#">Privacy Policy</a>
+                                <a href="#" class="white-text">Privacy Policy</a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a href="#" class="white-text">Terms &amp; Conditions</a>
                             </div>
                         </div>
                     </div>

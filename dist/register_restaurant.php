@@ -291,7 +291,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
                 echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
                 $boolean = true;
               } else {
-                echo "Sorry, there was an error uploading your file.";
+                //echo "Sorry, there was an error uploading your file.";
                 $boolean = true;
               }
             }
@@ -304,7 +304,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
        if(!empty($logoFileName)) {
 
-    $sql = "INSERT INTO restaurants Values ('$restaurantID','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["phone"]."','0','".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["address"]."','".$_POST["city"]."','".$_POST["state"]."','".$_POST["gstIn"]."','0','0','0','$logoFileName')";
+    $sql = "INSERT INTO restaurants Values ('$restaurantID','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["phone"]."','0','".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["address"]."','".$_POST["city"]."','".$_POST["state"]."','".$_POST["gstIn"]."','0','0','0','0','$logoFileName')";
 
 
         $query = mysqli_query($GLOBALS['con'], $sql);
@@ -407,7 +407,7 @@ if($boolean){
                                             </div>
                                             
                                               <!-- Phone Number  -->
-                                            <div class="form-group"><label class="small mb-1" for="inputPhone">Phone Number</label><input class="form-control py-4" id="inputPhone" type="text"  placeholder="Enter Phone Number" name="phone" />
+                                            <div class="form-group"><label class="small mb-1" for="inputPhone">Phone Number</label><input class="form-control py-4" id="inputPhone" type="text" prefix="+91" placeholder="Enter Phone Number" name="phone" />
                                             <span id="span"><?php echo $phoneErr; ?></span>
                                             </div>
 

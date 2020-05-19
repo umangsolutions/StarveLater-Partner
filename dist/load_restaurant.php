@@ -15,6 +15,12 @@
         		width: 100%;
         	}
         </style>
+        <style type="text/css">
+          .white-text {
+            text-decoration: none;
+            color: white;
+          }
+        </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
@@ -24,9 +30,9 @@
 
         <?php
 
-        $FoodLicenceErr = $LabourLicenceErr = "";
+        $FoodLicenceErr = $LabourLicenceErr = $MarginErr = "";
 
-              $FoodLicence = $LabourLicence = "";
+              $FoodLicence = $LabourLicence = $Margin =  "";
               $boolean = false;
 
 
@@ -36,12 +42,12 @@
 
 
               //Retrieving Values from Database if they are already present
-              $foodLi = $labourLi = "";
+              $foodLi = $labourLi = $marginLi =  "";
 
               $resname = $_GET["restaurantname"];
 
 
-              $res = "SELECT FoodLicense, LabourLicense from restaurants where Restaurant_Name = '$resname'";
+              $res = "SELECT FoodLicense, LabourLicense,Margin from restaurants where Restaurant_Name = '$resname'";
 
                $result = mysqli_query($GLOBALS['con'],$res) or die("Error: " . mysqli_error($con));
 
@@ -54,12 +60,23 @@
 
                    $foodLi = $row['FoodLicense'];
                    $labourLi = $row['LabourLicense'];
+                   $marginLi = $row['Margin'];
 
                 }
+
+
+               
 
                 if($foodLi == '0' && $labourLi == '0') {
-                    echo "<script>swal('Please update the License Numbers for this Restaurant');</script>";
+                    if($marginLi == '0') {
+                      echo "<script>swal('Please update required fields for this Restaurant');</script>";
+                    } 
+                } else {
+                     if($marginLi == '0') {
+                    echo "<script>swal('Please update Margin Details for this Restaurant');</script>";
                 }
+                }
+
 
 
 
@@ -104,17 +121,33 @@
 
 
 
+
+                     //Margin Percent Validation
+                    if (empty($_POST["Margin"])) {
+                    $MarginErr = "Margin Percentage is required";
+                    $boolean = false;
+                  } else if($_POST["Margin"] == '0' || $_POST["Margin"] < 0) {
+                      $MarginErr = "Invalid Margin Percentage !";
+                      $boolean = false;
+                    } else {
+                       $Margin = test_input($_POST["Margin"]);
+                      $boolean = true; 
+                    }
+
+
+
+
                     function updateData(){
 
                             $resname = $_GET["restaurantname"];
 
-                            $sql = "UPDATE restaurants SET FoodLicense = '".$_POST["FoodLicenceNumber"]."', LabourLicense = '".$_POST["LabourLicenceNumber"]."' where Restaurant_Name='".$_GET["restaurantname"]."' ";
+                            $sql = "UPDATE restaurants SET FoodLicense = '".$_POST["FoodLicenceNumber"]."', LabourLicense = '".$_POST["LabourLicenceNumber"]."',Margin = '".$_POST["Margin"]."' where Restaurant_Name='".$_GET["restaurantname"]."' ";
 
 
                             $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
 
                             if($result) {
-                                echo "<script> swal('Successfull', 'License Numbers Updated Successfully', 'success'); </script>";
+                                echo "<script> swal('Successfull', 'Details Updated Successfully', 'success'); </script>";
                             } else {
                                 echo "<script> alert('Something Went Wrong !'); </script>";
                             }
@@ -173,7 +206,7 @@
         ?>
 
             <!-- Top Navigation bar -->
-            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark" style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
             <a class="navbar-brand" href="index.php">STARVE<B>LATER</B></a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
             ><!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -198,10 +231,10 @@
         </nav>
 
          <!-- Side Navigation Bar -->
-        <div id="layoutSidenav">
+        <div id="layoutSidenav" style="background: linear-gradient(90deg, rgba(218,47,115,1) 0%, rgba(108,39,117,1) 35%, rgba(23,159,214,1) 100%);">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
+                    <div class="sb-sidenav-menu" style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
                             <a class="nav-link" href="admin.php?status=view"
@@ -267,7 +300,7 @@
                     </div>
 
                     <!-- Login Status -->
-                    <div class="sb-sidenav-footer">
+                    <div class="sb-sidenav-footer"  style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
                         <div class="small">Logged in as:</div>
                         Administrator
                     </div>
@@ -279,11 +312,11 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4"><?php echo $_GET['restaurantname']; ?></h1>
+                        <h1 class="mt-4" style="color: white;"><?php echo $_GET['restaurantname']; ?></h1>
 
                        <!--  Marquee -->
-                        <ol class="breadcrumb mb-4" width="100%">
-                            <li class="breadcrumb-item active" width="100%"><marquee>Welcome to <span><?php echo $_GET['restaurantname']; ?></span> Dashboard.</marquee></li>
+                        <ol class="breadcrumb mb-4" width="100%" style="background-color: #000;">
+                            <li class="breadcrumb-item active" width="100%" style="color: #fff;"><marquee>Welcome to <span><?php echo $_GET['restaurantname']; ?></span> Dashboard.</marquee></li>
                         </ol>
 
                         
@@ -482,7 +515,7 @@
 
                         <hr>
 
-                        <h2 class="mt-4">Update Licence Details</h2>
+                        <h2 class="mt-4" style="color: white;">Update Licence Details</h2>
 
 
                     <!-- Referring Same URL after Submitting the Page -->
@@ -494,14 +527,41 @@
                         <form method="POST" enctype="multipart/form-data" action="<?php echo $destin_url; ?>" style="margin-top: 50px;">
                         <div class="form-row">
                                 <div class="col-md-6">
-                                    <div class="form-group"><label class="small mb-1" for="inputFoodLicence">Food Licence No.</label><input class="form-control py-4" id="inputFoodLicence" type="text" value="<?php echo $foodLi; ?>"placeholder="Enter Food Licence No." name="FoodLicenceNumber" />
-                                    <span id="span"><?php echo $FoodLicenceErr; ?></span>
+                                    <div class="form-group"><label class="small mb-1" for="inputFoodLicence" style="color: white;">Food Licence No.</label><input class="form-control py-4" id="inputFoodLicence" type="text" value="<?php echo $foodLi; ?>"placeholder="Enter Food Licence No." name="FoodLicenceNumber" />
+                                    <span id="span" style="color: black;"><?php echo $FoodLicenceErr; ?></span>
                                 </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group"><label class="small mb-1" for="inputLabourLicence">Labour Licence</label><input class="form-control py-4" id="inputLabourLicence" type="text" value="<?php echo $labourLi;?>" placeholder="Enter Labour Licence No." name="LabourLicenceNumber" />
-                                    <span id="span"><?php echo $LabourLicenceErr; ?></span>
+                                    <div class="form-group"><label class="small mb-1" for="inputLabourLicence" style="color: white;">Labour Licence</label><input class="form-control py-4" id="inputLabourLicence" type="text" value="<?php echo $labourLi;?>" placeholder="Enter Labour Licence No." name="LabourLicenceNumber" />
+                                    <span id="span" style="color: black;"><?php echo $LabourLicenceErr; ?></span>
                                     </div>
+                                </div>
+                        </div>
+                    
+
+                    
+
+                       
+                       
+                 <P>&nbsp;</P>
+
+                  <hr>
+
+                        <h2 class="mt-4" style="color: white;">Update Margin Percentage</h2>
+
+
+                    <!-- Referring Same URL after Submitting the Page -->
+                    <?php 
+                        $destin_url = "http://localhost/StarveLater/dist/load_restaurant.php?restaurantname=".$_GET['restaurantname']."";
+                        ?>
+                         
+                        <!-- Margin Percentage Detail -->
+                    
+                        <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group"><label class="small mb-1" for="inputMargin" style="color: white;">Margin Percentage</label><input class="form-control py-4" id="inputMargin" type="text" value="<?php echo $marginLi; ?>"placeholder="Enter Margin Percentage" name="Margin" />
+                                    <span id="span" style="color: black;"><?php echo $MarginErr; ?></span>
+                                </div>
                                 </div>
                         </div>
                      
@@ -524,17 +584,19 @@
 
 
 
+
+
+
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
+               <footer class="py-4 footer-dark mt-auto" style="background-color: #000;">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; STARVE<b>LATER</b></div>
-                            <div class="text-muted">Made with love by <b>Umang Solutions</b></div>
-                                <div>
-                                <a href="#">Privacy Policy</a>
+                            <div class="footer-text-color" style="color: #fff;">Copyright &copy; STARVE<span><b>LATER</b></span> 2020</div>
+                            <div class="footer-text-color" style="color: #fff;">Made with ❤️ by <b><a href="https://umangsolutions.org">Umang Solutions</a></b></div>                                <div>
+                                <a href="#" class="white-text">Privacy Policy</a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a href="#" class="white-text">Terms &amp; Conditions</a>
                             </div>
                         </div>
                     </div>
