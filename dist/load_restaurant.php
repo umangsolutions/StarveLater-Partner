@@ -126,7 +126,7 @@
                     if (empty($_POST["Margin"])) {
                     $MarginErr = "Margin Percentage is required";
                     $boolean = false;
-                  } else if($_POST["Margin"] == '0' || $_POST["Margin"] < 0) {
+                  } else if($_POST["Margin"] == '0' || $_POST["Margin"] < 0 || $_POST["Margin"] > 100) {
                       $MarginErr = "Invalid Margin Percentage !";
                       $boolean = false;
                     } else {
@@ -222,8 +222,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Settings</a><a class="dropdown-item" href="#">Activity Log</a>
-                        <div class="dropdown-divider"></div>
+                       
                         <a class="dropdown-item" href="index.php">Logout</a>
                     </div>
                 </li>
@@ -341,6 +340,8 @@
                            <!-- Orders Table -->
                             <!-- create table orders (order_Id varchar(50) primary key , item_ids varchar(50), foreign key (item_ids) references items(item_id), Restaurant_ID varchar(50), foreign key (Restaurant_ID) references restaurants(Restaurant_ID), Customer_ID varchar(50), foreign key (Customer_ID) references customers(Customer_ID), Order_Type varchar(50) not null, Booked_Time varchar(50) not null, Order_Status varchar(50) not null, Net_Bill varchar(50) not null); -->
 
+                            
+                         <!-- Items Table -->
                         <div class="card mb-4">
                             <div class="card-header"><i class="fas fa-concierge-bell mr-1"></i>Items</div>
                             <div class="card-body">
@@ -348,6 +349,7 @@
                                     <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
+                                                <th>Item Photo</th>
                                                 <th>Item ID</th>
                                                 <th>Item Name</th>
                                                 <th>Item Type</th>
@@ -358,7 +360,7 @@
                                         </thead>
                                         <tfoot>
                                             <tr>
-
+                                                <th>Item Photo</th>
                                                 <th>Item ID</th>
                                                 <th>Item Name</th>
                                                 <th>Item Type</th>
@@ -369,57 +371,55 @@
                                         </tfoot>
                                         <tbody>
                                         
-                                             <tr>
-                                                <td>1</td>
-                                                <td>Veg Biryani</td>
-                                                <td>Veg</td>
-                                                <td>Main Course</td>
-                                                <td>₹ 200 </td>
-                                                <td>Available</td>
-                                            </tr>
+                                             <?php
 
-                                             <tr>
-                                                <td>2</td>
-                                                <td>Butter Naan</td>
-                                                <td>Veg</td>
-                                                <td>Main Course</td>
-                                                <td>₹ 40 </td>
-                                                <td>Not Available</td>
-                                            </tr>
-                                             <tr>
-                                                <td>3</td>
-                                                <td>Masala Dosa</td>
-                                                <td>Veg</td>
-                                                <td>Tiffin</td>
-                                                <td>₹ 60 </td>
-                                                <td>Available</td>
-                                            </tr>
-                                             <tr>
-                                                <td>4</td>
-                                                <td>Veg Manchuria</td>
-                                                <td>Veg</td>
-                                                <td>Starters</td>
-                                                <td>₹ 180 </td>
-                                                <td>Available</td>
-                                            </tr>
-                                             <tr>
-                                                <td>5</td>
-                                                <td>Baby Corn 65</td>
-                                                <td>Veg</td>
-                                                <td>Starters</td>
-                                                <td>₹ 280 </td>
-                                                <td>Not Available</td>
-                                            </tr>
+                                                     
+                                                     //define('MYSQL_ASSOC',MYSQLI_ASSOC);
+                                                     $dbname = "starvelater";
+                                                     $con = mysqli_connect("localhost","root","",$dbname);
+    
+                                                     //Check for DB Connection
+                                                     if(!$con){
+                                                        die("Connection Failed :" + mysqli_connect_error());
+                                                     }else { 
+                                                       
+                                                        //Getting Restaurant Name from URL
+                                                        $resName = $_GET['restaurantname'];
 
-                                            <tr>
-                                                <td>5</td>
-                                                <td>Baby Corn 65</td>
-                                                <td>Veg</td>
-                                                <td>Starters</td>
-                                                <td>₹ 280 </td>
-                                                <td>Not Available</td>
-                                            </tr>
-                                            
+                                                        $sql = "SELECT Restaurant_ID from restaurants where Restaurant_Name = '".$resname."'";
+
+                                                        $result = mysqli_query($GLOBALS['con'],$sql);
+                                                      
+                                                        $followingdata = $result->fetch_array(MYSQLI_ASSOC);
+
+                                                        //Getting Restaurant ID Foreign Key in Items Table
+                                                        $restaurantID = $followingdata['Restaurant_ID'];
+
+                                                         //Load Items Data using  Restaurant ID as Foreign Key
+                                                       $sql = "SELECT * FROM items where Restaurant_ID='".$restaurantID."' ";
+                                                    
+                                                       $retval = mysqli_query($GLOBALS['con'],$sql);
+                                                       
+                                                       if(! $retval ) {
+                                                          die('Could not get data: ' . mysqli_error());
+                                                       }
+                                                       
+                                                         while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
+                                                          echo "<tr>";
+                                                          echo "<td><img src='itemphotos/".$resName."/".$row['photoname']."' width='110px' height='75px'></img></td>";
+                                                          echo "<td>".$row['item_id']."</td>";
+                                                          echo "<td>".$row['Name']."</td>";
+                                                          echo "<td>".$row['Type']."</td> ";
+                                                          echo "<td>".$row['category']."</td> ";
+                                                          echo "<td>".$row['price']."</td> ";
+                                                          echo "<td>".$row['availability']."</td> ";
+                                                          echo "</tr>";
+                                                       }
+
+                                                       mysqli_close($GLOBALS["con"]);
+                                                     }
+
+                                                ?> 
                                                  
                                             </tbody>
                                     </table>

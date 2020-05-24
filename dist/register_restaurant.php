@@ -264,10 +264,10 @@ function NewUser(){
 
     //Master Database 
 
-    $target_dir = "C:\wamp\www\StarveLater\dist\uploads/";
-$target_file = $target_dir.basename($_FILES['fileToUpload']['name']);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            $target_dir = "C:\wamp\www\StarveLater\dist\uploads/";
+            $target_file = $target_dir.basename($_FILES['fileToUpload']['name']);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 
 /*    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
