@@ -9,7 +9,9 @@
         <title>Restaurant Dashboard | STARVELATER</title>
         <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
         <link href="css/styles.css" rel="stylesheet" />
+
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+
         <style type="text/css">
         	li {
         		width: 100%;
@@ -23,6 +25,9 @@
         </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+        
     </head>
     <body class="sb-nav-fixed">
 
@@ -39,7 +44,7 @@
                                     die("Connection Failed :" + mysqli_connect_error());
                             }else { 
                                                          //Load Restaurant  Data  
-                            $sql = "SELECT fname,lname,Restaurant_Name FROM restaurants where Email_ID = '".$_SESSION['email']."'";
+                            $sql = "SELECT * FROM restaurants where Email_ID = '".$_SESSION['email']."'";
                                                     
                                     $retval = mysqli_query($GLOBALS['con'],$sql);
 
@@ -59,12 +64,52 @@
             ><!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
+
+                     <!-- Ready Status Button -->
+                     <div class="form-group" >
+                                  
+                                     <?php 
+                                           $status = $followingdata['OperationStatus'];
+
+                                           if ($status == 'Open') { ?>
+
+                                                 <!-- Setting Dropdown Color Green -->
+                                     <i id="online" class="fas fa-check-circle" style="font-size: 25px;color: #28a745;margin-right: 10px;"></i>
+                                     <i id="offline" class="far fa-times-circle" style="display:none;font-size: 25px;color: #dc3545;margin-right: 10px;"></i>
+                                     <select class="form-control"  style="background-color: #28a745;color: #fff;border-color: #000;width:150px;" name="inputCategory" id="inputCategory" data-id="<?php echo 
+                                                        $followingdata['Restaurant_ID']; ?>" >
+
+                                                <option class="bg-primary">Open</option>
+                                                <option class="bg-danger" value="Closed">Closed</option>
+                                               </select>
+                                        <?php   } else { ?>
+
+                                                <!-- Setting Dropdown Color Red -->
+                                        <i id="offline" class="far fa-times-circle" style="font-size: 25px;color: #dc3545;margin-right: 10px;"></i>
+                                        <i id="online" class="fas fa-check-circle" style="display:none;font-size: 25px;color: #28a745;margin-right: 10px;"></i>
+                                        <select class="form-control"  style="background-color: #dc3545;color: #fff;border-color: #000;width:150px;" name="inputCategory" id="inputCategory" data-id="<?php echo 
+                                                        $followingdata['Restaurant_ID']; ?>" >
+
+                                                <option class="bg-danger" value="Closed">Closed</option>
+                                                 <option class="bg-primary">Open</option>
+                                             </select>
+                                      <?php  }
+
+                                     ?>
+                                     
+    
+                    </div>
+                     &nbsp;&nbsp;&nbsp;
+
                     <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
                     </div>
+                    
                 </div>
             </form>
+
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto ml-md-0">
                 <li class="nav-item dropdown">
@@ -76,6 +121,8 @@
                 </li>
             </ul>
         </nav>
+
+
         <div id="layoutSidenav" style="background: linear-gradient(90deg, rgba(218,47,115,1) 0%, rgba(108,39,117,1) 35%, rgba(23,159,214,1) 100%);">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -112,14 +159,14 @@
 
 
 
-                            <!-- Status in Nav Bar --> 
+                            <!-- Categories in Nav Bar --> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLocationData" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-toggle-on"></i></div>
-                                Current Status
+                                ><div class="sb-nav-link-icon"><i class="fas fa-bars"></i></div>
+                                Categories
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLocationData" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="#">Offline/Online</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_manage_category.php">Manage Categories</a></nav>
                             </div>
                             
                             <!-- Menu in Nav Bar--> 
@@ -154,10 +201,21 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
+
                         <h1 class="mt-4" style="color: #fff;">Restaurant Dashboard</h1>
+                        <!-- <div class="row">
+                             <div class="col-sm-9">   
+                                <h1 class="mt-4" style="color: #fff;">Restaurant Dashboard</h1>
+                             </div>
+                            <div class="col-sm-3" style="margin-top: 25px;">
+                                <input type="checkbox" checked data-toggle="toggle"  data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger">
+                             </div>
+                       </div> -->
+
                         <ol class="breadcrumb mb-4" width="100%" style="background-color: #000;">
                            <li class="breadcrumb-item active" width="100%" style="color: #fff;"><marquee>Welcome <span><?php echo $followingdata['fname']." ".$followingdata['lname']; ?></span> to Restaurant Dashboard.Please update your Profile under Profile Section</marquee></li>
                         </ol>
+                
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
@@ -210,10 +268,23 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="card mb-4">
                             <div class="card-header"><i class="fas fa-table mr-1"></i>Orders Received</div>
                             <div class="card-body">
                                 <div class="table-responsive">
+                                     <table border="0" cellspacing="5" cellpadding="5">
+                                    <tbody>
+                                        <tr>
+                                            <td>Minimum Date:</td>
+                                            <td><input name="min" id="min" type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Maximum Date:</td>
+                                            <td><input name="max" id="max" type="text"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -248,7 +319,6 @@
                                                 <td>Completed</td>
                                                 <td>₹500.00</td>
                                             </tr>
-                                                 
                                             <tr>
                                                 <td>Koushik Modekurti</td>
                                                 <td>Ravi Bakery, Rajam</td>
@@ -286,11 +356,169 @@
                                                 <td>₹275.00</td>
                                             </tr>                                  </tbody>
                                     </table>
+                                    <script>
+                                        
+                                            $.fn.dataTable.ext.search.push(
+                                            function (settings, data, dataIndex) {
+                                                var min = $('#min').datepicker("getDate");
+                                                var max = $('#max').datepicker("getDate");
+                                                var startDate = new Date(data[4]);
+                                                if (min == null && max == null) { return true; }
+                                                if (min == null && startDate <= max) { return true;}
+                                                if(max == null && startDate >= min) {return true;}
+                                                if (startDate <= max && startDate >= min) { return true; }
+                                                return false;
+                                            }
+                                            );
+
+                                           
+                                                $("#min").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
+                                                $("#max").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
+                                                $(document).ready(function(){
+                                                var table = $('#dataTable').DataTable();
+
+                                                // Event listener to the two range filtering inputs to redraw on input
+                                                $('#min, #max').keyup(function () {
+                                                    table.draw();
+                                                });
+                                            });
+
+
+
+
+
+
+                                    </script>
                                 </div>
                             </div>
                         </div>
+                      
+                        <!-- Table Close -->
                     </div>
                 </main>
+             
+
+
+
+
+         <script>
+   
+           $(document).ready(function() {
+
+                /*$('#inputCategory').change(function() {
+                     var sel = $(this).val();
+                     
+                     if(sel == 'Open') {
+                        //alert('Do you want the Restaurant need to Open');
+                         var r = confirm("Do you want the Restaurant need to Open");
+                         if(r==true) {
+                            
+                             var id = $('#inputCategory').data('id');
+                             $.ajax({
+                                 
+                                 url : 'update_status.php',
+                                 method : 'POST',
+                                 data : { id: id, status: 'Open'},
+                                 success : function(response) {
+                                      swal('successful','Restaurant is Now Open','success');
+                                 }
+                              
+                             });
+
+                         } else {
+                            //alert('Clicked Cancel');
+                            $('#inputCategory').val('Open');
+                         }
+
+                     } else {
+
+                        //alert('Do you want the Restaurant to Close ');
+                        //alert('Do you want the Restaurant need to Open');
+                         var r = confirm("Do you want the Restaurant need to Close");
+                         if(r==true) {
+                            
+                             var id = $('#inputCategory').data('id');
+                             $.ajax({
+                                 
+                                 url : 'update_status.php',
+                                 method : 'POST',
+                                 data : { id: id, status: 'Closed'},
+                                 success : function(response) {
+                                      swal('successful','Restaurant is Now Closed','success');
+                                 }
+                              
+                             });
+
+                         } else {
+                            $('#inputCategory').val('Closed');
+                         }
+                    
+                 }
+
+                });*/
+
+                var prev_val;
+
+                $('#inputCategory').focus(function() {
+                    prev_val = $(this).val();
+                }).change(function() {
+                     //$(this).blur() // Firefox fix as suggested by AgDude
+                     if(prev_val == 'Open') {
+                    var success = confirm('Are you sure you want to change the Status to Closed?');
+                } else {
+                    var success = confirm('Are you sure you want to change the Status to Open?');   
+                }
+                    if(success)
+                    {
+                         if(prev_val == 'Open') {
+                            var id = $('#inputCategory').data('id');
+                             $.ajax({
+                                 
+                                 url : 'update_status.php',
+                                 method : 'POST',
+                                 data : { id: id, status: 'Closed'},
+                                 success : function(response) {
+
+                                       $('#inputCategory').css('background','#dc3545');
+                                       $('#offline').show();
+                                       $('#online').hide();
+                                      swal('successful','Restaurant is Now Closed','success');
+                                 }
+                              
+                             });
+                        //alert('Changedd to Closed');
+                       } else {
+                        var id = $('#inputCategory').data('id');
+                             $.ajax({
+                                 
+                                 url : 'update_status.php',
+                                 method : 'POST',
+                                 data : { id: id, status: 'Open'},
+                                 success : function(response) {
+                                       $('#inputCategory').css('background','#28a745');
+                                       $('#online').show();
+                                       $('#offline').hide();
+                                      swal('successful','Restaurant is Now Open','success');
+                                 }
+                              
+                             });
+                         //alert('Changed to Open');
+                       } 
+                        // Other changed code would be here...
+                    }  
+                    else
+                    {
+                        $(this).val(prev_val);
+                        //alert('unchanged');
+                        return false; 
+                    }
+                });
+           });
+
+    
+        </script>
+                    
+                
                 <footer class="py-4 footer-dark mt-auto" style="background-color: #000;">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -305,6 +533,12 @@
                 </footer>
             </div>
         </div>
+
+    
+
+       
+
+
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
@@ -314,5 +548,7 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
+        <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     </body>
 </html>

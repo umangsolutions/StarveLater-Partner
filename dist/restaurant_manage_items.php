@@ -8,9 +8,8 @@
         <meta name="author" content="" />
         <title>Manage Items | STARVELATER</title>
         <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
-        <link href="css/styles.css" rel="stylesheet" /><!-- 
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
+        <link href="css/styles.css" rel="stylesheet" />
+
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <style type="text/css">
         	li {
@@ -24,7 +23,6 @@
           }
         </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
-           <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
           <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
@@ -268,15 +266,16 @@
                                 <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_profile.php">View Orders</a></nav>
                             </div>
 
-                            <!-- Status in Nav Bar --> 
+                             <!-- Categories in Nav Bar --> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLocationData" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-toggle-on"></i></div>
-                                Current Status
+                                ><div class="sb-nav-link-icon"><i class="fas fa-bars"></i></div>
+                                Categories
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLocationData" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Offline/Online</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_manage_category.php">Manage Categories</a></nav>
                             </div>
+
                             
                             <!-- Menu in Nav Bar--> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsersData" aria-expanded="false" aria-controls="collapseLayouts"
@@ -379,250 +378,33 @@
                                                        
                                                          while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
 
-                                                          if($row['availability'] == 'No') {
-
-                                                            // No Availability Products
-                                                          echo "<tr bgcolor='#dee2df'>";
+                                                          
+                                                           if($row['availability'] == 'No') {
+                                                              //Non- available Products
+                                                             echo "<tr data-target='rowbg' bgcolor='#dee2df' id='".$row['item_id']."'>";
                                                           echo "<td><img src='itemphotos/".$resName."/".$row['photoname']."' width='110px' height='75px'></img></td>";
-                                                          echo "<td>".$row['item_id']."</td>";
-                                                          echo "<td>".$row['Name']."</td>";
-                                                          echo "<td>".$row['Type']."</td> ";
-                                                          echo "<td>".$row['category']."</td> ";
-                                                          echo "<td>".$row['price']."</td> "; 
-                                                          echo "<td>No</td>";
-                                                         echo "<td>"; ?>
+                                                          echo "<td data-target='item_id'>".$row['item_id']."</td>";
+                                                          echo "<td data-target='Name'>".$row['Name']."</td>";
+                                                          if($row['Type'] == 'Vegetarian') {
+                                                             //Vegetarian Products
+                                                             echo "<td style='color:#28a745;font-weight:bold;'>".$row['Type']."</td> ";
+                                                           } else {
+                                                               //Non Vegetarian Products
+                                                              echo "<td style='color:red;font-weight:bold;'>".$row['Type']."</td> ";
+                                                           }
+                                                          echo "<td data-target='category'>".$row['category']."</td> ";
+                                                          echo "<td data-target='price'>".$row['price']."</td>"; 
+                                                          echo "<td data-target='availability'>".$row['availability']."</td>";
+                                                          echo "<td>"; ?>
 
                                                          <!--  Edit Button -->
-                                                         <a href="#" class="btn btn-success a-btn-slide-text green" id="<?php echo $row['item_id']; ?>">
+                                                         <a href="#" class="btn btn-success a-btn-slide-text green" name="Edit" data-role="update" data-id="<?php echo $row['item_id']; ?>">
                                                         <span  aria-hidden="true"><i class="fas fa-edit"></i></span>
                                                          </a>
                                                         &nbsp;&nbsp;
 
                                                         <!-- Delete Button -->
-                                                        <a href="#" class="btn btn-danger a-btn-slide-text red" id="<?php echo $row['item_id']; ?>">
-                                                         <span  aria-hidden="true"><i class="fas fa-trash-alt"></i></span>
-                                                        </a>
-
-                                                         <script>
-                                                          $("a.red").click(function(){
-                                                            //("Hello " + this.id);
-                                                            swal({
-                                                              title: 'Are you sure?',
-                                                              text: 'You will not be able to recover the Item Details again!',
-                                                              icon: 'warning',
-                                                              buttons: true,
-                                                              dangerMode: true,
-                                                            })
-                                                            .then((willDelete) => {
-                                                              if (willDelete) { 
-                                                                //swal(this.id);
-                                                                var el = this;
-                                                                var deleteid = this.id;
-                                                                //swal(deleteid);
-                                                                $.ajax({
-                                                                 url: 'remove_item.php',
-                                                                 type: 'POST',
-                                                                 data: { id: deleteid },
-                                                                 success: function(){
-
-                                                                   
-                                                                   // Remove row from HTML Table
-                                                                   $(el).closest('tr').css('background','tomato');
-                                                                   $(el).closest('tr').fadeOut(800,function(){
-                                                                      $(this).remove();
-                                                                   });
-                                                                      
-                                                                 }
-                                                                });
-
-                                                              } else {
-                                                                //swal('Restaurant is safe!');
-
-                                                              }
-                                                            });
-                                                          });
-
-
-                                                          $("a.green").click(function(){
-                                                            //("Hello " + this.id);
-                                                            swal({
-                                                              title: 'Are you sure?',
-                                                              text: 'On clicking Yes, The Item status will be changed to Available !',
-                                                              icon: 'warning',
-                                                              buttons: true,
-                                                              dangerMode: true,
-                                                            })
-                                                            .then((willDelete) => {
-                                                              if (willDelete) { 
-                                                                //swal(this.id);
-                                                                var el = this;
-                                                                var updateid = this.id;
-                                                                
-                                                                //swal(deleteid);
-                                                                $.ajax({
-                                                                 url: 'update_not_available_item.php',
-                                                                 type: 'POST',
-                                                                 data: { id: updateid,status: 'Yes'},
-                                                                 success: function(){
-                                                                    //location.reload();  
-                                                                 }
-                                                                });
-
-                                                              } else {
-                                                                //swal('Restaurant is safe!');
-
-                                                              }
-                                                            });
-                                                          });
-
-
-                                                          </script>
-                                                
-                                                  <?php      
-                                                         echo "</td>";
-                                                         echo "</tr>";
-
-                                                        } else {
-                                                           
-                                                           //These are Available Products (Availability - Yes)
-
-                                                           if($row['Type'] == 'Vegetarian') {
-                                                            //Vegetaraian Products
-                                                           echo "<tr>";
-                                                          echo "<td><img src='itemphotos/".$resName."/".$row['photoname']."' width='110px' height='75px'></img></td>";
-                                                          echo "<td>".$row['item_id']."</td>";
-                                                          echo "<td>".$row['Name']."</td>";
-                                                          echo "<b><td style='color:#28a745;font-weight:bold;' >".$row['Type']."</td></b> ";
-                                                          echo "<td>".$row['category']."</td> ";
-                                                          echo "<td><input type='text' class='form-control' id='itemcost' name='itemcost' value='"
-                                                          .$row['price']."'></td> ";
-                                                          echo "<td>"; ?>
-                                                           
-                                                            <!--  Setting Category in Dropdown as Yes -->
-                                                           <select name='Category'  class="form-control"  name='inputCategory' id='inputCategory'>
-                                                            <option value='Yes'>Yes</option>
-                                                            <option value='No'>No</option>
-                                                          </select>
-                                                         
-                                                         <?php  echo "</td>";
-                                                               echo "<td>"; ?>
-                                                        
-                                                         <!--  Edit Button -->
-                                                         <a href="#" class="btn btn-success a-btn-slide-text green" id="<?php echo $row['item_id']; ?>">
-                                                        <span  aria-hidden="true"><i class="fas fa-edit"></i></span>
-                                                         </a>
-                                                        &nbsp;&nbsp;
-
-                                                        <!-- Delete Button -->
-                                                        <a href="#" class="btn btn-danger a-btn-slide-text red" id="<?php echo $row['item_id']; ?>">
-                                                         <span  aria-hidden="true"><i class="fas fa-trash-alt"></i></span>
-                                                        </a>
-
-                                                         <script>
-                                                          $("a.red").click(function(){
-                                                            //("Hello " + this.id);
-                                                            swal({
-                                                              title: 'Are you sure?',
-                                                              text: 'You will not be able to recover the Item Details again!',
-                                                              icon: 'warning',
-                                                              buttons: true,
-                                                              dangerMode: true,
-                                                            })
-                                                            .then((willDelete) => {
-                                                              if (willDelete) { 
-                                                                //swal(this.id);
-                                                                var el = this;
-                                                                var deleteid = this.id;
-                                                                //swal(deleteid);
-                                                                $.ajax({
-                                                                 url: 'remove_item.php',
-                                                                 type: 'POST',
-                                                                 data: { id: deleteid },
-                                                                 success: function(){
-
-                                                                
-                                                                   // Remove row from HTML Table
-                                                                   $(el).closest('tr').css('background','tomato');
-                                                                   $(el).closest('tr').fadeOut(800,function(){
-                                                                      $(this).remove();
-                                                                   });
-                                                                      
-                                                                 }
-                                                                });
-
-                                                              } else {
-                                                                //swal('Restaurant is safe!');
-                                                              }
-                                                            });
-                                                          });
-
-                                                           $("a.green").click(function(){
-                                                            //("Hello " + this.id);
-                                                            swal({
-                                                              title: 'Are you sure?',
-                                                              text: 'On clicking Yes, Details will be update !',
-                                                              icon: 'warning',
-                                                              buttons: true,
-                                                              dangerMode: true,
-                                                            })
-                                                            .then((willDelete) => {
-                                                              if (willDelete) { 
-                                                                //swal(this.id);
-                                                                var el = this;
-                                                                var updateid = this.id;
-                                                                var price = $("#itemcost").val();
-                                                                var stat = $("#inputCategory").val();
-                                                                
-                                                                //swal(deleteid);
-                                                                $.ajax({
-                                                                 url: 'update_available_item.php',
-                                                                 type: 'POST',
-                                                                 data: { id: updateid,status: stat,cost: price},
-                                                                 success: function(){
-                                                                   // location.reload();  
-                                                                 }
-                                                                });
-
-                                                              } else {
-                                                                //swal('Restaurant is safe!');
-
-                                                              }
-                                                            });
-                                                          });
-
-                                                          </script>         
-                                                  <?php      
-                                                         echo "</td>";
-                                                        echo "</tr>";
-                                                          } else {
-                                                             
-                                                             //Non-Vegetarian Products
-                                                            echo "<tr>";
-                                                          echo "<td><img src='itemphotos/".$resName."/".$row['photoname']."' width='110px' height='75px'></img></td>";
-                                                          echo "<td>".$row['item_id']."</td>";
-                                                          echo "<td>".$row['Name']."</td>";
-                                                          echo "<td style='color:red;font-weight:bold;' >".$row['Type']."</td> ";
-                                                          echo "<td>".$row['category']."</td> ";
-                                                          echo "<td><input type='text'  class='form-control'  id='itemcost' name='itemcost' value='".$row['price']."'></td> "; 
-                                                          echo "<td>"; ?>
-                                                        
-                                                          <!--  Setting Category in Dropdown as Yes -->
-                                                         <select name='Category'  class="form-control"  name="inputCategory" id='inputCategory'>
-                                                            <option value='Yes'>Yes</option>
-                                                            <option value='No'>No</option>
-                                                          </select>
-                                                    <?php
-                                                          echo "</td>";
-                                                          echo "<td>"; ?>
-
-                                                         <!--  Edit Button -->
-                                                         <a href="#" class="btn btn-success a-btn-slide-text green" name="Edit" id="<?php echo $row['item_id']; ?>">
-                                                        <span  aria-hidden="true"><i class="fas fa-edit"></i></span>
-                                                         </a>
-                                                        &nbsp;&nbsp;
-
-                                                        <!-- Delete Button -->
-                                                        <a href="#" class="btn btn-danger a-btn-slide-text red" name="Delete" id="<?php echo $row['item_id']; ?>">
+                                                        <a href="#" class="btn btn-danger a-btn-slide-text red" name="Delete" data-id="<?php echo $row['item_id']; ?>">
                                                          <span  aria-hidden="true"><i class="fas fa-trash-alt"></i></span>
                                                         </a>
 
@@ -640,13 +422,148 @@
                                                               if (willDelete) { 
                                                                 //swal(this.id);
                                                                 var el = this;
-                                                                var deleteid = this.id;
+                                                                var deleteid = $(this).data('id');
                                                                 //swal(deleteid);
                                                                 $.ajax({
                                                                  url: 'remove_item.php',
                                                                  type: 'POST',
                                                                  data: { id: deleteid },
-                                                                 success: function(){
+                                                                 success: function(response){
+                                                                   // Remove row from HTML Table
+                                                                   $(el).closest('tr').css('background','tomato');
+                                                                   $(el).closest('tr').fadeOut(800,function(){
+                                                                      $(this).remove();
+                                                                   });
+                                                                      
+                                                                 }
+                                                                });
+
+                                                              } else {
+                                                                //swal('Restaurant is safe!');
+
+                                                              }
+                                                            });
+
+                                                            
+                                                          });
+
+                                                          </script>
+                                                  <?php      
+                                                         echo "</td>";
+                                                         echo "</tr>";
+
+                                                           } else {
+                                                                     //Available Products
+                                                           if($row['Type'] == 'Vegetarian') {
+                                                            //Vegetaraian Products
+                                                           echo "<tr data-target='rowbg' id='".$row['item_id']."'>";
+                                                          echo "<td><img src='itemphotos/".$resName."/".$row['photoname']."' width='110px' height='75px'></img></td>";
+                                                          echo "<td data-target='item_id' >".$row['item_id']."</td>";
+                                                          echo "<td data-target='Name'>".$row['Name']."</td>";
+                                                          echo "<b><td style='color:#28a745;font-weight:bold;' >".$row['Type']."</td></b> ";
+                                                          echo "<td data-target='category'>".$row['category']."</td> ";
+                                                          echo "<td data-target='price'>".$row['price']."</td> ";
+                                                          echo "<td data-target='availability'>".$row['availability']."</td>";
+                                                          echo "<td>"; ?>
+                                                        
+                                                         <!--  Edit Button -->
+                                                         <a href="#" class="btn btn-success a-btn-slide-text green" data-role="update" data-id="<?php echo $row['item_id']; ?>">
+                                                        <span  aria-hidden="true"><i class="fas fa-edit"></i></span>
+                                                         </a>
+                                                        &nbsp;&nbsp;
+
+                                                        <!-- Delete Button -->
+                                                        <a href="#" class="btn btn-danger a-btn-slide-text red" data-id="<?php echo $row['item_id']; ?>">
+                                                         <span  aria-hidden="true"><i class="fas fa-trash-alt"></i></span>
+                                                        </a>
+
+                                                         <script>
+                                                          $("a.red").click(function(){
+                                                            //("Hello " + this.id);
+                                                            swal({
+                                                              title: 'Are you sure?',
+                                                              text: 'You will not be able to recover the Item Details again!',
+                                                              icon: 'warning',
+                                                              buttons: true,
+                                                              dangerMode: true,
+                                                            })
+                                                            .then((willDelete) => {
+                                                              if (willDelete) { 
+                                                                //swal(this.id);
+                                                                var el = this;
+                                                                var deleteid = $(this).data('id');
+                                                                //swal(deleteid);
+                                                                $.ajax({
+                                                                 url: 'remove_item.php',
+                                                                 type: 'POST',
+                                                                 data: { id: deleteid },
+                                                                 success: function(response){
+
+                                                                
+                                                                   // Remove row from HTML Table
+                                                                   $(el).closest('tr').css('background','tomato');
+                                                                   $(el).closest('tr').fadeOut(800,function(){
+                                                                      $(this).remove();
+                                                                   });
+                                                                      
+                                                                 }
+                                                                });
+
+                                                              } else {
+                                                                //swal('Restaurant is safe!');
+                                                              }
+                                                            });
+                                                          });
+
+                                                          </script>         
+                                                  <?php      
+                                                         echo "</td>";
+                                                        echo "</tr>";
+                                                          } else {
+                                                             
+                                                             //Non-Vegetarian Products
+                                                            echo "<tr data-target='rowbg'  id='".$row['item_id']."'>";
+                                                          echo "<td><img src='itemphotos/".$resName."/".$row['photoname']."' width='110px' height='75px'></img></td>";
+                                                          echo "<td data-target='item_id'>".$row['item_id']."</td>";
+                                                          echo "<td data-target='Name'>".$row['Name']."</td>";
+                                                          echo "<td style='color:red;font-weight:bold;' >".$row['Type']."</td> ";
+                                                          echo "<td data-target='category'>".$row['category']."</td> ";
+                                                          echo "<td data-target='price'>".$row['price']."</td>"; 
+                                                          echo "<td data-target='availability'>".$row['availability']."</td>";
+                                                          echo "<td>"; ?>
+
+                                                         <!--  Edit Button -->
+                                                         <a href="#" class="btn btn-success a-btn-slide-text green" name="Edit" data-role="update" data-id="<?php echo $row['item_id']; ?>">
+                                                        <span  aria-hidden="true"><i class="fas fa-edit"></i></span>
+                                                         </a>
+                                                        &nbsp;&nbsp;
+
+                                                        <!-- Delete Button -->
+                                                        <a href="#" class="btn btn-danger a-btn-slide-text red" name="Delete" data-id="<?php echo $row['item_id']; ?>">
+                                                         <span  aria-hidden="true"><i class="fas fa-trash-alt"></i></span>
+                                                        </a>
+
+                                                        <script>
+                                                          $("a.red").click(function(){
+                                                            //("Hello " + this.id);
+                                                            swal({
+                                                              title: 'Are you sure?',
+                                                              text: 'You will not be able to recover the Restaurant Details again!',
+                                                              icon: 'warning',
+                                                              buttons: true,
+                                                              dangerMode: true,
+                                                            })
+                                                            .then((willDelete) => {
+                                                              if (willDelete) { 
+                                                                //swal(this.id);
+                                                                var el = this;
+                                                                var deleteid = $(this).data('id');
+                                                                //swal(deleteid);
+                                                                $.ajax({
+                                                                 url: 'remove_item.php',
+                                                                 type: 'POST',
+                                                                 data: { id: deleteid },
+                                                                 success: function(response){
                                                                    // Remove row from HTML Table
                                                                    $(el).closest('tr').css('background','tomato');
                                                                    $(el).closest('tr').fadeOut(800,function(){
@@ -663,57 +580,16 @@
                                                             });
                                                           });
 
-                                                          $("a.green").click(function(){
-                                                            //("Hello " + this.id);
-                                                            swal({
-                                                              title: 'Are you sure?',
-                                                              text: 'On clicking Yes, Details will be Updated !',
-                                                              icon: 'warning',
-                                                              buttons: true,
-                                                              dangerMode: true,
-                                                            })
-                                                            .then((willDelete) => {
-                                                              if (willDelete) { 
-                                                                //swal(this.id);
-                                                                var el = this;
-                                                                var deleteid = this.id;
-                                                                var price = $("#itemcost").val();
-                                                                var stat = $("#inputCategory").val();
-                                                                
-                                                                //swal(deleteid);
-                                                                $.ajax({
-                                                                 url: 'update_available_item.php',
-                                                                 type: 'POST',
-                                                                 data: { id: deleteid,status: stat,cost: price},
-                                                                 success: function(){
-                                                                    //location.reload();
-                                                                      ajax.reload();
-                                                                 }
-                                                                });
-
-                                                              } else {
-                                                                //swal('Restaurant is safe!');
-
-                                                              }
-                                                            });
-                                                          });
-
-
-
                                                           </script>
-
-
-
                                                   <?php      
                                                          echo "</td>";
                                                          echo "</tr>";
-                                                          }
-
-                                                        }
-                                                     }
+                                                          } // Closing Non-Veg
+                                                       }//closing Available Products block
+                                                     }//Closing While Loop
 
                                                      mysqli_close($GLOBALS["con"]);
-                                                     }
+                                                  }//CLosing Database Connection Else Block
 
                                                 ?> 
                                                  
@@ -722,14 +598,9 @@
                                 </div>
                             </div>
                         </div>
-
-                       
-
-                      
-                        
-                        
-                        </div>
-                    </main>
+       
+                    </div>
+                </main>
                 <footer class="py-4 footer-dark mt-auto" style="background-color: #000;">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -744,6 +615,101 @@
                 </footer>
             </div>
         </div>
+
+                 <!-- Modal -->
+                        <div id="myModal" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <!-- <h4 class="modal-title">Modal Header</h4> -->
+                                <!-- <p>Update Details</p> -->
+                              </div>
+                              <div class="modal-body">
+                                <!-- Price Input -->
+                                <div class="form-group">
+                                   <label>Item Price</label>
+                                   <input type="text" name="price" id="price" class="form-control">
+                                </div>
+                                 
+                                 <!-- Availability Dropdown -->
+                                <div class="form-group">
+                                   <label>Item Availability</label>
+                                   <select class="form-control" name="inputCategory" id="inputCategory">
+                                     <option value="Yes">Yes</option>
+                                     <option value="No">No</option>
+                                   </select>
+                                </div>
+
+                                <input type="hidden" id="userId" class="form-control">
+
+                              </div>
+                              <div class="modal-footer">
+                                <a href="#" id="save" class="btn btn-primary pull-right">Update</a>
+                                <!-- <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button> -->
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+       
+       <script>
+
+         //Appending Values to Input Fields
+         $(document).ready(function(){
+             $(document).on('click','a[data-role=update]',function() {
+                var id = $(this).data('id');
+                var price = $('#' + id).children('td[data-target=price]').text();
+                var availability = $('#' + id).children('td[data-target=availability]').text();
+                
+                $('#price').val(price);
+                $('#inputCategory').val(availability);
+                $('#userId').val(id);
+                $('#myModal').modal('toggle');
+
+             });
+
+              //Updating Values
+          $('#save').click(function(){
+              var id = $('#userId').val();
+              var price = $('#price').val();
+              var availability = $('#inputCategory').val();
+              
+              var el = this;
+              $.ajax({
+                  url : 'update.php',
+                  method : 'POST',
+                  data : {id : id, price : price, availability : availability },
+                  success : function(response){
+                              //console.log(response);
+                              $('#' + id).children('td[data-target=price]').text(price);
+
+                              $('#dataTable1 td').each(function() {
+                                  if(availability == 'No') {
+                                  
+                                   $('#' + id).css('background','#dee2df');
+                                  } else {
+                                    $('#' + id).css('background','white');
+                                  }
+                              });
+                             
+                              $('#' + id).children('td[data-target=availability]').text(availability);
+                              
+                              $('#myModal').modal('toggle');
+                            }
+              });
+          });
+      });
+
+
+
+
+       </script>
+
+
+
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
@@ -753,5 +719,7 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
+
+
     </body>
 </html>

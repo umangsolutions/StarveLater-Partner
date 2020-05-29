@@ -262,15 +262,16 @@
                                 <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_profile.php">View Orders</a></nav>
                             </div>
 
-                            <!-- Status in Nav Bar --> 
+                            <!-- Categories in Nav Bar --> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLocationData" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-toggle-on"></i></div>
-                                Current Status
+                                ><div class="sb-nav-link-icon"><i class="fas fa-bars"></i></div>
+                                Categories
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLocationData" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Offline/Online</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_manage_category.php">Manage Categories</a></nav>
                             </div>
+
                             
                             <!-- Menu in Nav Bar--> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsersData" aria-expanded="false" aria-controls="collapseLayouts"
@@ -342,14 +343,21 @@
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="inputCategory" style="color: #fff;">Category</label>
                                                         <select name="Category" class="form-control" id="inputCategory">
-                                                            <option value="0">Select Category</option>
-                                                            <option  value="Soup">Soup</option>
-                                                            <option value="Starters">Starters</option>
-                                                            <option value="Salad">Salad</option>
-                                                            <option value="Rotis">Rotis</option>
-                                                            <option value="Main Course">Main Course</option>
-                                                            <option value="Desserts">Desserts</option>
-                                                            <option value="Beverages">Beverages</option>
+                                                          <option>Select Category</option>
+                                                            <?php
+                                                              
+                                                              $con = mysqli_connect('localhost','root','','starvelater');
+
+                                                          $sql = "SELECT * from category where Restaurant_ID='".$followingdata['Restaurant_ID']."'";
+
+                                                          $result_val = mysqli_query($con,$sql);
+
+                                                          while($row = mysqli_fetch_array($result_val,MYSQLI_ASSOC)) {
+                                                              
+                                                              echo "<option>".$row['Name']."</option>";
+
+                                                          }
+                                                            ?>
                                                         </select>
                                                          <span id="span" style="color: black;"><?php echo $CategoryErr; ?></span>
                                                     </div>

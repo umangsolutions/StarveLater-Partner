@@ -167,7 +167,7 @@
                                             </div>
 
                                              <!-- Password -->
-                                            <div class="form-group"><label class="small mb-1" for="inputPassword" >Password</label><input class="form-control py-4" id="inputPassword" type="text"  name="pwd" placeholder="Enter password" /><span id="span"><?php echo $passwordErr; ?></span></div>
+                                            <div class="form-group"><label class="small mb-1" for="inputPassword" >Password</label><input class="form-control py-4" id="inputPassword" type="password"  name="pwd" placeholder="Enter password" /><span id="span"><?php echo $passwordErr; ?></span></div>
 
                                             
                                             <div class="form-group">

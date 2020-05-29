@@ -32,9 +32,9 @@
                           //echo $_SESSION['email'];
 
 
-                          $RestaurantNameErr = $FNameErr = $LNameErr = $PhoneErr =   $SeatingErr  =$AddressErr = "";
+                          $RestaurantNameErr = $FNameErr = $LNameErr = $PhoneErr =   $SeatingErr  =$AddressErr = $AvgPrepTimeErr ="";
 
-                          $RestaurantName = $FName = $LName = $Phone = $Seating = $Address = "";
+                          $RestaurantName = $FName = $LName = $Phone = $Seating = $Address =  $AvgPrepTime = "";
 
 
 
@@ -120,6 +120,18 @@
                             } else{
                                 $boolean = true;
                             }
+
+
+                            //AvgPrepTime Validation
+                                if(empty($_POST["AvgPrepTime"])){
+                                $AvgPrepTimeErr = "Average Preparation Time Required";
+                                $boolean = false;
+                            } elseif($_POST["AvgPrepTime"] < 0){
+                                $AvgPrepTimeErr = "Invalid Preparation Time";
+                                $boolean = false;
+                            } else{
+                                $boolean = true;
+                            }
                           
 
 
@@ -145,7 +157,7 @@
                            
                         
 
-                            $sql = "UPDATE restaurants SET Restaurant_Name = '".$_POST["RestaurantName"]."',fname = '".$_POST["FirstName"]."',lname='".$_POST["LastName"]."',Phone = '".$_POST["RestaurantPhone"]."',SeatingCapacity='".$_POST["SeatingCapacity"]."',Address='".$_POST["RestaurantAddress"]."' where Restaurant_ID='".$resID."' ";
+                            $sql = "UPDATE restaurants SET Restaurant_Name = '".$_POST["RestaurantName"]."',fname = '".$_POST["FirstName"]."',lname='".$_POST["LastName"]."',Phone = '".$_POST["RestaurantPhone"]."',SeatingCapacity='".$_POST["SeatingCapacity"]."',Address='".$_POST["RestaurantAddress"]."',AvgPrepTime = '".$_POST['AvgPrepTime']."' where Restaurant_ID='".$resID."' ";
 
 
                             $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
@@ -244,15 +256,16 @@
                                 <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_profile.php">View Orders</a></nav>
                             </div>
 
-                            <!-- Status in Nav Bar --> 
+                             <!-- Categories in Nav Bar --> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLocationData" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-toggle-on"></i></div>
-                                Current Status
+                                ><div class="sb-nav-link-icon"><i class="fas fa-bars"></i></div>
+                                Categories
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLocationData" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Offline/Online</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_manage_category.php">Manage Categories</a></nav>
                             </div>
+
                             
                             <!-- Menu in Nav Bar--> 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsersData" aria-expanded="false" aria-controls="collapseLayouts"
@@ -344,6 +357,14 @@
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="inputSeatingCapacity" style="color: #fff;">Seating Capacity</label><input class="form-control" id="inputSeatingCapacity" type="text" aria-describedby="emailHelp" placeholder="SeatingCapacity" name="SeatingCapacity" id="SeatingCapacity" value="<?php echo $followingdata['SeatingCapacity']; ?>"/>
                                                          <span id="span" style="color: black;"><?php echo $SeatingErr; ?></span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Average Preparation Time -->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="small mb-1" for="inputAvgPrepTime" style="color: #fff;">Average Preparation Time</label><input class="form-control" id="inputAvgPrepTime" type="text" aria-describedby="emailHelp" placeholder="Average Preparation Time" name="AvgPrepTime" id="AvgPrepTime" value="<?php echo $followingdata['AvgPrepTime'].' mins'; ?>"/>
+                                                         <span id="span" style="color: black;"><?php echo $AvgPrepTimeErr; ?></span>
                                                     </div>
                                                 </div>
 

@@ -7,11 +7,12 @@
         die("Connection Failed :" + mysqli_connect_error());
     }
 
-    $query = "DELETE FROM items WHERE item_id='".$_POST['id']."'";
-    $result = mysqli_query($con,$query);
+    $query = "DELETE FROM category WHERE Category_ID='".$_POST['id']."'";
+   
+   $result = mysqli_query($con,$query);
 
-    if($result) {
-    	echo "Data Updated";
-    }
+   if($result) {
+     echo "Data Updated";
+   }
     
 ?>
