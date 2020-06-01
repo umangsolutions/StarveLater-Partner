@@ -7,9 +7,16 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
-        <title>Add Location | StarveLater</title>
+        <title>Restaurant Orders | StarveLater</title>
+                 
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js" integrity="sha256-5oApc/wMda1ntIEK4qoWJ4YItnV4fBHMwywunj8gPqc=" crossorigin="anonymous"></script>
+
+
+      
+
         <style type="text/css">
         	li {
         		width: 100%;
@@ -24,6 +31,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
          <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
          <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+           <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+           <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     </head>
     <body class="sb-nav-fixed">
 
@@ -179,6 +188,7 @@ function AddCategory($Restaurant_ID){
                                 Profile
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
+
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_profile.php">Manage Profile</a></nav>
                             </div>
@@ -242,178 +252,362 @@ function AddCategory($Restaurant_ID){
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4" style="color: white;">Manage Categories</h1>
+                        <h1 class="mt-4" style="color: white;">Restaurant Orders</h1>
 
                        <!--  Marquee -->
                         <ol class="breadcrumb mb-4" width="100%" style="background-color: black;">
-                           <li class="breadcrumb-item active" width="100%" style="color: #fff;"><marquee>Welcome <span><?php echo $followingdata['fname']." ".$followingdata['lname']; ?></span> to Restaurant Dashboard. You can add and Manage Categories Here.</marquee></li>
+                           <li class="breadcrumb-item active" width="100%" style="color: #fff;"><marquee>Welcome <span><?php echo $followingdata['fname']." ".$followingdata['lname']; ?></span> to Restaurant Dashboard. You can view Restaurant Orders here.</marquee></li>
                         </ol>
 
                         
 
-                        <h3 class="mt-4" style="margin-bottom: 15px;color: #fff;">Add Category</h3>
-                        
-                        <!-- State Form  -->
-                        <form method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                        <h3 class="mt-4" style="margin-bottom: 15px;color: #fff;">Today's Orders</h3>
+                  
+               
 
-                                           <!-- State Name Input Field -->
-                                            <div class="form-group"><label class="small mb-1" for="inputOnlyCategory" style="color: #fff;">Name of Category</label><input class="form-control " id="inputOnlyCategory" name="CategoryName" type="text" placeholder="Enter Name of the Category" />
-                                                <span id="span" style="color: black;"><?php echo $CategoryNameErr; ?></span> 
-                                            </div>
+                   <!-- INSERT INTO `orders` ( `order_Id` , `item_ids` , `Restaurant_ID` , `Customer_ID` , `Order_Type` , `Order_Date` , `Order_Status` , `Net_Bill` )
+VALUES (
+'201', '5ece831d6aa79', '5ebec48f8a153', '5ebcfa887eeba', 'Take Away', '2020-05-03', 'Completed', '250'
+) -->
 
-                                             
-                                             <!-- Add Category Button -->
-                                            <div class="form-group mb-0" align="center"><input style="width: 140px;" class="btn btn-primary" type="submit" name="AddCategory" id="AddCategory" value="Add Category"/></div>
-                    </form>
 
-                    
-                   <p>&nbsp;</p>
-
-                   <!-- CREATE TABLE category(
-                    Category_ID VARCHAR( 50 ) PRIMARY KEY ,
-                    Restaurant_ID VARCHAR( 50 ) NOT NULL ,
-                    Name VARCHAR( 50 ) NOT NULL ,
-                    FOREIGN KEY ( Restaurant_ID ) REFERENCES restaurants( Restaurant_ID )
-                    ) -->
-
+                    <!-- Today's Orders -->
                     <div class="card mb-4">
-                            <div class="card-header"><i class="fas fa-table mr-1"></i>Available Categories</div>
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Orders Placed Today</div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                      
+                                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" data-id="<?php 
+                                   echo $followingdata['Restaurant_ID']; ?>">
                                         <thead>
                                             <tr>
-                                                <th>Category_ID</th>
-                                                <th>Name of Category</th>
-                                                <th>Operations</th>
+                                                <th>Order_ID</th>
+                                            
+                                                <th>Name of Item</th>
+                                                <th>Take Away / Dine-in</th>
+                                                <th>Order Date</th>
+                                                <th>Status of Order</th>
+                                                <th>Amount (INR)</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
 
-                                                <th>Category_ID</th>
-                                                <th>Name of Category</th>
-                                                <th>Operations</th>
+                                                 <th>Order_ID</th>
+                                        
+                                                <th>Name of Item</th>
+                                                <th>Take Away / Dine-in</th>
+                                                <th>Order Date</th>
+                                                <th>Status of Order</th>
+                                                <th>Amount (INR)</th>
                                                 </tr>
                                         </tfoot>
-                                        <tbody>
-                                             
-                                             <?php 
-                                                   
-                                                   $dbname = "starvelater";
-                                                     $con = mysqli_connect("localhost","root","",$dbname);
-    
-                                                     //Check for DB Connection
-                                                     if(!$con){
-                                                        die("Connection Failed :" + mysqli_connect_error());
-                                                     } else {
-
-                                                        $sql = "SELECT * from category where Restaurant_ID = '".$followingdata['Restaurant_ID']."'";
-
-                                                        $result_val = mysqli_query($con,$sql);
-
-                                                        if(! $result_val ) {
-                                                          die('Could not get data: ' . mysqli_error());
-                                                       }
-
-                                                        
-                                                       while($row = mysqli_fetch_array($result_val,MYSQLI_ASSOC)) {
-                                                           
-                                                           echo "<tr data-target='rowbg' id='".$row['Category_ID']."'>";
-                                                           echo "<td>".$row['Category_ID']."</td>";
-                                                           echo "<td data-target='Name'>".$row['Name']."</td>";
-                                                           echo "<td align='center'>"; ?>
-
-
-                                                 
-
-                                                        <div class="row">
-                                                            <div class="col">
-                                                           <!--  Edit Button -->
-                                                         <a href="#" class="btn btn-success a-btn-slide-text green" name="Edit" data-role="update" data-id="<?php echo $row['Category_ID']; ?>">
-                                                        <span  aria-hidden="true"><i class="fas fa-edit"></i>&nbsp;&nbsp;Update</span>
-                                                         </a>
-                                                     </div>
-                                                 
-                                                        
-                                                        
-                                                            <div class="col">
-                                                        <!-- Delete Button -->
-                                                        <a href="#" class="btn btn-danger a-btn-slide-text del" name="Delete"
-                                                        data-id="<?php echo $row['Category_ID']; ?>">
-                                                         <span  aria-hidden="true"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Delete</span>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    </div>
-
-                                                
-
-                                                         <script>
-                                                          
-
-
-                                                          $("a.del").click(function(){
-                                                         
-                                                           
-
-                                                            //alert("Hello " + de);
-                                                            swal({
-                                                              title: 'Are you sure?',
-                                                              text: 'You will not be able to recover the Category again!',
-                                                              icon: 'warning',
-                                                              buttons: true,
-                                                              dangerMode: true,
-                                                            })
-                                                            .then((willDelete) => {
-                                                              if (willDelete) { 
-                                                                //swal(this.id);
-                                                                var el = this;
-                                                                var deleteid = $(this).data('id');
-                                                                //swal(deleteid);
-                                                                $.ajax({
-                                                                 url: 'remove_category.php',
-                                                                 type: 'POST',
-                                                                 data: { id: deleteid },
-                                                                 success: function(response){
-                                                                   // Remove row from HTML Table
-
-                                                                   $(el).closest('tr').css('background','tomato');
-                                                                   $(el).closest('tr').fadeOut(800,function(){
-                                                                      $(this).remove();
-                                                                   });
-                                                                      
-                                                                 }
-                                                                });
-
-                                                              } else {
-                                                                //swal('Restaurant is safe!');
-
-                                                              }
-                                                            });
-
-                                                            
-                                                          });
-
-                                                          </script>
-
-                                                    <?php 
-                                                           echo "</td>";
-                                                           echo "</tr>";
-                                                       }
-                                                
-                                                     }
-
-
-
-                                             ?>
-
-
-                                        </tbody>
+                                        
                                     </table>
+
+
                                 </div>
                             </div>
                         </div>
+
+
+                         <h3 class="mt-4" style="margin-bottom: 15px;color: #fff;">One Week Ago Orders</h3>
+
+                    <!-- One Week Back Orders -->
+                    <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Orders Placed Week ago</div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                      
+                                   <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0" data-id="<?php 
+                                   echo $followingdata['Restaurant_ID']; ?>">
+                                        <thead>
+                                            <tr>
+                                                <th>Order_ID</th>
+                                        
+                                                <th>Name of Item</th>
+                                                <th>Take Away / Dine-in</th>
+                                                <th>Order Date</th>
+                                                <th>Status of Order</th>
+                                                <th>Amount (INR)</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+
+                                                 <th>Order_ID</th>
+                                                
+                                                <th>Name of Item</th>
+                                                <th>Take Away / Dine-in</th>
+                                                <th>Order Date</th>
+                                                <th>Status of Order</th>
+                                                <th>Amount (INR)</th>
+                                                </tr>
+                                        </tfoot>
+                                        
+                                    </table>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                         <h3 class="mt-4" style="margin-bottom: 15px;color: #fff;">One Month Ago Orders</h3>
+
+                    <!-- One Month Back Orders -->
+                    <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Month Wise Orders</div>
+                            <div class="card-body" >
+                                <div class="table-responsive">
+                                      
+                                   <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0" data-id="<?php 
+                                   echo $followingdata['Restaurant_ID']; ?>">
+                                        <thead>
+                                            <tr>
+                                                <th>Order_ID</th>
+                                                
+                                                <th>Name of Item</th>
+                                                <th>Take Away / Dine-in</th>
+                                                <th>Order Date</th>
+                                                <th>Status of Order</th>
+                                                <th>Amount (INR)</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+
+                                                 <th>Order_ID</th>
+                                                
+                                                <th>Name of Item</th>
+                                                <th>Take Away / Dine-in</th>
+                                                <th>Order Date</th>
+                                                <th>Status of Order</th>
+                                                <th>Amount (INR)</th>
+                                                </tr>
+                                        </tfoot>
+                                        
+                                    </table>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Today's Data Table  -->
+                        <script type="text/javascript" language="javascript" >
+
+
+                            $(document).ready(function(){
+//Retrieving Today's Date
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = yyyy + '-' + mm + '-' + dd;
+
+
+ 
+ $('.input-daterange').datepicker({
+  todayBtn:'linked',
+  format: "yyyy-mm-dd",
+  autoclose: true
+ });
+
+ /*
+var rest_id = $("#dataTable").data('id');
+fetch_data('no','','',rest_id);*/
+
+ function fetch_data(is_date_search, start_date='', end_date='',rest_id)
+ {
+
+
+  var dataTable = $('#dataTable').DataTable({
+   "processing" : true,
+   "serverSide" : true,
+   "order" : [],
+   "ajax" : {
+    url:"fetch.php",
+    type:"POST",
+    data:{
+     is_date_search:is_date_search, start_date:start_date, end_date:end_date, res_id:rest_id
+    }
+   }
+  });
+ }
+
+  $('#dataTable').DataTable().destroy();
+  var rest_id = $("#dataTable").data('id');
+   fetch_data('yes', today,today,rest_id);
+/*
+ $('#search').click(function(){
+  var start_date = '2020-05-03';
+  var end_date = '2020-05-30';
+  if(start_date != '' && end_date !='')
+  {
+   $('#dataTable').DataTable().destroy();
+   fetch_data('yes', start_date, end_date);
+  }
+  else
+  {
+   swal("Error","Both Date's are Required","warning");
+  }
+ }); */
+ 
+});
+    
+                        </script>
+
+
+                       <!--  One Week Ago's DataTable1 -->
+                        <script type="text/javascript" language="javascript" >
+
+
+                            $(document).ready(function(){
+ //Retrieving Today's Date
+var today = new Date();
+
+
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+today = yyyy + '-' + mm + '-' + dd;
+
+//Getting date before 7 days
+var mcal = moment().subtract(7,'days').calendar();
+var temp = new Array();
+temp = mcal.split('/');
+last = temp[2] + '-' + temp[0] + '-' + temp[1];
+//alert(last);
+
+
+ $('.input-daterange').datepicker({
+  todayBtn:'linked',
+  format: "yyyy-mm-dd",
+  autoclose: true
+ });
+
+
+
+ function fetch_data(is_date_search, start_date='', end_date='',rest_id)
+ {
+  var dataTable = $('#dataTable1').DataTable({
+   "processing" : true,
+   "serverSide" : true,
+   "order" : [],
+   "ajax" : {
+    url:"fetch.php",
+    type:"POST",
+    data:{
+     is_date_search:is_date_search, start_date:start_date, end_date:end_date,res_id:rest_id
+    }
+   }
+  });
+ }
+
+$('#dataTable1').DataTable().destroy();
+var rest_id = $("#dataTable1").data('id');
+   fetch_data('yes',last,today,rest_id );
+
+
+/*
+ $('#search1').click(function(){
+  var start_date = $('#start_date1').val();
+  var end_date = $('#end_date1').val();
+  if(start_date != '' && end_date !='')
+  {
+   $('#dataTable1').DataTable().destroy();
+   fetch_data('yes', today,last_week );
+  }
+  else
+  {
+   swal("Error","Both Date's are Required","warning");
+  }
+ }); */
+ 
+});
+    
+                        </script>
+
+
+                        <!--  Month Wise DataTable2 -->
+                        <script type="text/javascript" language="javascript" >
+
+
+                            $(document).ready(function(){
+ 
+ //Retrieving Today's Date
+var today = new Date();
+
+
+var dd = String(today.getDate()).padStart(2, '0');
+//Subtracting 30 days
+var ldd = String(today.getDate() - 30).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = yyyy + '-' + mm + '-' + dd;
+
+//Getting date before 1 month
+var mcal = moment().subtract(1,'month').calendar();
+var temp = new Array();
+temp = mcal.split('/');
+last = temp[2] + '-' + temp[0] + '-' + temp[1];
+//alert(last);
+
+
+ $('.input-daterange').datepicker({
+  todayBtn:'linked',
+  format: "yyyy-mm-dd",
+  autoclose: true
+ });
+
+
+   
+
+
+ function fetch_data(is_date_search, start_date='', end_date='',rest_id)
+ {
+  var dataTable = $('#dataTable2').DataTable({
+   "processing" : true,
+   "serverSide" : true,
+   "order" : [],
+   "ajax" : {
+    url:"fetch.php",
+    type:"POST",
+    data:{
+     is_date_search:is_date_search, start_date:start_date, end_date:end_date,res_id:rest_id
+    }
+   }
+  });
+ }
+
+
+ $('#dataTable2').DataTable().destroy();
+ var rest_id = $("#dataTable2").data('id');
+  fetch_data('yes',last,today,rest_id);
+
+ /*$('#search2').click(function(){
+  var start_date = $('#start_date2').val();
+  var end_date = $('#end_date2').val();
+  if(start_date != '' && end_date !='')
+  {
+   
+  }
+  else
+  {
+   swal("Error","Both Date's are Required","warning");
+  }
+ });*/ 
+ 
+});
+    
+                        </script>
+
+
 
 
 
@@ -446,15 +640,14 @@ function AddCategory($Restaurant_ID){
 
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
+                <footer class="py-4 footer-dark mt-auto" style="background-color: #000;">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; STARVE<b>LATER</b></div>
-                            <div class="text-muted">Made with love by <b>Umang Solutions</b></div>
-                                <div>
-                                <a href="#">Privacy Policy</a>
+                            <div class="footer-text-color" style="color: #fff;">Copyright &copy; STARVE<span><b>LATER</b></span> 2020</div>
+                            <div class="footer-text-color" style="color: #fff;">Made with ❤️ by <b><a href="https://umangsolutions.org">Umang Solutions</a></b></div>                                <div>
+                                <a href="#" class="white-text">Privacy Policy</a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a href="#" class="white-text">Terms &amp; Conditions</a>
                             </div>
                         </div>
                     </div>
@@ -536,7 +729,10 @@ function AddCategory($Restaurant_ID){
 
        </script>
 
-<script src="/__/firebase/7.14.6/firebase-app.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+
+        <script src="/__/firebase/7.14.6/firebase-app.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -545,7 +741,6 @@ function AddCategory($Restaurant_ID){
 <!-- Initialize Firebase -->
 <script src="/__/firebase/init.js"></script>
 
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -553,7 +748,11 @@ function AddCategory($Restaurant_ID){
         <script src="assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
         <script src="assets/demo/datatables-demo.js"></script>
         <script src="assets/demo/datatables1-demo.js"></script>
     </body>
 </html>
+

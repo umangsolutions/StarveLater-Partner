@@ -8,480 +8,276 @@
         <meta name="author" content="" />
         <title>Restaurant Registration | STARVELATER</title>
         <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
-        <link href="css/styles.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
-        
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-          integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-          crossorigin="anonymous"></script>
-
         <style type="text/css">
           .white-text {
             text-decoration: none;
             color: white;
           }
         </style>
+      
+      <link href="css/styles.css" rel="stylesheet" />
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         
-          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-          <script>
 
-            function getCity(val) {
-                $.ajax({
-                type: "POST",
-                url: "get_state.php",
-                data:'State_ID='+val,
-                success: function(data){
-                    $("#inputCity").html(data);
-                }
-                });
-            }
 
-           
+          <!-- The core Firebase JS SDK is always required and must be listed first -->
+          <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+<!-- <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script> -->
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAk0RIr5O7VUH3isq1QX-CVXryPO9Eol9M",
+    authDomain: "starvelater-3d72b.firebaseapp.com",
+    databaseURL: "https://starvelater-3d72b.firebaseio.com",
+    projectId: "starvelater-3d72b",
+    storageBucket: "starvelater-3d72b.appspot.com",
+    messagingSenderId: "587996931031",
+    appId: "1:587996931031:web:d9d1ab45da69b753af6192",
+    measurementId: "G-2NW92CJSFG"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+            window.onload=function () {
+
+  render();
+
+};
+function render() {
+    //alert('Loaded');
+    window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container');
+    recaptchaVerifier.render();
+
+}
+function phoneAuth() {
+    //get the number
+    //alert('Called');
+    var number=document.getElementById('inputPhone').value;
+  //alert(window.recaptchaVerifier);
+    //phone number authentication function of firebase
+    //it takes two parameter first one is number,,,second one is recaptcha
+    firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier).then(function (confirmationResult) {
+        //s is in lowercase
+        //alert('Entered');
+        window.confirmationResult=confirmationResult;
+        coderesult=confirmationResult;
+        //console.log(coderesult);
+
+       Swal.fire({
+          title: 'Enter One Time Password',
+          text: 'OTP has been sent Successfully to ' + number,
+          showLoaderOnConfirm: true,
+          input: 'text',
+          showCancelButton: true,
+          inputValidator: (value) => {
+            if (!value) {
+              return 'Please enter OTP!'
+            }
+          
+            codeverify(value,number);
+            
+           
+          }
+        })
+
+    }).catch(function (error) {
+        alert(error.message);
+    });
+}
+function codeverify(value1,number) {
+    
+    coderesult.confirm(value1).then(function (result) {
+        //Swal.fire("Successful","Registered Successfully","success");
+        var user=result.user;
+        console.log(user);
+        var url = "register_restaurant_details.php"; 
+        //setting cookie Phone Number
+        setCookie("phone_number",number,1);
+        //redirecting page
+        location.replace(url);
+   
+   }).catch(function (error) {
+        alert(error.message);
+    });
+}
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+        </script> 
+
+
     </head>
     <body style="background: linear-gradient(90deg, rgba(218,47,115,1) 0%, rgba(108,39,117,1) 35%, rgba(23,159,214,1) 100%);">
+    <!-- <?php
+           $emailErr = $passwordErr = "";
+           $email = $password = "";
 
-<!-- PHP Validation -->
-<?php
+           $boolean = false;
 
-// define variables and set to empty values
+           //Remove spaces, slashes and prevent XSS
+          function test_input($data) {
+              $data = trim($data);
+             $data = stripslashes($data);
+             $data = htmlspecialchars($data);
+             return $data;
+          } 
 
+          if( $_SERVER["REQUEST_METHOD"] == 'POST') {
 
-//for files
-
-
-
-$fnameErr = $lnameErr =  $restaurantNameErr = $emailErr = $passwordErr = $conpasswordErr = $phoneErr = $stateErr = $cityErr = $gstInErr = $addressErr = "" ;
-$fname = $lname = $restaurantName = $email = $password = $conpassword = $phone = $state = $city = $gstIn = $address = "";
-$boolean=false;
-
-//Remove spaces, slashes and prevent XSS
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-//First Name Validation
-  if (empty($_POST["fname"])) {
-    $fnameErr = "First Name required";
-    $boolean = false;
-  } else {
-    // check if name only contains letters and whitespace
-    if (!preg_match("/^[a-zA-Z ]*$/",$fname)) {
-      $fnameErr = "Only letters and white space allowed";
-    }else{
-        $fname = test_input($_POST["fname"]);
-        $boolean = true;
-    }
-    }
-  
-  //Last Name Validation
-  if (empty($_POST["lname"])) {
-    $lnameErr = "Last Name required";
-    $boolean = false;
-  } else {
-    // check if name only contains letters and whitespace
-    if (!preg_match("/^[a-zA-Z ]*$/",$lname)) {
-      $lnameErr = "Only letters and white space allowed";
-    }else{
-        $lname = test_input($_POST["lname"]);
-        $boolean = true;
-    }
-  }
-
-  //Restaurant Name Validation
-  if (empty($_POST["restaurantName"])) {
-    $restaurantNameErr = "Restaurant Name required";
-    $boolean = false;
-  } else {
-    // check if name only contains letters and whitespace
-    if (!preg_match("/^[a-zA-Z ]*$/",$restaurantName)) {
-      $restaurantNameErr = "Only letters and white space allowed";
-    }else{
-        $restaurantName = test_input($_POST["restaurantName"]);
-        $boolean = true;
-    } 
-  }
-  
-  //Email Id Validation
-  if (empty($_POST["email"])) {
-    $emailErr = "Email required";
-    $boolean = false;
-  } else {
-    // check if e-mail address is well-formed
-    if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-      $emailErr = "Invalid email format";
-      $boolean = false;
-    }else{
-        $email = test_input($_POST["email"]);
-        $boolean = true;
-    }
-  }
-  
-    //Password Validation
-    //$length = strlength($_POST["password"]);
-    if(empty($_POST["password"])){
-        $passwordErr = "Password required";
-        $boolean = false;
-    }else {
-
-    $ln= strlen($_POST["password"]);
-    if($ln > 15){
-        $passwordErr = "Password should be less than 15 characters";
-        $boolean = false;
-    } elseif($ln < 5 && $ln >=1) {
-        $passwordErr = "Password should be greater than 4 characters";
-        $boolean=false;
-    } /*elseif(!preg_match("#[0-9]+#",$password)) {
-        $passwordErr = "Password must Contain At Least 1 Number!";
-        $boolean = false;
-    } elseif(!preg_match("#[A-Z]+#",$password)) {
-        $passwordErr = "Password must Contain At Least 1 Capital Letter!";
-        $boolean = false;
-    } elseif(!preg_match("#[a-z]+#",$password)) {
-        $passwordErr = "Password must Contain At Least 1 Lowercase Letter!";
-        $boolean = false;
-    }*/ else {
-        $password = test_input($_POST["password"]);
-        $boolean = true;
-    }
-
-    }
-
-    //Confirm Password Validation
-    if(empty($_POST["conpassword"])){
-        $conpasswordErr = "Confirm Password required";
-        $boolean = false;
-    } elseif($_POST["conpassword"]!=$_POST["password"]){
-        $conpasswordErr = "Passwords not matching";
-        $boolean = false;
-    } else{
-        $boolean = true;
-    }
-
-
-
-    //Phone number Validation
-        if(empty($_POST["phone"])){
-        $phoneErr = "Phone number Required";
-        $boolean = false;
-    } elseif($_POST["phone"] < 10 && $_POST["phone"] > 10){
-        $phoneErr = "Invalid Phone Number";
-        $boolean = false;
-    } else{
-        $boolean = true;
-    }
-  
-
-
-    //Address Validation
-    if (empty($_POST["address"])) {
-    $addressErr = "Address is required";
-    $boolean = false;
-  } else {
-      $address = test_input($_POST["address"]);
-      $boolean = true;
-    }
-
-
-
-
-
-
-  //GST IN Validation
-    if (empty($_POST["gstIn"])) {
-    $gstInErr = "GSTIN is required";
-    $boolean = false;
-  } else {
-      $gstIn = test_input($_POST["gstIn"]);
-      $boolean = true;
-    }
-
-
-
- 
-
-    //File Validation
-
-
-/*
-    // Check if file already exists
-    if (file_exists($target_file)) {
-      echo "Sorry, file already exists.";
-      $uploadOk = 0;
-    }
-
-    // Check file size
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
-      echo "Sorry, your file is too large.";
-      $uploadOk = 0;
-    }
-
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-      echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-      $uploadOk = 0;
-    }*/
-
-  //State Validation
-    if($_POST["state"] == 'Select State') { 
-        $stateErr = "Please select a State"; 
-        $boolean = false;
-    }else {
-        $state = test_input($_POST["state"]);
-        $boolean = true;
-    }
-
-  //City Validation
-    if($_POST["city"] == 'Select City') { 
-        $cityErr = "Please select a City";
-        $boolean = false; 
-    }else {
-        $city = test_input($_POST["city"]);
-        $boolean = true;
-    } 
-
-
-//Length of Password
-/*function strlength($str)
-{
-    $ln= strlen($str);
-    if($ln > 15){
-        return "Password should be less than 15 characters";
-    }elseif ($ln < 5 && $ln >=1){
-        return "Password should be greater than 3 characters";
-    }
-    return;
-}*/
-
-//Create New Restaurant
-function NewUser(){
-
-    //Master Database 
-
-            $target_dir = "C:\wamp\www\StarveLater\dist\uploads/";
-            $target_file = $target_dir.basename($_FILES['fileToUpload']['name']);
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-
-/*    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-              if($check !== false) {
-                echo "File is an image - " . $check["mime"] . ".";
-                $uploadOk = 1;
-              } else {
-                echo "File is not an image.";
-                $uploadOk = 0;
-              }*/
-
-            // Check if $uploadOk is set to 0 by an error
-            
-
-            if ($uploadOk == 0) {
-              echo "Sorry, your file was not uploaded.";
-              $boolean = false;
-            // if everything is ok, try to upload file
+            //Email Id Validation
+            if (empty($_POST["emailid"])) {
+                $emailErr = "Email required";
+                $boolean = false;
             } else {
-              if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-                $boolean = true;
-              } else {
-                //echo "Sorry, there was an error uploading your file.";
-                $boolean = true;
-              }
+              // check if e-mail address is well-formed
+               if (!filter_var($_POST["emailid"], FILTER_VALIDATE_EMAIL)) {
+                 $emailErr = "Invalid email format";
+                 $boolean = false;
+               }else{
+                  $email = test_input($_POST["emailid"]);
+                  $boolean = true;
+            }
+         }
+
+         //Password Validation
+         //$length = strlength($_POST["password"]);
+         if(empty($_POST["pwd"])){
+           $passwordErr = "Password required";
+           $boolean = false;
+         }else {
+
+            $ln= strlen($_POST["pwd"]);
+            if($ln > 15){
+               $passwordErr = "Password should be less than 15 characters";
+               $boolean = false;
+            } elseif($ln < 5 && $ln >=1) {
+               $passwordErr = "Password should be greater than 4 characters";
+               $boolean=false;
+            } else {
+               $password = test_input($_POST["pwd"]);
+               $boolean = true;
             }
 
-            //(Restaurant_ID,Restaurant_Name,Email_ID,Password,Phone,No_of_Tables,fname,lname,Address,City,State,GSTIN,FoodLicense,LabourLicense,OrdersReceived)
+         }
 
 
-       $restaurantID = uniqid();
-       $logoFileName = basename( $_FILES["fileToUpload"]["name"]);
+       //Restaurant and Admin Login
+       function SignIn($email, $password){
 
-       if(!empty($logoFileName)) {
+      
+        $sql="SELECT * FROM restaurants where Email_ID='".$email."'";
 
-    $sql = "INSERT INTO restaurants Values ('$restaurantID','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["phone"]."','0','".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["address"]."','".$_POST["city"]."','".$_POST["state"]."','".$_POST["gstIn"]."','0','0','0','0','$logoFileName','Open','0')";
+        $retval = mysqli_query($GLOBALS['con'],$sql);
 
+        $count = mysqli_num_rows($retval);
 
-        $query = mysqli_query($GLOBALS['con'], $sql);
+          if($count==0) {
+            echo "<script> swal('Invalid Username','','warning');</script>";
+          } else {
 
+            $row = mysqli_fetch_array($retval,MYSQLI_ASSOC);
+            
+           if($row["Password"]==$_POST["pwd"]) {
 
-        if($query) {
-        echo "<script>
-                    alert('Registered Successfully');
-        </script>";
-        header('Location: ./admin.php?status=success');
-        } 
-        else {
-            echo "<script>alert('Error in Registration xTB0001'); </script>";
-        }
-    }
-}
+            session_start();
+            $_SESSION['email'] = $_POST["emailid"];
+            header("Location: ./restaurant_home.php");
 
-//Check whether restaurant name and Email Id exists in DB
-function SignUp(){
-
-        $sql = "SELECT * FROM restaurants where Restaurant_Name = '".$_POST["restaurantName"]."' AND Email_ID = '".$_POST["email"]."'";
-        $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
-
-        if(!$row = mysqli_fetch_array($result)){
-            NewUser();
-        }else{
-            echo "<script>
-                  alert('Restaurant is already registered!');
+          } else {
+              echo "<script>
+                  swal('Invalid Password','','warning');
             </script>";
+          }
+
         }
+      
+
+        mysqli_free_result($retval);
+
+
     }
 
-if($boolean){
-    $dbname = "starvelater";
-    $con = mysqli_connect("localhost","root","",$dbname);
+
+      if($boolean){
+
+
+          $admin_email = "admin@gmail.com";
+          $admin_pwd = "admin123";
+       
+          $email = $_POST["emailid"];
+          $password = $_POST["pwd"];
+         
+
+        $dbname = "starvelater";
+        $con = mysqli_connect("localhost","root","",$dbname);
     
-    //Check for DB Connection
-    if(!$con){
-        die("Connection Failed :" + mysqli_connect_error());
-    }else{
+         //Check for DB Connection
+         if(!$con){
+            die("Connection Failed :" + mysqli_connect_error());
+         }else{
+            if(isset($_POST["login"])){
+              
+               if (($admin_email == $email) && ($admin_pwd == $password)) {
+                    header("Location: ./admin.php?status=view");
+              } else {
+                SignIn($email,$password);
+                mysqli_close($GLOBALS["con"]);
+                $boolean = false;
+              }
+            }
+         }
+    
+      }
 
-        if(isset($_POST["submit"])){
-           SignUp();
-           mysqli_close($GLOBALS["con"]);
-           $boolean = false;
     }
-    }
-    }
-}
 
-?>
-        
+
+    ?>
+ -->
+
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
                 <main>
                     <div class="container">
                         <div class="row justify-content-center">
-                            <div class="col-lg-7">
+                            <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Restaurant Registration Form</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Restaurant Registration</h3></div>
                                     <div class="card-body">
-                                        <form method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 
-                                            <!-- Name of Owner -->
-                                            <div class="form-row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group"><label class="small mb-1" for="inputFirstName">First Name</label><input class="form-control py-4" id="inputFirstName" type="text" placeholder="Enter First name" name="fname" />
-                                                    <span id="span"><?php echo $fnameErr; ?></span>
-                                                </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group"><label class="small mb-1" for="inputLastName">Last Name</label><input class="form-control py-4" id="inputLastName" type="text" placeholder="Enter Last name" name="lname" />
-                                                    <span id="span"><?php echo $lnameErr; ?></span>
-                                                </div>
-                                                </div>
+                                    	<!-- Form  -->
+                                        <form name="f1" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+
+                                        
+
+                                             <!-- Password -->
+                                            <div class="form-group"><label class="small mb-1" for="inputPhone" >Phone Number</label><input class="form-control py-4" id="inputPhone" type="text" value="+91" name="number" placeholder="Enter Phone Number" /></div>
+
+                                          <div id="recaptcha-container"></div>
+
+
+                                           <!--   Forgot Password 
+                                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"><a class="small" href="password.html">Forgot Password?</a><br><br> -->
+
+                                            <!-- Submit Button -->
+                                            <p>&nbsp;</p>
+                                           <input class="btn btn-primary btn-block" type="Button" name="login" onclick="phoneAuth();" id="btnsub" value="Send One Time Password (OTP)"/>
                                             </div>
-
-                                            <!-- Restaurant Name -->
-                                            <div class="form-group"><label class="small mb-1" for="inputRestaurantName">Name of Restaurant</label><input class="form-control py-4" id="inputRestaurantName" type="text" aria-describedby="emailHelp" placeholder="Enter Name of Restaurant" name="restaurantName" />
-                                                <span id="span"><?php echo $restaurantNameErr; ?></span>
-                                            </div>
-                                    
-
-                                            <!-- Email Address -->
-                                            <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Email</label><input class="form-control py-4" id="inputEmailAddress" type="email" aria-describedby="emailHelp" placeholder="Enter email address" name="email" />
-                                            <span id="span"><?php echo $emailErr; ?></span>
-                                            </div>
-
-                                            <!-- Password Section -->
-                                            <div class="form-row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group"><label class="small mb-1" for="inputPassword">Password</label><input class="form-control py-4" id="inputPassword" type="password" placeholder="Enter password" name="password"/><span id="span"><?php echo $passwordErr; ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group"><label class="small mb-1" for="inputConfirmPassword">Confirm Password</label><input class="form-control py-4" id="inputConfirmPassword" type="password" placeholder="Confirm password" name="conpassword" />
-                                                    <span id="span"><?php echo $conpasswordErr; ?></span>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            
-                                              <!-- Phone Number  -->
-                                            <div class="form-group"><label class="small mb-1" for="inputPhone">Phone Number</label><input class="form-control py-4" id="inputPhone" type="text" prefix="+91" placeholder="Enter Phone Number" name="phone" />
-                                            <span id="span"><?php echo $phoneErr; ?></span>
-                                            </div>
-
-
-                                            <!-- Address  -->
-                                            <div class="form-group"><label class="small mb-1" for="inputRestaurantAddress">Address</label><input class="form-control py-4" id="inputRestaurantAddress" type="text" aria-describedby="emailHelp" placeholder="Enter Restaurant address" name="address" />
-                                            <span id="span"><?php echo $addressErr; ?></span>
-                                            </div>
-
-
-                                            <!-- Location Section -->
-                                            <div class="form-row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="small mb-1" for="inputState">Choose State</label><br>
-                                                        <select class="form-control" id="inputState" name="state" onChange="getCity(this.value);" >
-                                                            <option>Select State</option>
-                                                              <?php
-                                                                    $dbname = "starvelater";
-                                                                    $con = mysqli_connect("localhost","root","",$dbname);
-    
-                                                                //Check for DB Connection
-                                                            if(!$con){
-                                                                die("Connection Failed :" + mysqli_connect_error());
-                                                            }else { 
-                                                         //Load State  Data  
-                                                                $sql = "SELECT State_ID,Name FROM state";
-                                                    
-                                                                $retval = mysqli_query($GLOBALS['con'],$sql);
-                                                       
-                                                                   if(! $retval ) {
-                                                                      die('Could not get data: ' . mysqli_error());
-                                                                   }
-                                                                   
-                                                                   while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
-                                                                      echo "<option value='".$row["State_ID"]."'>".$row["Name"]."</option>";  
-                                                                   }
-
-                                                                    mysqli_close($GLOBALS["con"]);
-                                                                 }
-
-                                                        ?>
-                                                        </select>
-                                                    </div>
-                                                    <span id="span"><?php echo $stateErr; ?></span>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="small mb-1" for="inputCity">Choose City</label><br>
-                                                        <select class="form-control" id="inputCity" name="city" >
-                                                            <option value="">Select City</option>
-                                                        </select>
-                                                    </div>
-                                                    <span id="span"><?php echo $cityErr; ?></span>
-                                                </div>
-                                            </div>
-
-                                            <!-- GSTIN Number  -->
-                                            <div class="form-group"><label class="small mb-1" for="inputGSTIN">GSTIN Number</label><input class="form-control py-4" id="inputGSTIN" type="text" aria-describedby="emailHelp" placeholder="Enter GSTIN Number" name="gstIn" />
-                                            <span id="span"><?php echo $gstInErr; ?></span>
-                                            </div>
-
-                                            <!-- Upload File -->
-                                            <div class="form-group">
-                                                        <label class="small mb-1" for="fileToUpload">Upload Restaurant Logo</label>
-                                                        <input type="File" class="form-control" accept="image/*" name="fileToUpload" id="fileToUpload">
-                                            </div>
-
-                                             <!-- Submit Button -->
-                                            <div class="form-group mt-4 mb-0"><input class="btn btn-primary btn-block" type="submit" name="submit" id="btnsub" value="Submit"/></div>
-                    
                                         </form>
                                     </div>
-                                   
                                 </div>
                             </div>
                         </div>
@@ -493,7 +289,7 @@ if($boolean){
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="footer-text-color" style="color: #fff;">Copyright &copy; STARVE<span><b>LATER</b></span> 2020</div>
-                            <div class="footer-text-color" style="color: #fff;">Made with ❤️ by <b><a href="https://umangsolutions.org" target="_blank">Umang Solutions</a></b></div>
+                            <div class="footer-text-color" style="color: #fff;">Made with ❤️ by <b><a href="https://umangsolutions.org">Umang Solutions</a></b></div>
                             <div>
                                 <a href="#" class="white-text">Privacy Policy</a>
                                 &middot;
@@ -504,6 +300,14 @@ if($boolean){
                 </footer>
             </div>
         </div>
+        <!-- <script src="/__/firebase/7.14.6/firebase-app.js"></script>
+
+TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries
+<script src="/__/firebase/7.14.6/firebase-analytics.js"></script>
+
+Initialize Firebase
+<script src="/__/firebase/init.js"></script> -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>

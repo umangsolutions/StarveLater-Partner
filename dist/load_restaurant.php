@@ -10,6 +10,8 @@
         <title><?php echo $_GET['restaurantname']; ?> | StarveLater</title>
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js" integrity="sha256-5oApc/wMda1ntIEK4qoWJ4YItnV4fBHMwywunj8gPqc=" crossorigin="anonymous"></script>
         <style type="text/css">
         	li {
         		width: 100%;
@@ -23,6 +25,10 @@
         </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+           <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     </head>
     <body class="sb-nav-fixed">
 
@@ -30,7 +36,7 @@
 
         <?php
 
-        $FoodLicenceErr = $LabourLicenceErr = $MarginErr = "";
+              $FoodLicenceErr = $LabourLicenceErr = $MarginErr = "";
 
               $FoodLicence = $LabourLicence = $Margin =  "";
               $boolean = false;
@@ -427,92 +433,159 @@
                             </div>
                         </div>
 
-                       <!--  Restaurant Orders Table -->
-                       <div class="card mb-4">
-                            <div class="card-header"><i class="fas fa-clipboard mr-1"></i>Orders Served</div>
+                        <?php 
+
+
+                            $dbname = "starvelater";
+                            $con = mysqli_connect("localhost","root","",$dbname);
+    
+                            //Check for DB Connection
+                            if(!$con){
+                                    die("Connection Failed :" + mysqli_connect_error());
+                            }else { 
+                                                         //Load Restaurant  Data  
+                            $sql = "SELECT * FROM restaurants where Restaurant_Name = '".$_GET['restaurantname']."'";
+                                                    
+                                    $retval = mysqli_query($GLOBALS['con'],$sql);
+
+                                    $followingdata = $retval->fetch_array(MYSQLI_ASSOC);
+
+                                   // echo "<script>alert('".$followingdata['Restaurant_ID']."');</script>";
+                                                       
+                                   // echo $followingdata['restaurantname'];
+
+                                    mysqli_close($GLOBALS["con"]);
+                            }
+
+        
+
+
+                        ?>
+
+                       <!-- One Week Back Orders -->
+                    <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Orders Received
+                             Week ago</div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                      
+                                   <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0" data-id="<?php 
+                                   echo $followingdata['Restaurant_ID']; ?>" data-margin="<?php echo $followingdata['Margin']; ?>">
                                         <thead>
                                             <tr>
-                                                <th>Customer Name</th>
-                                                <th>Bill ID</th>
-                                                <th>Order Type</th>
-                                                <th>Booked Time</th>
+                                                <th>Order_ID</th>  
+                                                <th>Name of Item</th>
+                                                <th>Type</th>
+                                                <th>Order Date</th>
                                                 <th>Status of Order</th>
-                                                <th>Net Bill</th>
+                                                <th>Net Bill (INR)</th>
+                                                <th>Our Margin Amount (<span><?php echo $marginLi; ?>%</span>)</th>
+                                                <th>Final Amount</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-
-                                                <th>Customer Name</th>
-                                                <th>Bill ID</th>
-                                                <th>TakeAway/Dine-in</th>
-                                                <th>Booked Time</th>
-                                                <th>Status of Order</th>
-                                                <th>Net Bill</th>
-                                                </tr>
+                                               <th colspan="5">Total</th>
+                                               <th id="total_count"></th>
+                                               <th id="our_margin"></th>
+                                               <th id="final_margin"></th> 
+                                                 
+                                            </tr>
                                         </tfoot>
-                                        <tbody>
                                         
-                                              
-
-                                            
-
-                                                 <tr>
-                                                <td>Saikiran Kopparthi</td>
-                                            
-                                                <td>SL1</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/05/03 22:15:02</td>
-                                                <td>Completed</td>
-                                                <td>₹500.00</td>
-                                            </tr>
-                                                 
-                                            <tr>
-                                                <td>Koushik Modekurti</td>
-                                                
-                                                <td>SL2</td>
-                                                <td>Take Away</td>
-                                                <td>2020/06/15 12:28:15</td>
-                                                <td>In progress</td>
-                                                <td>₹250.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Santosh Burada</td>
-                                            
-                                                <td>SL3</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/05/25 17:23:12</td>
-                                                <td>In progress</td>
-                                                <td>₹300.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Prathyusha Kuppili</td>
-                                            
-                                                <td>SL4</td>
-                                                <td>Take Away</td>
-                                                <td>2020/05/22 11:10:02</td>
-                                                <td>Completed</td>
-                                                <td>₹520.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Manikanta Gontu</td>
-                                            
-                                                <td>SL5</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/12/13 18:25:58</td>
-                                                <td>In Progress</td>
-                                                <td>₹275.00</td>
-                                            </tr> 
-                                                 
-                                            </tbody>
                                     </table>
+
+
                                 </div>
                             </div>
                         </div>
 
+                        <!--  One Week Ago's DataTable1 -->
+                        <script type="text/javascript" language="javascript" >
+
+
+                            $(document).ready(function(){
+ //Retrieving Today's Date
+var today = new Date();
+
+
+var dd = String(today.getDate()).padStart(2, '0');
+//Subtracting 7 days
+
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = yyyy + '-' + mm + '-' + dd;
+
+//Getting date before 7 days
+var mcal = moment().subtract(7,'days').calendar();
+var temp = new Array();
+temp = mcal.split('/');
+last = temp[2] + '-' + temp[0] + '-' + temp[1];
+//alert(last);
+
+
+
+ $('.input-daterange').datepicker({
+  todayBtn:'linked',
+  format: "yyyy-mm-dd",
+  autoclose: true
+ });
+
+
+
+ function fetch_data(is_date_search, start_date='', end_date='',rest_id,margin)
+ {
+  var dataTable = $('#dataTable2').DataTable({
+   "processing" : true,
+   "serverSide" : true,
+   "order" : [],
+   "ajax" : {
+    url:"fetch_restaurant.php",
+    type:"POST",
+    data:{
+     is_date_search:is_date_search, start_date:start_date, end_date:end_date,res_id:rest_id,margin:margin
+    }
+   },
+   drawCallback:function(settings) 
+   {
+
+      $("#total_count").html(settings.json.total_count);
+      $("#our_margin").html(settings.json.our_margin);
+      $("#final_margin").html(settings.json.final_margin);
+
+   }
+  });
+ }
+
+$('#dataTable2').DataTable().destroy();
+var rest_id = $("#dataTable2").data('id');
+var margin = $("#dataTable2").data('margin');
+//alert(rest_id);
+   fetch_data('yes',last,today,rest_id,margin);
+
+
+/*
+ $('#search1').click(function(){
+  var start_date = $('#start_date1').val();
+  var end_date = $('#end_date1').val();
+  if(start_date != '' && end_date !='')
+  {
+   $('#dataTable1').DataTable().destroy();
+   fetch_data('yes', today,last_week );
+  }
+  else
+  {
+   swal("Error","Both Date's are Required","warning");
+  }
+ }); */
+ 
+});
+    
+                        </script>
+
+
+                        
                         <hr>
 
                         <h2 class="mt-4" style="color: white;">Update Licence Details</h2>
@@ -589,6 +662,12 @@
 
                     </div>
                 </main>
+
+                 
+
+
+
+
                <footer class="py-4 footer-dark mt-auto" style="background-color: #000;">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -603,6 +682,14 @@
                 </footer>
             </div>
         </div>
+        <script src="/__/firebase/7.14.6/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="/__/firebase/7.14.6/firebase-analytics.js"></script>
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
@@ -611,6 +698,10 @@
         <script src="assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
         <script src="assets/demo/datatables-demo.js"></script>
         <script src="assets/demo/datatables1-demo.js"></script>
     </body>

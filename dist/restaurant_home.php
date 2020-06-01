@@ -154,7 +154,7 @@
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLayoutsOrders" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_profile.php">View Orders</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="restaurant_orders.php">View Orders</a></nav>
                             </div>
 
 
@@ -269,30 +269,45 @@
                             </div>
                         </div>
 
+                       <!--  Orders Table -->
                         <div class="card mb-4">
                             <div class="card-header"><i class="fas fa-table mr-1"></i>Orders Received</div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                     <table border="0" cellspacing="5" cellpadding="5">
-                                    <tbody>
-                                        <tr>
-                                            <td>Minimum Date:</td>
-                                            <td><input name="min" id="min" type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Maximum Date:</td>
-                                            <td><input name="max" id="max" type="text"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                     <br>
+                                    <div class="row">
+                                         <!-- Start Date -->  
+                                         <div class="col-md-4">
+                                        <div class="input-daterange">
+                                                
+                                                <input type="text" autocomplete="off" placeholder="Start Date" name="start_date" id="start_date" class="form-control" />
+                                        
+                                        </div>
+                                    </div>
+
+                                        <!--  End Date --> 
+                                        <div class="col-md-4">
+                                        <div class="input-daterange">
+                                            
+                                                <input type="text" autocomplete="off" placeholder="End Date" name="end_date" id="end_date" class="form-control" />
+                                            
+                                        </div>
+                                    </div>
+
+                                        <div class="col-md-4">
+                                          <input type="button" name="search" id="search" value="Search" class="btn btn-info" />
+                                        </div>
+                                    </div>
+                                    <br > 
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" data-id="<?php 
+                                    echo $followingdata['Restaurant_ID']; ?>">
                                         <thead>
                                             <tr>
-                                                <th>Name of Customer</th>
-                                                <th>Restaurant Ordered</th>
+                                                <th>Order_ID</th>
+                                                
                                                 <th>Name of Item</th>
                                                 <th>Take Away / Dine-in</th>
-                                                <th>Time Booked</th>
+                                                <th>Order Date</th>
                                                 <th>Status of Order</th>
                                                 <th>Amount (INR)</th>
                                             </tr>
@@ -300,95 +315,17 @@
                                         <tfoot>
                                             <tr>
 
-                                                <th>Name of Customer</th>
-                                                <th>Restaurant Ordered</th>
+                                                 <th>Order_ID</th>
+                                               
                                                 <th>Name of Item</th>
-                                                <th>Mode of Delivery</th>
-                                                <th>Time Booked</th>
+                                                <th>Take Away / Dine-in</th>
+                                                <th>Order Date</th>
                                                 <th>Status of Order</th>
                                                 <th>Amount (INR)</th>
                                                 </tr>
                                         </tfoot>
-                                        <tbody>
-                                            <tr>
-                                                <td>Saikiran Kopparthi</td>
-                                                <td>Haveli Dakshin, Kakinada</td>
-                                                <td>Veg Biryani</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/05/03 22:15:02</td>
-                                                <td>Completed</td>
-                                                <td>₹500.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Koushik Modekurti</td>
-                                                <td>Ravi Bakery, Rajam</td>
-                                                <td>Pizza</td>
-                                                <td>Take Away</td>
-                                                <td>2020/06/15 12:28:15</td>
-                                                <td>In progress</td>
-                                                <td>₹250.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Santosh Burada</td>
-                                                <td>Paradise, Hyderabad</td>
-                                                <td>Panner 65</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/05/25 17:23:12</td>
-                                                <td>In progress</td>
-                                                <td>₹300.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Prathyusha Kuppili</td>
-                                                <td>SVN Grand, Kakinada</td>
-                                                <td>Veg Biryani</td>
-                                                <td>Take Away</td>
-                                                <td>2020/05/22 11:10:02</td>
-                                                <td>Completed</td>
-                                                <td>₹520.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Manikanta Gontu</td>
-                                                <td>SR Foodex, Rajam</td>
-                                                <td>Baby Corn Munchuria</td>
-                                                <td>Dine-in</td>
-                                                <td>2020/12/13 18:25:58</td>
-                                                <td>In Progress</td>
-                                                <td>₹275.00</td>
-                                            </tr>                                  </tbody>
-                                    </table>
-                                    <script>
                                         
-                                            $.fn.dataTable.ext.search.push(
-                                            function (settings, data, dataIndex) {
-                                                var min = $('#min').datepicker("getDate");
-                                                var max = $('#max').datepicker("getDate");
-                                                var startDate = new Date(data[4]);
-                                                if (min == null && max == null) { return true; }
-                                                if (min == null && startDate <= max) { return true;}
-                                                if(max == null && startDate >= min) {return true;}
-                                                if (startDate <= max && startDate >= min) { return true; }
-                                                return false;
-                                            }
-                                            );
-
-                                           
-                                                $("#min").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
-                                                $("#max").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
-                                                $(document).ready(function(){
-                                                var table = $('#dataTable').DataTable();
-
-                                                // Event listener to the two range filtering inputs to redraw on input
-                                                $('#min, #max').keyup(function () {
-                                                    table.draw();
-                                                });
-                                            });
-
-
-
-
-
-
-                                    </script>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -396,6 +333,60 @@
                         <!-- Table Close -->
                     </div>
                 </main>
+
+
+                 <!-- Today's Data Table  -->
+                        <script type="text/javascript" language="javascript" >
+
+
+                            $(document).ready(function(){
+ 
+ $('.input-daterange').datepicker({
+  todayBtn:'linked',
+  format: "yyyy-mm-dd",
+  autoclose: true
+ });
+
+ var rest_id = $('#dataTable').data('id');
+ fetch_data('no','','',rest_id);
+
+
+ function fetch_data(is_date_search, start_date='', end_date='',rest_id)
+ {
+  var dataTable = $('#dataTable').DataTable({
+   "processing" : true,
+   "serverSide" : true,
+   "order" : [],
+   "ajax" : {
+    url:"fetch.php",
+    type:"POST",
+    data:{
+     is_date_search:is_date_search, start_date:start_date, end_date:end_date,res_id: rest_id
+    }
+   }
+  });
+ }
+
+ $('#search').click(function(){
+  var start_date = $('#start_date').val();
+  var end_date = $('#end_date').val();
+  var rest_id = $('#dataTable').data('id');
+  if(start_date != '' && end_date !='')
+  {
+   $('#dataTable').DataTable().destroy();
+   fetch_data('yes', start_date, end_date,rest_id);
+  }
+  else
+  {
+   swal("Error","Both Date's are Required","warning");
+  }
+ }); 
+ 
+});
+    
+                        </script>
+
+
              
 
 
@@ -404,58 +395,6 @@
          <script>
    
            $(document).ready(function() {
-
-                /*$('#inputCategory').change(function() {
-                     var sel = $(this).val();
-                     
-                     if(sel == 'Open') {
-                        //alert('Do you want the Restaurant need to Open');
-                         var r = confirm("Do you want the Restaurant need to Open");
-                         if(r==true) {
-                            
-                             var id = $('#inputCategory').data('id');
-                             $.ajax({
-                                 
-                                 url : 'update_status.php',
-                                 method : 'POST',
-                                 data : { id: id, status: 'Open'},
-                                 success : function(response) {
-                                      swal('successful','Restaurant is Now Open','success');
-                                 }
-                              
-                             });
-
-                         } else {
-                            //alert('Clicked Cancel');
-                            $('#inputCategory').val('Open');
-                         }
-
-                     } else {
-
-                        //alert('Do you want the Restaurant to Close ');
-                        //alert('Do you want the Restaurant need to Open');
-                         var r = confirm("Do you want the Restaurant need to Close");
-                         if(r==true) {
-                            
-                             var id = $('#inputCategory').data('id');
-                             $.ajax({
-                                 
-                                 url : 'update_status.php',
-                                 method : 'POST',
-                                 data : { id: id, status: 'Closed'},
-                                 success : function(response) {
-                                      swal('successful','Restaurant is Now Closed','success');
-                                 }
-                              
-                             });
-
-                         } else {
-                            $('#inputCategory').val('Closed');
-                         }
-                    
-                 }
-
-                });*/
 
                 var prev_val;
 
@@ -536,7 +475,14 @@
 
     
 
-       
+       <script src="/__/firebase/7.14.6/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="/__/firebase/7.14.6/firebase-analytics.js"></script>
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
 
 
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
@@ -547,6 +493,10 @@
         <script src="assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+        
         <script src="assets/demo/datatables-demo.js"></script>
         <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>

@@ -329,6 +329,8 @@
                                                 <th>Item Category</th>
                                                 <th>Item Price</th>
                                                 <th>Item Availability</th>
+                                                <th>Discount %</th>
+                                                <th>Final Price</th>
                                                 <th>Operations</th>
                                             </tr>
                                         </thead>
@@ -341,6 +343,8 @@
                                                 <th>Item Category</th>
                                                 <th>Item Price</th>
                                                 <th>Item Availability</th>
+                                                <th>Discount %</th>
+                                                <th>Final Price</th>
                                                 <th>Operations</th>
                                                 </tr>
                                         </tfoot>
@@ -395,6 +399,8 @@
                                                           echo "<td data-target='category'>".$row['category']."</td> ";
                                                           echo "<td data-target='price'>".$row['price']."</td>"; 
                                                           echo "<td data-target='availability'>".$row['availability']."</td>";
+                                                          echo "<td data-target='discount'>".$row['Discount']."</td>";
+                                                          echo "<td data-target='final_price'>".$row['Final_Price']."</td>";
                                                           echo "<td>"; ?>
 
                                                          <!--  Edit Button -->
@@ -464,6 +470,8 @@
                                                           echo "<td data-target='category'>".$row['category']."</td> ";
                                                           echo "<td data-target='price'>".$row['price']."</td> ";
                                                           echo "<td data-target='availability'>".$row['availability']."</td>";
+                                                          echo "<td data-target='discount'>".$row['Discount']."</td>";
+                                                          echo "<td data-target='final_price'>".$row['Final_Price']."</td>";
                                                           echo "<td>"; ?>
                                                         
                                                          <!--  Edit Button -->
@@ -530,6 +538,8 @@
                                                           echo "<td data-target='category'>".$row['category']."</td> ";
                                                           echo "<td data-target='price'>".$row['price']."</td>"; 
                                                           echo "<td data-target='availability'>".$row['availability']."</td>";
+                                                          echo "<td data-target='discount'>".$row['Discount']."</td>";
+                                                          echo "<td data-target='final_price'>".$row['Final_Price']."</td>";
                                                           echo "<td>"; ?>
 
                                                          <!--  Edit Button -->
@@ -643,6 +653,20 @@
                                    </select>
                                 </div>
 
+                                <!-- Discount Dropdown -->
+                                <div class="form-group">
+                                   <label>Item Discount</label>
+                                   <select class="form-control" name="inputDiscount" id="inputDiscount">
+                                     <option value="0 %">0 %</option>
+                                     <option value="10 %">10 %</option>
+                                     <option value="20 %">20 %</option>
+                                     <option value="30 %">30 %</option>
+                                     <option value="40 %">40 %</option>
+                                     <option value="50 %">50 %</option>
+                                     <option value="60 %">60 %</option>
+                                   </select>
+                                </div>
+
                                 <input type="hidden" id="userId" class="form-control">
 
                               </div>
@@ -663,9 +687,11 @@
                 var id = $(this).data('id');
                 var price = $('#' + id).children('td[data-target=price]').text();
                 var availability = $('#' + id).children('td[data-target=availability]').text();
+                var discount = $('#' + id).children('td[data-target=discount]').text();
                 
                 $('#price').val(price);
                 $('#inputCategory').val(availability);
+                $('#inputDiscount').val(discount);
                 $('#userId').val(id);
                 $('#myModal').modal('toggle');
 
@@ -674,14 +700,20 @@
               //Updating Values
           $('#save').click(function(){
               var id = $('#userId').val();
-              var price = $('#price').val();
+
+              var price = Number($('#price').val());
               var availability = $('#inputCategory').val();
+              var discount = $('#inputDiscount').val();
+              
+              var temp = new Array();
+              temp = discount.split(' ');
+              var final_price = (price-((price/100)*temp[0]));
               
               var el = this;
               $.ajax({
                   url : 'update.php',
                   method : 'POST',
-                  data : {id : id, price : price, availability : availability },
+               data : {id : id, price : price, availability : availability, discount : discount, final_price : final_price },
                   success : function(response){
                               //console.log(response);
                               $('#' + id).children('td[data-target=price]').text(price);
@@ -696,6 +728,10 @@
                               });
                              
                               $('#' + id).children('td[data-target=availability]').text(availability);
+
+                              $('#' + id).children('td[data-target=discount]').text(discount);
+
+                              $('#' + id).children('td[data-target=final_price]').text(final_price);
                               
                               $('#myModal').modal('toggle');
                             }
@@ -708,7 +744,14 @@
 
        </script>
 
+        <script src="/__/firebase/7.14.6/firebase-app.js"></script>
 
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="/__/firebase/7.14.6/firebase-analytics.js"></script>
+
+        <!-- Initialize Firebase -->
+        <script src="/__/firebase/init.js"></script>
 
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
