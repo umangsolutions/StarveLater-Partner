@@ -282,8 +282,7 @@ VALUES (
                                         <thead>
                                             <tr>
                                                 <th>Order_ID</th>
-                                            
-                                                <th>Name of Item</th>
+                        
                                                 <th>Take Away / Dine-in</th>
                                                 <th>Order Date</th>
                                                 <th>Status of Order</th>
@@ -295,7 +294,6 @@ VALUES (
 
                                                  <th>Order_ID</th>
                                         
-                                                <th>Name of Item</th>
                                                 <th>Take Away / Dine-in</th>
                                                 <th>Order Date</th>
                                                 <th>Status of Order</th>
@@ -325,7 +323,6 @@ VALUES (
                                             <tr>
                                                 <th>Order_ID</th>
                                         
-                                                <th>Name of Item</th>
                                                 <th>Take Away / Dine-in</th>
                                                 <th>Order Date</th>
                                                 <th>Status of Order</th>
@@ -336,8 +333,7 @@ VALUES (
                                             <tr>
 
                                                  <th>Order_ID</th>
-                                                
-                                                <th>Name of Item</th>
+                                          
                                                 <th>Take Away / Dine-in</th>
                                                 <th>Order Date</th>
                                                 <th>Status of Order</th>
@@ -365,21 +361,22 @@ VALUES (
                                    echo $followingdata['Restaurant_ID']; ?>">
                                         <thead>
                                             <tr>
-                                                <th>Order_ID</th>
-                                                
-                                                <th>Name of Item</th>
+                                                <th>Order_ID</th>  
                                                 <th>Take Away / Dine-in</th>
                                                 <th>Order Date</th>
                                                 <th>Status of Order</th>
                                                 <th>Amount (INR)</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
                                         <tfoot>
                                             <tr>
 
                                                  <th>Order_ID</th>
                                                 
-                                                <th>Name of Item</th>
+                                      
                                                 <th>Take Away / Dine-in</th>
                                                 <th>Order Date</th>
                                                 <th>Status of Order</th>

@@ -2,12 +2,12 @@
 //fetch.php
 $connect = mysqli_connect("localhost", "root", "", "starvelater");
 //$columns = array('order_Id', 'item_ids', 'Restaurant_ID', 'Customer_ID', 'Order_Type','Order_Date','Order_Status','Net_Bill');
-if($_POST["is_date_search"] == "no") {
- $query_original = "SELECT * FROM orders WHERE Restaurant_ID='".$_POST['res_id']."'";
+if($_POST["is_date_search"] == "no") { 
+ $query_original = "SELECT * FROM orders GROUP BY order_Id HAVING Restaurant_ID='".$_POST['res_id']."' ";
 }
 
 
-$query = "SELECT *  from orders WHERE ";
+$query = "SELECT * FROM orders GROUP BY order_Id HAVING ";
 
 if($_POST["is_date_search"] == "yes")
 {
@@ -68,13 +68,19 @@ while($row = mysqli_fetch_array($result))
  $sub_array[] = $row["Order_Type"];
  $sub_array[] = $row["Order_Date"];
  $sub_array[] = $row["Order_Status"];
- $sub_array[] = '₹ '.$row["Net_Bill"];
- $sub_array[] = '₹ '.(($row["Net_Bill"] * $margin_per)/100);
- $sub_array[] = '₹ '.($row["Net_Bill"]-(($row["Net_Bill"] * $margin_per)/100));
 
- $total_count = $total_count + floatval($row["Net_Bill"]);
- $our_margin = $our_margin + floatval(($row["Net_Bill"] * $margin_per)/100);
- $final_margin = $final_margin + floatval($row["Net_Bill"]-(($row["Net_Bill"] * $margin_per)/100));
+  	//Calculating Sum of Orders
+	 $sql = "SELECT sum(Net_Bill) from orders where order_Id='".$row["order_Id"]."'";
+	 $work = mysqli_query($connect,$sql);
+     $workArr = mysqli_fetch_array($work);
+
+ $sub_array[] = '₹ '.$workArr[0];
+ $sub_array[] = '₹ '.(($workArr[0] * $margin_per)/100);
+ $sub_array[] = '₹ '.($workArr[0]-(($workArr[0] * $margin_per)/100));
+
+ $total_count = $total_count + floatval($workArr[0]);
+ $our_margin = $our_margin + floatval(($workArr[0] * $margin_per)/100);
+ $final_margin = $final_margin + floatval($workArr[0]-(($workArr[0] * $margin_per)/100));
 
 
  $data[] = $sub_array;
@@ -82,7 +88,7 @@ while($row = mysqli_fetch_array($result))
 
 function get_all_data($connect)
 {
- $query = "SELECT * FROM orders where Restaurant_ID='".$_POST['res_id']."'";
+ $query = "SELECT * FROM orders GROUP BY order_Id HAVING Restaurant_ID='".$_POST['res_id']."'";
  $result = mysqli_query($connect, $query);
  return mysqli_num_rows($result);
 }

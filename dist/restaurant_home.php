@@ -304,8 +304,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Order_ID</th>
-                                                
-                                                <th>Name of Item</th>
+                                               
                                                 <th>Take Away / Dine-in</th>
                                                 <th>Order Date</th>
                                                 <th>Status of Order</th>
@@ -317,7 +316,6 @@
 
                                                  <th>Order_ID</th>
                                                
-                                                <th>Name of Item</th>
                                                 <th>Take Away / Dine-in</th>
                                                 <th>Order Date</th>
                                                 <th>Status of Order</th>

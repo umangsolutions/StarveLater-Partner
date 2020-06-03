@@ -3,11 +3,25 @@
 $connect = mysqli_connect("localhost", "root", "", "starvelater");
 //$columns = array('order_Id', 'item_ids', 'Restaurant_ID', 'Customer_ID', 'Order_Type','Order_Date','Order_Status','Net_Bill');
 if($_POST["is_date_search"] == "no") {
- $query_original = "SELECT * FROM orders WHERE Restaurant_ID='".$_POST['res_id']."'";
+ $query_original = "SELECT * FROM orders GROUP BY order_Id HAVING Restaurant_ID='".$_POST['res_id']."' ";
 }
 
 
-$query = "SELECT *  from orders WHERE ";
+/*//Fetching order ID's in Unique Way
+$sql = "SELECT * from orders WHERE Restaurant_ID='".$_POST['res_id']."'";
+$result = mysqli_query($connect,$sql);
+$arr = array();
+while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+   $arr[] = $row['order_Id'];
+}
+$uniq_orders = array_unique($arr);
+$uniq_orderIDs = array_values($uniq_orders);*/
+
+
+
+
+
+$query = "SELECT * FROM orders GROUP BY order_Id HAVING ";
 
 if($_POST["is_date_search"] == "yes")
 {
@@ -34,6 +48,9 @@ else
  $query .= 'ORDER BY order_Id DESC ';
 }
 
+
+
+
 $query1 = '';
 
 if($_POST["length"] != -1)
@@ -54,24 +71,29 @@ $data = array();
 $data = array();
 }
 
+$destin_location="restaurant_load_order.php?order_Id=";
 
 
+	while($row = mysqli_fetch_array($result))
+	{
+	 $sub_array = array();
+	 $sub_array[] = '<a href="'.$destin_location.$row['order_Id'].'">'.$row["order_Id"].'</a>';
+	 $sub_array[] = $row["Order_Type"];
+	 $sub_array[] = $row["Order_Date"];
+	 $sub_array[] = $row["Order_Status"];
 
-while($row = mysqli_fetch_array($result))
-{
- $sub_array = array();
- $sub_array[] = $row["order_Id"];
- $sub_array[] = $row["item_ids"];
- $sub_array[] = $row["Order_Type"];
- $sub_array[] = $row["Order_Date"];
- $sub_array[] = $row["Order_Status"];
- $sub_array[] = $row["Net_Bill"];
- $data[] = $sub_array;
-}
+     //Calculating Sum of Orders
+	 $sql = "SELECT sum(Net_Bill) from orders where order_Id='".$row["order_Id"]."'";
+	 $work = mysqli_query($connect,$sql);
+     $workArr = mysqli_fetch_array($work);
+
+	 $sub_array[] = '₹ '.number_format($workArr[0],2);
+	 $data[] = $sub_array;
+	}
 
 function get_all_data($connect)
 {
- $query = "SELECT * FROM orders where Restaurant_ID='".$_POST['res_id']."'";
+ $query = "SELECT * FROM orders GROUP BY order_Id HAVING Restaurant_ID='".$_POST['res_id']."' ";
  $result = mysqli_query($connect, $query);
  return mysqli_num_rows($result);
 }
