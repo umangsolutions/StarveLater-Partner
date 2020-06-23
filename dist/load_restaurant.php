@@ -62,7 +62,7 @@
                   die('Could not get data: ' . mysqli_error());
                 } 
 
-                while ($row = mysqli_fetch_array($result,MYSQL_ASSOC)) {
+                while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
 
                    $foodLi = $row['FoodLicense'];
                    $labourLi = $row['LabourLicense'];
@@ -410,7 +410,7 @@
                                                           die('Could not get data: ' . mysqli_error());
                                                        }
                                                        
-                                                         while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
+                                                         while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
                                                           echo "<tr>";
                                                           echo "<td><img src='itemphotos/".$resName."/".$row['photoname']."' width='110px' height='75px'></img></td>";
                                                           echo "<td>".$row['item_id']."</td>";

@@ -341,11 +341,11 @@ function getOrderDetails($Order_Id){
 
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
+                <footer class="py-4 footer-dark mt-auto" style="background-color: #000;">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; STARVE<b>LATER</b></div>
-                            <div class="text-muted">Made with love by <b>Umang Solutions</b></div>
+                            <div class="footer-text-color" style="color: #fff;">Copyright &copy; STARVE<b>LATER</b></div>
+                            <div class="footer-text-color" style="color: #fff;">Made with ❤️ by <b><a href="https://umangsolutions.org">Umang Solutions</a></b></div>
                                 <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;

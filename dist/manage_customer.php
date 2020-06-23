@@ -179,7 +179,7 @@
                                                           die('Could not get data: ' . mysqli_error());
                                                        }
                                                        
-                                                       while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
+                                                       while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
                                                           echo "<tr>";
                                                           echo "<td>".$row['Customer_ID']."</td>";
                                                           echo "<td>".$row['Name']."</td>";

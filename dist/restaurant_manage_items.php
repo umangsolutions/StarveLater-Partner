@@ -380,7 +380,7 @@
                                                           die('Could not get data: ' . mysqli_error());
                                                        }
                                                        
-                                                         while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
+                                                         while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
 
                                                           
                                                            if($row['availability'] == 'No') {

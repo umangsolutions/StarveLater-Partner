@@ -244,11 +244,11 @@
                                                     
                                             $retval = mysqli_query($GLOBALS['con'],$sql);
                                                        
-                                                       if(! $retval ) {
+                                                       if(!$retval ) {
                                                           die('Could not get data: ' . mysqli_error());
                                                        }
                                                        
-                                                       while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
+                                                    while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
                                                           echo "<tr>";
                                                           echo "<td>".$row['Restaurant_ID']."</td>";
                                                           echo "<td><a href='".$destin_location.$row['Restaurant_Name']."'>".$row['Restaurant_Name']."</a></td>";

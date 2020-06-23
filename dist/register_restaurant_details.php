@@ -306,7 +306,7 @@ function NewUser($phone){
 
     //Master Database 
 
-            $target_dir = "C:\wamp\www\StarveLater\dist\uploads/";
+            $target_dir = "C:\wamp64\www\saikiran1224.github.io\dist\uploads/";
             $target_file = $target_dir.basename($_FILES['fileToUpload']['name']);
             $uploadOk = 1;
             $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -397,6 +397,7 @@ function SignUp(){
         $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
 
         if(!$row = mysqli_fetch_array($result)){
+            $phone = $_POST["phone"];
             NewUser($phone);
         }else{
             echo "<script>
@@ -479,9 +480,9 @@ if($boolean){
                                             </div>
                                             
                                               <!-- Phone Number  -->
-                                            <div class="form-group"><label class="small mb-1" for="inputPhone">Phone Number</label><input class="form-control py-4" id="inputPhone" type="text" placeholder="Enter Phone Number" name="phone"/>
+                                            <div class="form-group"><label class="small mb-1" for="inputPhone">Phone Number</label><input class="form-control py-4" id="inputPhone" type="text" placeholder="Enter Phone Number" name="phone" disabled/>
                                             <script type="text/javascript">document.getElementById("inputPhone").value = phone;
-</script>
+                                            </script>
                                             </div>
 
 
@@ -515,7 +516,7 @@ if($boolean){
                                                                       die('Could not get data: ' . mysqli_error());
                                                                    }
                                                                    
-                                                                   while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
+                                                                   while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
                                                                       echo "<option value='".$row["State_ID"]."'>".$row["Name"]."</option>";  
                                                                    }
 

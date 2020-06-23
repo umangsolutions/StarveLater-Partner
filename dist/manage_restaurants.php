@@ -221,7 +221,7 @@
                                                           die('Could not get data: ' . mysqli_error());
                                                        }
                                                        
-                                                         while($row = mysqli_fetch_array($retval, MYSQL_ASSOC)) {
+                                                         while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
                                                           echo "<tr>";
                                                           echo "<td><img src='uploads/".$row['logoFileName']."' width='80px' height='75px'></img></td>";
                                                           echo "<td>".$row['Restaurant_ID']."</td>";

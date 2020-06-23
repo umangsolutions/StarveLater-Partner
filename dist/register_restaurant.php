@@ -20,12 +20,13 @@
         
 
 
-          <!-- The core Firebase JS SDK is always required and must be listed first -->
-          <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+
 <!-- <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script> -->
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
+<!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
+
 <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-analytics.js"></script>
 
 <script>
@@ -53,12 +54,14 @@
   render();
 
 };
+
 function render() {
     //alert('Loaded');
     window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container');
     recaptchaVerifier.render();
 
 }
+
 function phoneAuth() {
     //get the number
     //alert('Called');
@@ -110,13 +113,14 @@ function codeverify(value1,number) {
         alert(error.message);
     });
 }
+
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   var expires = "expires="+d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-        </script> 
+</script> 
 
 
     </head>
@@ -245,8 +249,7 @@ function setCookie(cname, cvalue, exdays) {
     }
 
 
-    ?>
- -->
+    ?> -->
 
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
