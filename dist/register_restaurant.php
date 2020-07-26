@@ -20,13 +20,12 @@
         
 
 
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
-
+          <!-- The core Firebase JS SDK is always required and must be listed first -->
+          <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
 <!-- <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script> -->
 
-<!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
-
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-analytics.js"></script>
 
 <script>
@@ -54,14 +53,12 @@
   render();
 
 };
-
 function render() {
     //alert('Loaded');
     window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container');
     recaptchaVerifier.render();
 
 }
-
 function phoneAuth() {
     //get the number
     //alert('Called');
@@ -97,6 +94,8 @@ function phoneAuth() {
         alert(error.message);
     });
 }
+
+
 function codeverify(value1,number) {
     
     coderesult.confirm(value1).then(function (result) {
@@ -114,18 +113,30 @@ function codeverify(value1,number) {
     });
 }
 
+
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   var expires = "expires="+d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-</script> 
-
+        </script> 
 
     </head>
     <body style="background: linear-gradient(90deg, rgba(218,47,115,1) 0%, rgba(108,39,117,1) 35%, rgba(23,159,214,1) 100%);">
     <!-- <?php
+               session_start();
+               
+               if($_SESSION['loggedIn'] != 'true' ) {
+                   
+                   //echo "<script>swal('You are not Authorized to access the Page');</script>";
+                   header('Location: ./index.php');
+                   exit();
+               }
+               
+               
+               
+               
            $emailErr = $passwordErr = "";
            $email = $password = "";
 
@@ -226,7 +237,7 @@ function setCookie(cname, cvalue, exdays) {
          
 
         $dbname = "starvelater";
-        $con = mysqli_connect("localhost","root","",$dbname);
+        $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
     
          //Check for DB Connection
          if(!$con){
@@ -249,7 +260,8 @@ function setCookie(cname, cvalue, exdays) {
     }
 
 
-    ?> -->
+    ?>
+ -->
 
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">

@@ -38,7 +38,7 @@
 
 
                             $dbname = "starvelater";
-                            $con = mysqli_connect("localhost","root","",$dbname);
+                            $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
 
 
                              //Remove spaces, slashes and prevent XSS
@@ -127,12 +127,12 @@
                     
                     function insertData($resID, $resName){
                          
-                            $target_dir = "C:\wamp\www\StarveLater\dist\itemphotos/".$resName;
+                            $target_dir = "itemphotos/".$resName;
 
                             if(!file_exists($target_dir)) {
                               mkdir($target_dir);
                             }
-                            //$target_dir = "C:\wamp\www\StarveLater\dist\itemphotos/".$resName;
+                            
                             
                             $target_file = $target_dir."/".basename($_FILES['fileToUpload']['name']);
                             $uploadOk = 1;
@@ -178,7 +178,7 @@
 
 
                            $dbname = "starvelater";
-                            $con = mysqli_connect("localhost","root","",$dbname);
+                            $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
 
                         
                         //Check for DB Connection
@@ -346,7 +346,7 @@
                                                           <option>Select Category</option>
                                                             <?php
                                                               
-                                                              $con = mysqli_connect('localhost','root','','starvelater');
+                                                              $con = mysqli_connect('localhost','saikirankkd1','Gmrit@224','starvelater');
 
                                                           $sql = "SELECT * from category where Restaurant_ID='".$followingdata['Restaurant_ID']."'";
 

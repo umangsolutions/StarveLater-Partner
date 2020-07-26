@@ -1,0 +1,97 @@
+[11-Jul-2020 09:17:24 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/index.php on line 125
+[11-Jul-2020 09:17:24 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/index.php on line 129
+[11-Jul-2020 09:17:24 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/index.php on line 129
+[11-Jul-2020 09:19:09 UTC] PHP Notice:  Undefined index: status in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 31
+[11-Jul-2020 09:19:09 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 236
+[11-Jul-2020 09:19:09 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 240
+[11-Jul-2020 09:19:09 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 240
+[11-Jul-2020 09:32:51 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 236
+[11-Jul-2020 09:32:51 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 240
+[11-Jul-2020 09:32:51 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 240
+[11-Jul-2020 09:32:55 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 236
+[11-Jul-2020 09:32:55 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 240
+[11-Jul-2020 09:32:55 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 240
+[11-Jul-2020 09:42:19 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 236
+[11-Jul-2020 09:42:19 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 240
+[11-Jul-2020 09:42:19 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 240
+[11-Jul-2020 09:44:17 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 09:44:17 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 09:45:26 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/restaurant_home.php on line 40
+[11-Jul-2020 09:45:26 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/restaurant_home.php on line 44
+[11-Jul-2020 09:45:26 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/restaurant_home.php on line 44
+[11-Jul-2020 09:46:52 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 3
+[11-Jul-2020 09:46:52 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 09:46:52 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 09:46:52 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 69
+[11-Jul-2020 09:46:52 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 77
+[11-Jul-2020 09:46:52 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 97
+[11-Jul-2020 09:46:52 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 98
+[11-Jul-2020 09:47:33 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/update_status.php on line 3
+[11-Jul-2020 09:47:33 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/update_status.php on line 13
+[11-Jul-2020 09:48:02 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 3
+[11-Jul-2020 09:48:02 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 09:48:02 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 09:48:02 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 69
+[11-Jul-2020 09:48:02 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 77
+[11-Jul-2020 09:48:02 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 97
+[11-Jul-2020 09:48:02 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 98
+[11-Jul-2020 09:48:06 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/update_status.php on line 3
+[11-Jul-2020 09:48:06 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/update_status.php on line 13
+[11-Jul-2020 09:50:09 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 3
+[11-Jul-2020 09:50:09 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 09:50:09 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 09:50:09 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 69
+[11-Jul-2020 09:50:09 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 77
+[11-Jul-2020 09:50:09 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 97
+[11-Jul-2020 09:50:09 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 98
+[11-Jul-2020 10:04:33 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 3
+[11-Jul-2020 10:04:33 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 10:04:33 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 10:04:33 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 69
+[11-Jul-2020 10:04:33 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 77
+[11-Jul-2020 10:04:33 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 97
+[11-Jul-2020 10:04:33 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 98
+[11-Jul-2020 10:04:49 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:04:49 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:04:55 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/manage_restaurants.php on line 34
+[11-Jul-2020 10:04:55 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/manage_restaurants.php on line 211
+[11-Jul-2020 10:04:55 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/manage_restaurants.php on line 215
+[11-Jul-2020 10:04:55 UTC] PHP Warning:  A non-numeric value encountered in /home/kpgrltx35dd1/public_html/partner/dist/manage_restaurants.php on line 215
+[11-Jul-2020 10:05:19 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 3
+[11-Jul-2020 10:05:19 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 10:05:19 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 68
+[11-Jul-2020 10:05:19 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 69
+[11-Jul-2020 10:05:19 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 77
+[11-Jul-2020 10:05:19 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 97
+[11-Jul-2020 10:05:19 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/kpgrltx35dd1/public_html/partner/dist/fetch.php on line 98
+[11-Jul-2020 10:06:25 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:06:25 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:06:28 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/manage_restaurants.php on line 228
+[11-Jul-2020 10:06:28 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/manage_restaurants.php on line 228
+[11-Jul-2020 10:06:49 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:06:49 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:07:47 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:07:47 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:07:51 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/manage_restaurants.php on line 228
+[11-Jul-2020 10:07:51 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/manage_restaurants.php on line 228
+[11-Jul-2020 10:15:58 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:15:58 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:16:09 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:16:09 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:16:29 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:16:29 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:23:20 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:23:20 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:24:06 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/register_restaurant_details.php on line 518
+[11-Jul-2020 10:24:06 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/register_restaurant_details.php on line 518
+[11-Jul-2020 10:25:51 UTC] PHP Notice:  Undefined variable: phone in /home/kpgrltx35dd1/public_html/partner/dist/register_restaurant_details.php on line 400
+[11-Jul-2020 10:25:51 UTC] PHP Warning:  move_uploaded_file(C:\wamp\www\StarveLater\dist\uploads/backg.jpg): failed to open stream: No such file or directory in /home/kpgrltx35dd1/public_html/partner/dist/register_restaurant_details.php on line 332
+[11-Jul-2020 10:25:51 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phphX5PZW' to 'C:\wamp\www\StarveLater\dist\uploads/backg.jpg' in /home/kpgrltx35dd1/public_html/partner/dist/register_restaurant_details.php on line 332
+[11-Jul-2020 10:25:51 UTC] PHP Notice:  Undefined index: phone in /home/kpgrltx35dd1/public_html/partner/dist/register_restaurant_details.php on line 349
+[11-Jul-2020 10:25:51 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/register_restaurant_details.php on line 518
+[11-Jul-2020 10:25:51 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/register_restaurant_details.php on line 518
+[11-Jul-2020 10:25:51 UTC] PHP Warning:  Use of undefined constant MYSQL_ASSOC - assumed 'MYSQL_ASSOC' (this will throw an Error in a future version of PHP) in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:25:51 UTC] PHP Warning:  mysqli_fetch_array() expects parameter 2 to be integer, string given in /home/kpgrltx35dd1/public_html/partner/dist/admin.php on line 251
+[11-Jul-2020 10:26:27 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/kpgrltx35dd1/public_html/partner/dist/load_restaurant.php on line 46
+[11-Jul-2020 10:26:27 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/load_restaurant.php on line 58
+[11-Jul-2020 10:26:27 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, boolean given in /home/kpgrltx35dd1/public_html/partner/dist/load_restaurant.php on line 58

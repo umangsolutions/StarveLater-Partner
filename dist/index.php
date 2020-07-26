@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Restaurant Login | STARVELATER</title>
+        <title>Restaurant STARVELATER</title>
         <link rel='shortcut icon' href='assets/img/sample.png' type='image/x-icon' />
         <style type="text/css">
           .white-text {
@@ -93,8 +93,44 @@
            if($row["Password"]==$_POST["pwd"]) {
 
             session_start();
-            $_SESSION['email'] = $_POST["emailid"];
-            header("Location: ./restaurant_home.php");
+            
+            $sessID= session_id();
+            
+              
+            if($row['sessionID'] == 'free') {
+                
+                
+                //Session is Open 
+                
+                date_default_timezone_set('Asia/Calcutta');
+                $date = date('Y-m-d H:i:s');
+                
+        
+
+                $sql_update = "UPDATE restaurants SET sessionID='$sessID',lastLogin='$date' where Email_ID='".$email."' ";
+                
+                $result = mysqli_query($GLOBALS['con'],$sql_update);
+                
+                if(!$result) {
+                    echo "<script>alert('An Unexpected Error Occurred XTUPD23456 !');</script>";
+                }
+                
+                
+                $_SESSION['email'] = $_POST["emailid"];
+                $_SESSION['loggedIn'] = 'true';
+                header("Location: ./restaurant_home.php");
+                
+            }
+            
+            if($row['sessionID'] != session_id() && $row['sessionID'] != 'free') {
+                
+                //Restricted User - Session is engaged
+                 echo "<script> swal('Access is Restricted !','','warning');</script>";
+                //header('Location: ./index.php');
+                session_destroy();
+                
+            } 
+          
 
           } else {
               echo "<script>
@@ -122,7 +158,7 @@
          
 
         $dbname = "starvelater";
-        $con = mysqli_connect("localhost","root","",$dbname);
+        $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
     
          //Check for DB Connection
          if(!$con){
@@ -155,7 +191,7 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Restaurant Login</h3></div>
                                     <div class="card-body">
 
                                     	<!-- Form  -->

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -32,12 +33,20 @@
     <body class="sb-nav-fixed">
 
         <?php
-                           
+            
+                            
                           session_start();
-                          //echo $_SESSION['email'];
+                          if($_SESSION['loggedIn'] != 'true' ) {
+                                //echo "<script>swal('You are not Authorized to access the Page');</script>";
+                                header('Location: ./index.php');
+                                exit();
+                          }
+              
+              
+                          echo session_id(). " ". $_SESSION['email'];
 
                             $dbname = "starvelater";
-                            $con = mysqli_connect("localhost","root","",$dbname);
+                            $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
     
                             //Check for DB Connection
                             if(!$con){
@@ -116,7 +125,7 @@
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         
-                        <a class="dropdown-item" href="index.php">Logout</a>
+                        <a class="dropdown-item" id="logout_btn" name="logout_btn" data-id="<?php echo $followingdata['Email_ID']; ?>" >Logout</a>
                     </div>
                 </li>
             </ul>
@@ -192,9 +201,12 @@
                         
                         </div>
                     </div>
+                    
                     <div class="sb-sidenav-footer" style="background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%);">
                         <div class="small">Logged in as:</div>
-                         <span><?php echo $followingdata['Restaurant_Name']; ?></span>
+                         <span><?php 
+                                     echo $followingdata['Restaurant_Name']; 
+                               ?></span>
                     </div>
                 </nav>
             </div>
@@ -379,6 +391,32 @@
    swal("Error","Both Date's are Required","warning");
   }
  }); 
+ 
+ 
+  $('#logout_btn').click(function(){
+     
+     var emailID = $('#logout_btn').data('id');
+     
+     $.ajax({
+                                 
+             url : 'logout_restaurant_status.php',
+             method : 'POST',
+             data : { status: 'free', email : emailID},
+             success : function(response) {
+                   
+                  
+                   window.location.replace('./index.php');
+                    //swal('Successful','Logged Out Successfully !','success');
+              }
+                              
+        });
+     
+     
+      
+  });
+ 
+ 
+ 
  
 });
     

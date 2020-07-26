@@ -306,11 +306,10 @@ function NewUser($phone){
 
     //Master Database 
 
-            $target_dir = "C:\wamp64\www\saikiran1224.github.io\dist\uploads/";
+            $target_dir = "uploads/";
             $target_file = $target_dir.basename($_FILES['fileToUpload']['name']);
             $uploadOk = 1;
             $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
 
 /*    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
               if($check !== false) {
@@ -346,7 +345,7 @@ function NewUser($phone){
 
        if(!empty($logoFileName)) {
 
-    $sql = "INSERT INTO restaurants Values ('$restaurantID','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST['phone']."','0','".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["address"]."','".$_POST["city"]."','".$_POST["state"]."','".$_POST["gstIn"]."','0','0','0','0','$logoFileName','Open','0')";
+    $sql = "INSERT INTO restaurants Values ('$restaurantID','".$_POST["restaurantName"]."','".$_POST["email"]."','".$_POST["password"]."','".$_POST["phone"]."','0','".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["address"]."','".$_POST["city"]."','".$_POST["state"]."','".$_POST["gstIn"]."','0','0','0','0','$logoFileName','Open','0','free','time')";
 
 
         $query = mysqli_query($GLOBALS['con'], $sql);
@@ -397,18 +396,19 @@ function SignUp(){
         $result = mysqli_query($GLOBALS['con'],$sql) or die("Error: " . mysqli_error($con));
 
         if(!$row = mysqli_fetch_array($result)){
-            $phone = $_POST["phone"];
             NewUser($phone);
         }else{
             echo "<script>
                   alert('Restaurant is already registered!');
             </script>";
         }
+        
+        
     }
 
 if($boolean){
     $dbname = "starvelater";
-    $con = mysqli_connect("localhost","root","",$dbname);
+    $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
     
     //Check for DB Connection
     if(!$con){
@@ -480,9 +480,9 @@ if($boolean){
                                             </div>
                                             
                                               <!-- Phone Number  -->
-                                            <div class="form-group"><label class="small mb-1" for="inputPhone">Phone Number</label><input class="form-control py-4" id="inputPhone" type="text" placeholder="Enter Phone Number" name="phone" disabled/>
+                                            <div class="form-group"><label class="small mb-1" for="inputPhone">Phone Number</label><input class="form-control py-4" id="inputPhone" type="text" placeholder="Enter Phone Number" name="phone"/>
                                             <script type="text/javascript">document.getElementById("inputPhone").value = phone;
-                                            </script>
+                                             </script>
                                             </div>
 
 
@@ -498,10 +498,10 @@ if($boolean){
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="inputState">Choose State</label><br>
                                                         <select class="form-control" id="inputState" name="state" onChange="getCity(this.value);" >
-                                                            <option>Select State</option>
+                                        <option>Select State</option>
                                                               <?php
                                                                     $dbname = "starvelater";
-                                                                    $con = mysqli_connect("localhost","root","",$dbname);
+                                                                    $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
     
                                                                 //Check for DB Connection
                                                             if(!$con){
@@ -547,14 +547,12 @@ if($boolean){
                                             <!-- Upload File -->
                                             <div class="form-group">
                                                         <label class="small mb-1" for="fileToUpload">Upload Restaurant Logo</label>
-                                                        <input type="File" class="form-control" accept="image/*" name="fileToUpload" id="fileToUpload">
+                                                        
+                                        <input type="File" class="form-control" accept="image/*" name="fileToUpload" id="fileToUpload">
 
                                             </div>
 
                                             
-                                          
-
-
 
                                                 <!--Initiating OTP Button -->
                                             <div class="form-group mt-4 mb-0">

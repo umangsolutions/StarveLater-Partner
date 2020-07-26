@@ -43,7 +43,7 @@
 
 
               $dbname = "starvelater";
-              $con = mysqli_connect("localhost","root","",$dbname);
+              $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
         
 
 
@@ -94,15 +94,6 @@
                   return $data;
                 }
 
-
-
-
-
-
-
-
-        
-              
 
              if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      
@@ -382,7 +373,7 @@
                                                      
                                                      //define('MYSQL_ASSOC',MYSQLI_ASSOC);
                                                      $dbname = "starvelater";
-                                                     $con = mysqli_connect("localhost","root","",$dbname);
+                                                     $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
     
                                                      //Check for DB Connection
                                                      if(!$con){
@@ -403,6 +394,8 @@
 
                                                          //Load Items Data using  Restaurant ID as Foreign Key
                                                        $sql = "SELECT * FROM items where Restaurant_ID='".$restaurantID."' ";
+
+                                                       $restaurant_profile_arr =array();
                                                     
                                                        $retval = mysqli_query($GLOBALS['con'],$sql);
                                                        
@@ -411,16 +404,33 @@
                                                        }
                                                        
                                                          while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
+
+                                                          $item_data = array();
+                                                          $item_data['itemPhoto'] = $row['photoname'];
+                                                          $item_data['itemID'] = $row['item_id'];
+                                                          $item_data['itemName'] = $row['Name'];
+                                                          $item_data['itemType'] = $row['Type'];
+                                                          $item_data['itemCategory'] = $row['category'];
+                                                          $item_data['itemPrice'] = $row['price'];
+                                                          $item_data['itemAvailability'] = $row['availability'];
+
+                                                          array_push($restaurant_profile_arr, $item_data);
+
+
+
                                                           echo "<tr>";
-                                                          echo "<td><img src='itemphotos/".$resName."/".$row['photoname']."' width='110px' height='75px'></img></td>";
+                                                          echo "<td><img src='itemphotos/".$resName."/".$row['photoname']."' width='110px' height='75px'></td>";
                                                           echo "<td>".$row['item_id']."</td>";
                                                           echo "<td>".$row['Name']."</td>";
-                                                          echo "<td>".$row['Type']."</td> ";
-                                                          echo "<td>".$row['category']."</td> ";
-                                                          echo "<td>".$row['price']."</td> ";
-                                                          echo "<td>".$row['availability']."</td> ";
+                                                          echo "<td>".$row['Type']."</td>";
+                                                          echo "<td>".$row['category']."</td>";
+                                                          echo "<td>".$row['price']."</td>";
+                                                          echo "<td>".$row['availability']."</td>";
                                                           echo "</tr>";
                                                        }
+
+
+                                                      echo "<input type='hidden'  value=".json_encode($restaurant_profile_arr)."  name='restprofile'>";
 
                                                        mysqli_close($GLOBALS["con"]);
                                                      }
@@ -437,7 +447,7 @@
 
 
                             $dbname = "starvelater";
-                            $con = mysqli_connect("localhost","root","",$dbname);
+                            $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
     
                             //Check for DB Connection
                             if(!$con){
@@ -593,7 +603,7 @@ var margin = $("#dataTable2").data('margin');
 
                     <!-- Referring Same URL after Submitting the Page -->
                     <?php 
-                        $destin_url = "http://localhost/StarveLater/dist/load_restaurant.php?restaurantname=".$_GET['restaurantname']."";
+                        $destin_url = "load_restaurant.php?restaurantname=".$_GET['restaurantname']."";
                         ?>
                          
                         <!-- Food Licence & Labour Licence -->
@@ -625,7 +635,7 @@ var margin = $("#dataTable2").data('margin');
 
                     <!-- Referring Same URL after Submitting the Page -->
                     <?php 
-                        $destin_url = "http://localhost/StarveLater/dist/load_restaurant.php?restaurantname=".$_GET['restaurantname']."";
+                        $destin_url = "load_restaurant.php?restaurantname=".$_GET['restaurantname']."";
                         ?>
                          
                         <!-- Margin Percentage Detail -->

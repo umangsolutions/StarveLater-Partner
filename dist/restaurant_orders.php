@@ -48,10 +48,15 @@
 
                            
                           session_start();
+                          if($_SESSION['loggedIn'] != 'true' ) {
+                                //echo "<script>swal('You are not Authorized to access the Page');</script>";
+                                header('Location: ./index.php');
+                                exit();
+                          }
                           //echo $_SESSION['email'];
 
                             $dbname = "starvelater";
-                            $con = mysqli_connect("localhost","root","",$dbname);
+                            $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
     
                             //Check for DB Connection
                             if(!$con){
@@ -122,7 +127,7 @@ function AddCategory($Restaurant_ID){
 
                 
                     $dbname = "starvelater";
-                    $con = mysqli_connect("localhost","root","",$dbname);
+                    $con = mysqli_connect("localhost","saikirankkd1","Gmrit@224",$dbname);
     
                     //Check for DB Connection
                     if(!$con){
